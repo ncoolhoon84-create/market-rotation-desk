@@ -1,0 +1,43 @@
+name: 마켓 데이터 자동 갱신
+
+# 언제 실행할지 정하는 부분
+on:
+  schedule:
+    # cron 시간은 항상 UTC 기준입니다. 한국시간(KST)은 UTC+9시간이라
+    # 한국시간 08:00 = UTC 전날 23:00, 한국시간 14:00 = UTC 05:00 입니다.
+    - cron: "0 23 * * *"   # 한국시간 매일 08:00
+    - cron: "0 5 * * *"    # 한국시간 매일 14:00
+  workflow_dispatch: {}     # "Actions" 탭에서 수동으로 즉시 실행하는 버튼도 생김
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. 저장소 코드 내려받기
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      # 2. 파이썬 설치
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. 라이브러리 설치
+      - name: 라이브러리 설치
+        run: pip install -r requirements.txt
+
+      # 4. 데이터 수집 + AI 분석 실행
+      - name: 데이터 수집 및 분석 실행
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python fetch_and_analyze.py
+
+      # 5. 결과(data.json)를 저장소에 자동 커밋
+      - name: 결과 커밋 및 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "데이터 자동 갱신 $(date '+%Y-%m-%d %H:%M')"
+          git push

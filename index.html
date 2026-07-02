@@ -286,7 +286,7 @@ async function loadDashboard(isManualRefresh){
 
     pill.classList.remove('err'); pill.classList.add('ok');
     document.getElementById('liveStatus').textContent = '데이터 연결됨';
-    document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
+    document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at + 'Z').toLocaleString('ko-KR');
 
     const indexCards = (data.indices || []).map(renderIndexCard).join('');
     const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');

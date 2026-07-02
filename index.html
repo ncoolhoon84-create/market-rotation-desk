@@ -44,6 +44,15 @@
   .status-pill.err{ color:var(--down); border-color:rgba(201,106,86,.35); }
   .status-pill .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
 
+  .meta-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:8px; }
+  .btn{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:6px 12px; border-radius:4px; border:1px solid var(--line); background:var(--panel-2); color:var(--text); cursor:pointer; display:inline-flex; align-items:center; gap:6px; text-decoration:none; transition:border-color .15s ease, color .15s ease; }
+  .btn:hover{ border-color:var(--muted); }
+  .btn.primary{ border-color:rgba(59,168,143,.4); color:var(--up); }
+  .btn.primary:hover{ border-color:var(--up); background:var(--up-dim); }
+  .btn:disabled{ opacity:.5; cursor:default; }
+  .btn .spin{ display:inline-block; animation:spin 1s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
   /* ===== Provenance legend ===== */
   .legend{ display:flex; gap:22px; flex-wrap:wrap; padding:14px 32px; background:var(--panel); border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); }
   .legend span{ display:inline-flex; align-items:center; gap:7px; }
@@ -151,6 +160,10 @@
   <div class="masthead-meta">
     <div><span class="status-pill" id="statusPill"><span class="dot"></span><span id="liveStatus">불러오는 중</span></span></div>
     <div id="updatedAt">-</div>
+    <div class="meta-actions">
+      <button class="btn" id="refreshBtn" onclick="loadDashboard(true)">⟳ 화면 새로고침</button>
+      <button class="btn primary" id="runActionBtn" onclick="triggerReanalysis()">▷ 재분석 실행하기</button>
+    </div>
   </div>
 </div>
 
@@ -256,15 +269,22 @@ function renderCalendarRow(item){
   `;
 }
 
-async function loadDashboard(){
+async function loadDashboard(isManualRefresh){
   const container = document.getElementById('container');
   const pill = document.getElementById('statusPill');
+  const refreshBtn = document.getElementById('refreshBtn');
+
+  if(isManualRefresh){
+    refreshBtn.disabled = true;
+    refreshBtn.innerHTML = '<span class="spin">⟳</span> 새로고침 중...';
+  }
+
   try {
-    const res = await fetch('data.json?t=' + Date.now());
+    const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
     if(!res.ok) throw new Error('data.json을 불러올 수 없습니다 (상태 코드 ' + res.status + ')');
     const data = await res.json();
 
-    pill.classList.add('ok');
+    pill.classList.remove('err'); pill.classList.add('ok');
     document.getElementById('liveStatus').textContent = '데이터 연결됨';
     document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
 
@@ -307,9 +327,83 @@ async function loadDashboard(){
       </div>
     `;
   } catch (err) {
-    pill.classList.add('err');
+    pill.classList.remove('ok'); pill.classList.add('err');
     document.getElementById('liveStatus').textContent = '연결 실패';
     container.innerHTML = `<div class="error">데이터를 불러오지 못했습니다.<br>${err.message}<br><br>GitHub Actions가 아직 성공적으로 실행되지 않았거나 data.json 경로를 확인해주세요.</div>`;
+  } finally {
+    if(isManualRefresh){
+      refreshBtn.disabled = false;
+      refreshBtn.innerHTML = '⟳ 화면 새로고침';
+    }
+  }
+}
+
+// =========================================================
+// "재분석 실행하기" 버튼 — GitHub Actions를 API로 직접 트리거
+// -----------------------------------------------------------
+// ⚠️ 아래 GITHUB_TOKEN에는 반드시 "Fine-grained personal access token"만
+//    넣으세요. 범위는 이 저장소(market-rotation-desk)의
+//    "Actions: Read and write" 권한 하나만 부여한 토큰이어야 합니다.
+//    (Settings → Developer settings → Fine-grained tokens 에서 발급)
+//
+//    절대로 classic PAT(전체 저장소 접근 가능한 토큰)나
+//    Anthropic API 키를 여기에 넣지 마세요.
+//
+//    이 토큰은 페이지 소스코드에 그대로 노출됩니다. 노출되면
+//    누군가 이 버튼을 대신 여러 번 눌러 재분석을 실행시켜
+//    Claude API 비용/Actions 사용량이 늘어날 수 있습니다.
+//    (코드 수정, 다른 저장소 접근 등은 이 권한으로는 불가능합니다)
+//    걱정되면 아래 값을 비워두면 버튼이 GitHub 실행 페이지로
+//    안전하게 이동하는 방식으로 자동 전환됩니다.
+// =========================================================
+const GITHUB_TOKEN = "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";
+const GITHUB_OWNER = "ncoolhoon84-create";
+const GITHUB_REPO = "market-rotation-desk";
+const WORKFLOW_FILE = "update.yml";
+
+async function triggerReanalysis(){
+  const btn = document.getElementById('runActionBtn');
+  const hasToken = GITHUB_TOKEN && !GITHUB_TOKEN.startsWith("여기에");
+
+  // 토큰이 설정 안 되어 있으면: 안전하게 GitHub 실행 페이지로 이동
+  if(!hasToken){
+    window.open(
+      `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}`,
+      '_blank'
+    );
+    return;
+  }
+
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin">⟳</span> 실행 요청 중...';
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        },
+        body: JSON.stringify({ ref: 'main' })
+      }
+    );
+
+    if(res.status === 204){
+      btn.innerHTML = '✓ 실행 요청됨';
+      alert('재분석이 시작됐습니다. 완료까지 약 2~5분 정도 걸려요.\n잠시 후 "화면 새로고침" 버튼을 눌러 결과를 확인하세요.');
+    } else {
+      const errText = await res.text();
+      throw new Error(`GitHub API 오류 (${res.status}): ${errText.substring(0,150)}`);
+    }
+  } catch (err) {
+    alert('재분석 실행 요청에 실패했습니다: ' + err.message);
+    btn.innerHTML = originalText;
+  } finally {
+    setTimeout(() => { btn.disabled = false; btn.innerHTML = originalText; }, 4000);
   }
 }
 

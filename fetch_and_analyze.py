@@ -23,7 +23,7 @@ import os
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from urllib.parse import quote
 
 import requests
@@ -274,7 +274,7 @@ def main():
     print("=" * 55)
 
     result = {
-        "updated_at": datetime.now().isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
         "indices": [],
         "kr_sectors": [],
         "us_sectors": [],

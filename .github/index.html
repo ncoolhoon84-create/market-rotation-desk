@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마켓 로테이션 데스크</title>
+<style>
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.4.1/css/ibm-plex.min.css');
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap');
+
+  :root{
+    --bg:#0a0c11;
+    --panel:#12151c;
+    --panel-2:#161a22;
+    --line:#242933;
+    --line-soft:#1a1e27;
+    --text:#e8eaed;
+    --muted:#8b909c;
+    --faint:#565b66;
+    --up:#3ba88f;
+    --up-dim:rgba(59,168,143,.13);
+    --down:#c96a56;
+    --down-dim:rgba(201,106,86,.14);
+    --ai:#c99a4a;
+    --ai-dim:rgba(201,154,74,.12);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ background:var(--bg); color:var(--text); font-family:'IBM Plex Sans',sans-serif; -webkit-font-smoothing:antialiased; line-height:1.5; }
+  .serif{ font-family:'Source Serif 4',serif; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  a{ color:inherit; }
+
+  /* ===== Masthead ===== */
+  .top-accent{ height:2px; background:linear-gradient(90deg, var(--up), var(--line) 35%, var(--ai) 65%, var(--down)); opacity:.55; }
+  .masthead{ padding:26px 32px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px; }
+  .masthead-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--faint); margin-bottom:8px; text-transform:uppercase; }
+  .masthead-title{ font-family:'Source Serif 4',serif; font-size:27px; font-weight:600; letter-spacing:-0.01em; }
+  .masthead-title .accent-mark{ color:var(--ai); }
+  .masthead-sub{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); margin-top:8px; }
+  .masthead-meta{ text-align:right; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); line-height:1.8; }
+  .status-pill{ display:inline-flex; align-items:center; gap:6px; padding:3px 10px; border:1px solid var(--line); border-radius:20px; }
+  .status-pill.ok{ color:var(--up); border-color:rgba(59,168,143,.35); }
+  .status-pill.err{ color:var(--down); border-color:rgba(201,106,86,.35); }
+  .status-pill .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+  /* ===== Provenance legend ===== */
+  .legend{ display:flex; gap:22px; flex-wrap:wrap; padding:14px 32px; background:var(--panel); border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); }
+  .legend span{ display:inline-flex; align-items:center; gap:7px; }
+  .legend .swatch{ width:9px; height:9px; border-radius:2px; }
+  .legend .swatch.live{ background:var(--text); opacity:.7; }
+  .legend .swatch.ai{ background:var(--ai); }
+
+  .container{ padding:30px 32px 70px; max-width:1440px; margin:0 auto; }
+
+  .section-label{ display:flex; align-items:baseline; gap:11px; margin:40px 0 14px; }
+  .section-label:first-child{ margin-top:0; }
+  .section-label .bar{ width:3px; height:15px; background:var(--ai); align-self:center; }
+  .section-label h2{ font-family:'Source Serif 4',serif; font-size:16px; font-weight:600; }
+  .section-label .note{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faint); letter-spacing:.04em; }
+
+  /* ===== AI tag ===== */
+  .ai-tag{ display:inline-flex; align-items:center; gap:4px; font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:.08em; color:var(--ai); background:var(--ai-dim); border:1px solid rgba(201,154,74,.3); padding:1.5px 5px 1.5px 4px; border-radius:3px; text-transform:uppercase; white-space:nowrap; }
+  .ai-tag::before{ content:"◆"; font-size:6px; }
+
+  /* ===== Index cards ===== */
+  .index-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .index-card{ background:var(--panel); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
+  .index-top{ display:flex; justify-content:space-between; align-items:flex-start; }
+  .index-name{ font-family:'Source Serif 4',serif; font-size:17px; font-weight:600; }
+  .index-price{ font-family:'IBM Plex Mono',monospace; font-size:21px; font-weight:600; text-align:right; letter-spacing:-.01em; }
+  .index-chg{ font-family:'IBM Plex Mono',monospace; font-size:12px; text-align:right; margin-top:3px; }
+  .up{ color:var(--up); } .down{ color:var(--down); } .flat{ color:var(--muted); }
+
+  .index-mid{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft); }
+  .conf-block{ display:flex; align-items:center; gap:8px; }
+  .conf-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--faint); }
+
+  .dots{ display:inline-flex; gap:3px; }
+  .dots .d{ width:6px; height:6px; border-radius:50%; border:1px solid var(--faint); }
+  .dots .d.filled{ background:var(--ai); border-color:var(--ai); }
+
+  .flow-badge{ font-family:'IBM Plex Mono',monospace; font-size:10px; padding:3px 9px; border-radius:3px; white-space:nowrap; display:inline-block; font-weight:500; }
+  .flow-in{ background:var(--up-dim); color:var(--up); }
+  .flow-out{ background:var(--down-dim); color:var(--down); }
+  .flow-flat{ background:rgba(139,144,156,.12); color:var(--muted); }
+
+  .index-summary{ font-size:12px; color:var(--muted); line-height:1.6; display:flex; align-items:flex-start; gap:8px; }
+
+  /* ===== Sector table ===== */
+  .sector-table-wrap{ border:1px solid var(--line); overflow-x:auto; background:var(--panel); }
+  table.sector{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:1180px; }
+  table.sector thead th{ background:var(--panel-2); text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.05em; color:var(--muted); padding:11px 16px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  table.sector thead th.ai-col{ color:var(--ai); }
+  table.sector tbody td{ padding:12px 16px; border-bottom:1px solid var(--line-soft); vertical-align:middle; }
+  table.sector tbody tr:nth-child(even){ background:var(--panel-2); }
+  table.sector tbody tr:hover{ background:#1c212b; }
+  .sector-name{ font-family:'Source Serif 4',serif; font-weight:600; font-size:13.5px; }
+
+  .momentum-cell{ display:flex; flex-direction:column; gap:5px; min-width:120px; }
+  .momentum-label{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; font-weight:600; }
+  .momentum-track{ height:4px; background:var(--line); border-radius:2px; position:relative; overflow:visible; }
+  .momentum-track::before{ content:""; position:absolute; left:50%; top:-2px; bottom:-2px; width:1px; background:var(--faint); }
+  .momentum-fill{ position:absolute; top:0; bottom:0; border-radius:2px; }
+  .momentum-fill.up{ background:var(--up); left:50%; }
+  .momentum-fill.down{ background:var(--down); right:50%; }
+
+  .cycle-tag{ font-size:11px; font-family:'IBM Plex Mono',monospace; }
+  .cycle-tag.current{ color:var(--up); font-weight:600; }
+  .cycle-tag.next{ color:var(--ai); }
+  .cycle-empty{ color:var(--faint); }
+
+  .news-cell{ max-width:280px; font-size:12px; color:var(--text); line-height:1.55; }
+
+  /* ===== Calendar ===== */
+  .calendar{ display:flex; flex-direction:column; border:1px solid var(--line); background:var(--panel); }
+  .cal-row{ display:grid; grid-template-columns:104px 76px 1fr; gap:18px; padding:13px 20px; align-items:flex-start; border-bottom:1px solid var(--line-soft); font-size:12.5px; }
+  .cal-row:last-child{ border-bottom:none; }
+  .cal-date{ font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:11.5px; padding-top:2px; }
+  .cal-tag{ font-family:'IBM Plex Mono',monospace; font-size:10px; padding:2px 8px; border-radius:3px; display:inline-block; font-weight:500; }
+  .tag-favor{ background:var(--up-dim); color:var(--up); }
+  .tag-caution{ background:var(--down-dim); color:var(--down); }
+  .tag-neutral{ background:rgba(139,144,156,.12); color:var(--muted); }
+  .cal-event{ color:var(--text); }
+  .cal-meta{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); margin-top:5px; }
+
+  /* ===== Footer ===== */
+  .footnote{ margin-top:30px; padding:18px 20px; border:1px solid var(--line); background:var(--panel); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); line-height:1.9; }
+  .footnote strong{ color:var(--muted); }
+
+  .loading, .error{ padding:80px 20px; text-align:center; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12px; }
+  .error{ color:var(--down); }
+
+  @media (max-width:1000px){
+    .index-row{ grid-template-columns:1fr; }
+    .cal-row{ grid-template-columns:76px 62px 1fr; }
+    .masthead{ padding:20px; } .container{ padding:20px 20px 50px; } .legend{ padding:12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-accent"></div>
+
+<div class="masthead">
+  <div>
+    <div class="masthead-eyebrow">Sector Rotation & Capital Flow Monitor</div>
+    <div class="masthead-title">마켓 로테이션 데스크 <span class="accent-mark">·</span> 리서치 노트</div>
+    <div class="masthead-sub">KR / US 지수·섹터 실시간 시세 + AI 리서치 코멘터리</div>
+  </div>
+  <div class="masthead-meta">
+    <div><span class="status-pill" id="statusPill"><span class="dot"></span><span id="liveStatus">불러오는 중</span></span></div>
+    <div id="updatedAt">-</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span><span class="swatch live"></span>가격 · 거래량 · 모멘텀 — 실시간 시세 기반 계산값</span>
+  <span><span class="swatch ai"></span>싸이클 · 신뢰도 · 뉴스요약 — Claude AI 추정 (참고용)</span>
+</div>
+
+<div class="container" id="container">
+  <div class="loading">data.json 불러오는 중...</div>
+</div>
+
+<script>
+function dots(count, max){
+  let html = '<span class="dots">';
+  for(let i=0;i<max;i++){
+    html += `<span class="d ${i<count ? 'filled' : ''}"></span>`;
+  }
+  html += '</span>';
+  return html;
+}
+
+function flowBadge(flow){
+  if(flow === '자금 유입') return `<span class="flow-badge flow-in">자금 유입</span>`;
+  if(flow === '자금 유출') return `<span class="flow-badge flow-out">자금 유출</span>`;
+  return `<span class="flow-badge flow-flat">중립</span>`;
+}
+
+function cycleTag(cycle){
+  if(cycle === '현재 싸이클') return `<span class="cycle-tag current">● 현재 싸이클</span>`;
+  if(cycle === '차기 싸이클 가능성') return `<span class="cycle-tag next">차기 싸이클 가능성</span>`;
+  return `<span class="cycle-empty">—</span>`;
+}
+
+function momentumBar(m){
+  const val = (m == null) ? 0 : m;
+  const clamped = Math.max(-15, Math.min(15, val));
+  const pct = Math.abs(clamped) / 15 * 50;
+  const cls = clamped >= 0 ? 'up' : 'down';
+  return `<div class="momentum-track"><div class="momentum-fill ${cls}" style="width:${pct}%"></div></div>`;
+}
+
+function pctColorClass(v){ return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
+
+function renderIndexCard(item){
+  const chgClass = pctColorClass(item.pct_change ?? 0);
+  const arrow = (item.change ?? 0) >= 0 ? '▲' : '▼';
+  return `
+    <div class="index-card">
+      <div class="index-top">
+        <div class="index-name">${item.name}</div>
+        <div>
+          <div class="index-price">${item.price != null ? item.price.toLocaleString() : '-'}</div>
+          <div class="index-chg ${chgClass}">${arrow} ${Math.abs(item.change ?? 0).toFixed(2)} (${(item.pct_change ?? 0) >= 0 ? '+' : ''}${item.pct_change ?? 0}%)</div>
+        </div>
+      </div>
+      <div class="index-mid">
+        ${flowBadge(item.flow)}
+        <div class="conf-block">
+          <span class="conf-label">AI 신뢰도</span>
+          ${dots(item.confidence||0,5)}
+        </div>
+      </div>
+      <div class="index-summary"><span class="ai-tag">AI</span><span>${item.news_summary || '분석 정보 없음'}</span></div>
+    </div>
+  `;
+}
+
+function renderSectorRow(item){
+  const label = item.momentum_20d != null
+    ? (item.momentum_20d > 2 ? '강세' : item.momentum_20d < -2 ? '약세' : '중립')
+    : '중립';
+  const labelClass = item.momentum_20d > 2 ? 'up' : item.momentum_20d < -2 ? 'down' : 'flat';
+  return `
+    <tr>
+      <td class="sector-name">${item.name}</td>
+      <td>${flowBadge(item.flow)}</td>
+      <td>${cycleTag(item.cycle)}</td>
+      <td class="momentum-cell">
+        <span class="momentum-label ${labelClass}">${label} ${item.momentum_20d != null ? '('+item.momentum_20d.toFixed(1)+'%)' : ''}</span>
+        ${momentumBar(item.momentum_20d)}
+      </td>
+      <td>${dots(item.confidence||0,5)}</td>
+      <td class="news-cell">${item.news_summary || ''}</td>
+    </tr>
+  `;
+}
+
+function renderCalendarRow(item){
+  const tagClass = item.impact === '호재' ? 'tag-favor' : item.impact === '악재' ? 'tag-caution' : 'tag-neutral';
+  return `
+    <div class="cal-row">
+      <div class="cal-date">${item.date}</div>
+      <div><span class="cal-tag ${tagClass}">${item.impact || '중립'}</span></div>
+      <div>
+        <div class="cal-event">${item.event}</div>
+        <div class="cal-meta">
+          <span class="ai-tag">AI</span>
+          <span>${item.comment || ''}${item.affected_sectors ? ' · 영향섹터 '+item.affected_sectors : ''}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadDashboard(){
+  const container = document.getElementById('container');
+  const pill = document.getElementById('statusPill');
+  try {
+    const res = await fetch('data.json?t=' + Date.now());
+    if(!res.ok) throw new Error('data.json을 불러올 수 없습니다 (상태 코드 ' + res.status + ')');
+    const data = await res.json();
+
+    pill.classList.add('ok');
+    document.getElementById('liveStatus').textContent = '데이터 연결됨';
+    document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
+
+    const indexCards = (data.indices || []).map(renderIndexCard).join('');
+    const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');
+    const usRows = (data.us_sectors || []).map(renderSectorRow).join('');
+    const calRows = (data.calendar || []).map(renderCalendarRow).join('');
+
+    container.innerHTML = `
+      <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
+      <div class="index-row">${indexCards}</div>
+
+      <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목</span></div>
+      <div class="sector-table-wrap">
+        <table class="sector">
+          <thead><tr>
+            <th>섹터</th><th>자금흐름</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+          </tr></thead>
+          <tbody>${krRows}</tbody>
+        </table>
+      </div>
+
+      <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목</span></div>
+      <div class="sector-table-wrap">
+        <table class="sector">
+          <thead><tr>
+            <th>섹터</th><th>자금흐름</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+          </tr></thead>
+          <tbody>${usRows}</tbody>
+        </table>
+      </div>
+
+      <div class="section-label"><div class="bar"></div><h2>이달 주요일정</h2><span class="note">EVENT CALENDAR</span></div>
+      <div class="calendar">${calRows}</div>
+
+      <div class="footnote">
+        <strong>데이터 출처.</strong> 가격·거래량·20일 모멘텀은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
+        싸이클 판단, 신뢰도 점수, 뉴스요약, 일정별 영향섹터는 Claude(Anthropic)가 최근 뉴스 헤드라인을 참고해 생성한 추정치로,
+        투자 자문이 아닌 리서치 참고 자료입니다. 매일 한국시간 08:00, 14:00에 자동 갱신됩니다.
+      </div>
+    `;
+  } catch (err) {
+    pill.classList.add('err');
+    document.getElementById('liveStatus').textContent = '연결 실패';
+    container.innerHTML = `<div class="error">데이터를 불러오지 못했습니다.<br>${err.message}<br><br>GitHub Actions가 아직 성공적으로 실행되지 않았거나 data.json 경로를 확인해주세요.</div>`;
+  }
+}
+
+loadDashboard();
+</script>
+
+</body>
+</html>

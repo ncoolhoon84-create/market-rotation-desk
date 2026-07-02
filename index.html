@@ -162,7 +162,7 @@
     <div id="updatedAt">-</div>
     <div class="meta-actions">
       <button class="btn" id="refreshBtn" onclick="loadDashboard(true)">⟳ 화면 새로고침</button>
-      <button class="btn primary" id="runActionBtn" onclick="triggerReanalysis()">▷ 재분석 실행하기</button>
+      <a class="btn primary" id="runActionBtn" href="#" target="_blank" rel="noopener">▷ 재분석 실행하기</a>
     </div>
   </div>
 </div>
@@ -339,73 +339,25 @@ async function loadDashboard(isManualRefresh){
 }
 
 // =========================================================
-// "재분석 실행하기" 버튼 — GitHub Actions를 API로 직접 트리거
+// "재분석 실행하기" 버튼 — GitHub Actions 실행 페이지로 안전하게 이동
 // -----------------------------------------------------------
-// ⚠️ 아래 GITHUB_TOKEN에는 반드시 "Fine-grained personal access token"만
-//    넣으세요. 범위는 이 저장소(market-rotation-desk)의
-//    "Actions: Read and write" 권한 하나만 부여한 토큰이어야 합니다.
-//    (Settings → Developer settings → Fine-grained tokens 에서 발급)
-//
-//    절대로 classic PAT(전체 저장소 접근 가능한 토큰)나
-//    Anthropic API 키를 여기에 넣지 마세요.
-//
-//    이 토큰은 페이지 소스코드에 그대로 노출됩니다. 노출되면
-//    누군가 이 버튼을 대신 여러 번 눌러 재분석을 실행시켜
-//    Claude API 비용/Actions 사용량이 늘어날 수 있습니다.
-//    (코드 수정, 다른 저장소 접근 등은 이 권한으로는 불가능합니다)
-//    걱정되면 아래 값을 비워두면 버튼이 GitHub 실행 페이지로
-//    안전하게 이동하는 방식으로 자동 전환됩니다.
+// 페이지 소스코드에 API 키/토큰을 노출하지 않기 위해, 버튼을 누르면
+// GitHub의 Actions 실행 페이지로 이동합니다. 그 페이지에서
+// "Run workflow" 버튼을 한 번 더 누르면 재분석이 시작됩니다.
+// (현재 페이지 주소를 읽어서 정확한 저장소로 자동 연결됩니다)
 // =========================================================
-const GITHUB_TOKEN = "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";
-const GITHUB_OWNER = "ncoolhoon84-create";
-const GITHUB_REPO = "market-rotation-desk";
-const WORKFLOW_FILE = "update.yml";
-
-async function triggerReanalysis(){
-  const btn = document.getElementById('runActionBtn');
-  const hasToken = GITHUB_TOKEN && !GITHUB_TOKEN.startsWith("여기에");
-
-  // 토큰이 설정 안 되어 있으면: 안전하게 GitHub 실행 페이지로 이동
-  if(!hasToken){
-    window.open(
-      `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}`,
-      '_blank'
-    );
-    return;
-  }
-
-  const originalText = btn.textContent;
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin">⟳</span> 실행 요청 중...';
-
+(function setupActionLink(){
   try {
-    const res = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${GITHUB_TOKEN}`,
-          'Accept': 'application/vnd.github+json',
-          'X-GitHub-Api-Version': '2022-11-28'
-        },
-        body: JSON.stringify({ ref: 'main' })
-      }
-    );
-
-    if(res.status === 204){
-      btn.innerHTML = '✓ 실행 요청됨';
-      alert('재분석이 시작됐습니다. 완료까지 약 2~5분 정도 걸려요.\n잠시 후 "화면 새로고침" 버튼을 눌러 결과를 확인하세요.');
-    } else {
-      const errText = await res.text();
-      throw new Error(`GitHub API 오류 (${res.status}): ${errText.substring(0,150)}`);
+    const host = location.hostname; // 예: ncoolhoon84-create.github.io
+    const username = host.split('.')[0];
+    const pathParts = location.pathname.split('/').filter(Boolean);
+    const repo = pathParts[0]; // 예: market-rotation-desk
+    if(username && repo){
+      document.getElementById('runActionBtn').href =
+        `https://github.com/${username}/${repo}/actions/workflows/update.yml`;
     }
-  } catch (err) {
-    alert('재분석 실행 요청에 실패했습니다: ' + err.message);
-    btn.innerHTML = originalText;
-  } finally {
-    setTimeout(() => { btn.disabled = false; btn.innerHTML = originalText; }, 4000);
-  }
-}
+  } catch(e) { /* 주소 형식이 다르면 링크를 건드리지 않음 */ }
+})();
 
 loadDashboard();
 </script>

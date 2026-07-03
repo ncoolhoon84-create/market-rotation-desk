@@ -255,6 +255,23 @@ def analyze_calendar_event(client: Anthropic, date: str, event: str) -> dict:
 
 
 # =========================================================
+# 6-1. NaN/Infinity 값을 JSON에 안전하게 쓸 수 있도록 정리
+#      (파이썬은 NaN을 허용하지만, 브라우저는 이를 유효한 JSON으로
+#      인식하지 못해 "Unexpected token" 에러를 일으킵니다)
+# =========================================================
+def clean_for_json(obj):
+    if isinstance(obj, float):
+        if obj != obj or obj in (float("inf"), float("-inf")):  # NaN 또는 무한대
+            return None
+        return obj
+    if isinstance(obj, dict):
+        return {k: clean_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [clean_for_json(v) for v in obj]
+    return obj
+
+
+# =========================================================
 # 7. 메인 실행
 # =========================================================
 
@@ -298,8 +315,10 @@ def main():
         result["calendar"].append(analyze_calendar_event(client, item["date"], item["event"]))
 
     # data.json 으로 저장 (대시보드가 이 파일을 읽어서 화면에 표시)
+    # NaN/Infinity 값을 null로 정리한 뒤, allow_nan=False로 유효한 JSON만 생성되도록 함
+    cleaned_result = clean_for_json(result)
     with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+        json.dump(cleaned_result, f, ensure_ascii=False, indent=2, allow_nan=False)
 
     print("\n저장 완료: data.json")
 

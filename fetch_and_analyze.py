@@ -48,8 +48,12 @@ from pykrx import stock as krx
 
 INDICES = {
     "KOSPI": "^KS11",
+    "코스닥": "^KQ11",
+    "코스피200": "^KS200",  # 참고: 실제 코스피200 "선물"은 무료 API로 못 받아 코스피200 지수로 대체
+    "나스닥": "^IXIC",
+    "나스닥 선물": "NQ=F",
     "S&P 500": "^GSPC",
-    "NASDAQ": "^IXIC",
+    "다우존스": "^DJI",
 }
 
 KR_SECTORS = {
@@ -144,11 +148,14 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
     return None
 
 
-def determine_cycle(momentum, flow: str) -> str:
+def determine_cycle(momentum, flow: str, foreign_trend: str = None) -> str:
     """
     차기싸이클 판정 (규칙 기반, 100% 결정적 계산 — AI가 아님).
     - 현재 싸이클: 모멘텀 +5% 이상 이고 자금흐름이 '자금 유입'
     - 차기 싸이클 가능성: 자금흐름은 '자금 유입'인데 모멘텀은 아직 +2% 미만
+    - 관찰 대상: 정식 '자금 유입' 조건(2일 이상 연속 + 통계적 유의성)은 못 채웠지만,
+      최근 5일 외국인 순매수 방향 자체는 매수 우위이고 가격도 오르고 있는 경우.
+      (아직 확신하긴 이르지만 지켜볼 가치가 있는 초기 신호)
     - 그 외: "-"
     (이전에는 Claude에게 이 계산을 맡겼으나, LLM이 숫자 임계값을 가끔 정확히
      따르지 않는 문제가 있어 코드로 직접 계산하도록 변경함 — 100% 재현 가능)
@@ -159,6 +166,8 @@ def determine_cycle(momentum, flow: str) -> str:
         return "현재 싸이클"
     if flow == "자금 유입" and momentum < 2:
         return "차기 싸이클 가능성"
+    if flow != "자금 유입" and foreign_trend == "순매수 우위" and momentum > 0:
+        return "관찰 대상"
     return "-"
 
 
@@ -438,7 +447,11 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
         "flow": flow,
         "flow_basis": "외국인 수급(선행지표)" if investor_flow else "가격 모멘텀(후행지표)",
         "investor_flow": investor_flow,
-        "cycle": determine_cycle(price_info["momentum_20d"], flow),
+        "cycle": determine_cycle(
+            price_info["momentum_20d"],
+            flow,
+            investor_flow.get("foreign_trend") if investor_flow else None,
+        ),
         "confidence": ai_result.get("confidence", 3),
         "news_summary": ai_result.get("news_summary", ai_result.get("__error", "")),
         "headlines": headlines,
@@ -567,8 +580,9 @@ def main():
         "megatrends": [],
     }
 
-    print("\n[KOSPI 수급(개인/기관/외국인)]")
-    kospi_flow = fetch_investor_flow("KOSPI")  # KOSPI는 지수이지 ETF가 아니므로 is_etf=False(기본값)
+    print("\n[KOSPI/코스닥 수급(개인/기관/외국인)]")
+    kospi_flow = fetch_investor_flow("KOSPI")   # KOSPI는 지수이지 ETF가 아니므로 is_etf=False(기본값)
+    kosdaq_flow = fetch_investor_flow("KOSDAQ")  # 코스닥도 KRX가 시장 전체 수급을 동일 방식으로 제공함
 
     print("\n[주요지수]")
     for name, ticker in INDICES.items():
@@ -576,6 +590,10 @@ def main():
         if name == "KOSPI" and kospi_flow:
             item["investor_flow"] = kospi_flow
             item["flow"] = determine_flow(item.get("momentum_20d"), kospi_flow)
+            item["flow_basis"] = "외국인 수급(선행지표)"
+        elif name == "코스닥" and kosdaq_flow:
+            item["investor_flow"] = kosdaq_flow
+            item["flow"] = determine_flow(item.get("momentum_20d"), kosdaq_flow)
             item["flow_basis"] = "외국인 수급(선행지표)"
         result["indices"].append(item)
 

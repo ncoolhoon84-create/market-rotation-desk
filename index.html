@@ -169,6 +169,15 @@
   .news-dropdown a:hover{ color:var(--ai); }
   .news-dropdown .empty{ color:var(--faint); font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
 
+  /* ===== Per-investor mini trend badges (sector table) ===== */
+  .investor-mini{ display:flex; flex-direction:column; gap:4px; min-width:110px; }
+  .investor-mini .row{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10px; }
+  .investor-mini .row .who{ width:28px; color:var(--faint); flex-shrink:0; }
+  .investor-mini .row .trend-badge{ padding:1px 6px; border-radius:3px; font-weight:500; }
+  .investor-mini .row .trend-badge.buy{ background:var(--up-dim); color:var(--up); }
+  .investor-mini .row .trend-badge.sell{ background:var(--down-dim); color:var(--down); }
+  .investor-mini .row .trend-badge.flat{ background:rgba(139,144,156,.12); color:var(--muted); }
+
   .loading, .error{ padding:80px 20px; text-align:center; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12px; }
   .error{ color:var(--down); }
 
@@ -313,16 +322,32 @@ function renderIndexCard(item){
   `;
 }
 
+function investorMini(flow){
+  if(!flow) return '';
+  const badge = (trend) => {
+    const cls = trend === '순매수 우위' ? 'buy' : trend === '순매도 우위' ? 'sell' : 'flat';
+    return `<span class="trend-badge ${cls}">${trend}</span>`;
+  };
+  return `
+    <div class="investor-mini">
+      <div class="row"><span class="who">개인</span>${badge(flow.individual_trend)}</div>
+      <div class="row"><span class="who">기관</span>${badge(flow.institution_trend)}</div>
+      <div class="row"><span class="who">외인</span>${badge(flow.foreign_trend)}</div>
+    </div>
+  `;
+}
+
 function renderSectorRow(item){
   const label = item.momentum_20d != null
     ? (item.momentum_20d > 2 ? '강세' : item.momentum_20d < -2 ? '약세' : '중립')
     : '중립';
   const labelClass = item.momentum_20d > 2 ? 'up' : item.momentum_20d < -2 ? 'down' : 'flat';
   const uid = nextUid();
+  const flowCell = item.investor_flow ? investorMini(item.investor_flow) : flowBadge(item.flow);
   return `
     <tr>
       <td class="sector-name">${item.name}</td>
-      <td>${flowBadge(item.flow)}</td>
+      <td>${flowCell}</td>
       <td>${cycleTag(item.cycle)}</td>
       <td class="momentum-cell">
         <span class="momentum-label ${labelClass}">${label} ${item.momentum_20d != null ? '('+item.momentum_20d.toFixed(1)+'%)' : ''}</span>
@@ -405,7 +430,7 @@ async function loadDashboard(isManualRefresh){
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
-            <th>섹터</th><th>자금흐름 (외국인 수급)</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>자금흐름 (외국인 수급)</th><th class="ai-col">차기싸이클 AI예측</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${krRows}</tbody>
         </table>
@@ -415,7 +440,7 @@ async function loadDashboard(isManualRefresh){
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
-            <th>섹터</th><th>자금흐름 (모멘텀)</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>자금흐름 (모멘텀)</th><th class="ai-col">차기싸이클 AI예측</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${usRows}</tbody>
         </table>
@@ -427,8 +452,12 @@ async function loadDashboard(isManualRefresh){
       <div class="footnote">
         <strong>데이터 출처.</strong> 가격·거래량·20일 모멘텀(후행지표)은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
         한국 섹터의 자금흐름은 한국거래소(KRX) 개인/기관/외국인 순매수 실데이터(선행지표)를 기준으로 판정하며,
-        미국 섹터는 KRX 데이터가 없어 가격 모멘텀(후행지표)으로 대체 판정합니다.
-        싸이클 판단, 신뢰도 점수, 뉴스요약, 일정별 영향섹터는 Claude(Anthropic)가 최근 뉴스 헤드라인을 참고해 생성한 추정치로,
+        미국 섹터는 KRX 데이터가 없어 가격 모멘텀(후행지표)으로 대체 판정합니다.<br>
+        <strong>차기싸이클 AI예측 판정 기준.</strong>
+        <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 외국인 수급도 순매수인 경우 (가격·수급이 이미 함께 상승) ·
+        <u>차기 싸이클 가능성</u> = 외국인 수급은 순매수인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·
+        <u>“-”</u> = 위 조건에 해당하지 않는 경우.
+        이 판정과 신뢰도 점수, 뉴스요약, 일정별 영향섹터는 Claude(Anthropic)가 생성한 추정치로,
         투자 자문이 아닌 리서치 참고 자료입니다. 매일 한국시간 08:00, 12:00, 16:00, 20:00에 자동 갱신됩니다.
       </div>
     `;

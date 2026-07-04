@@ -189,9 +189,8 @@
   .cal-news{ margin-top:8px; }
   .news-dropdown{ display:none; margin-top:8px; padding:10px 12px; background:var(--panel-2); border:1px solid var(--line); border-radius:4px; font-size:11.5px; }
   .news-dropdown.open{ display:block; }
-  .news-dropdown a{ display:block; color:var(--text); text-decoration:none; padding:5px 0; border-bottom:1px solid var(--line-soft); }
-  .news-dropdown a:last-child{ border-bottom:none; }
-  .news-dropdown a:hover{ color:var(--ai); }
+  .news-dropdown .news-item-plain{ display:block; color:var(--text); padding:5px 0; border-bottom:1px solid var(--line-soft); cursor:default; }
+  .news-dropdown .news-item-plain:last-child{ border-bottom:none; }
   .news-dropdown .empty{ color:var(--faint); font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
 
   /* =========================================================
@@ -514,10 +513,7 @@ function flowBadgeWithTooltip(item){
 function newsDropdown(headlines, uid){
   const list = (headlines || []);
   const items = list.length
-    ? list.map(h => h.link
-        ? `<a href="${h.link}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a>`
-        : `<span style="display:block;padding:5px 0;color:var(--muted)">${escapeHtml(h.title)}</span>`
-      ).join('')
+    ? list.map(h => `<span class="news-item-plain">${escapeHtml(h.title)}</span>`).join('')
     : `<div class="empty">관련 뉴스 원문이 없습니다.</div>`;
   return `<div class="news-dropdown" id="${uid}">${items}</div>`;
 }

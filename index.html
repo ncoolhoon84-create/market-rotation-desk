@@ -587,7 +587,6 @@ function renderUsSectorRow(item){
     <tr>
       <td class="sector-name">${item.name}</td>
       <td>${obvBadgeHtml(item.obv_signal)}</td>
-      <td class="momentum-cell">${momentumCellContent(item.momentum_5d)}</td>
       <td class="momentum-cell">${momentumCellContent(item.momentum_20d)}</td>
       <td class="news-cell">
         <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary)} ▾</span>
@@ -683,11 +682,11 @@ async function loadDashboard(isManualRefresh){
       <div class="sector-table-wrap">
         <table class="sector">
           <colgroup>
-            <col style="width:18%"><col style="width:14%"><col style="width:16%">
-            <col style="width:16%"><col style="width:36%">
+            <col style="width:20%"><col style="width:16%">
+            <col style="width:20%"><col style="width:44%">
           </colgroup>
           <thead><tr>
-            <th>섹터</th><th>OBV 매수/매도세</th><th>5일 모멘텀</th><th>20일 모멘텀</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>OBV 매수/매도세</th><th>20일 모멘텀</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${usRows}</tbody>
         </table>

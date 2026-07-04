@@ -200,7 +200,8 @@
 </div>
 
 <div class="legend">
-  <span><span class="swatch live"></span>가격 · 거래량 · 모멘텀 — 실시간 시세 기반 계산값</span>
+  <span><span class="swatch live"></span>가격 · 거래량 · 모멘텀(후행지표) — 실시간 시세 기반 계산값</span>
+  <span><span class="swatch live"></span>수급(개인/기관/외국인, 선행지표) — 한국거래소(KRX) 실데이터</span>
   <span><span class="swatch ai"></span>싸이클 · 신뢰도 · 뉴스요약 — Claude AI 추정 (참고용)</span>
 </div>
 
@@ -400,21 +401,21 @@ async function loadDashboard(isManualRefresh){
       <div class="trend-grid">${trendCards}</div>
       ` : ''}
 
-      <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목</span></div>
+      <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목 · 자금흐름 기준: 외국인 수급(선행지표)</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
-            <th>섹터</th><th>자금흐름</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>자금흐름 (외국인 수급)</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${krRows}</tbody>
         </table>
       </div>
 
-      <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목</span></div>
+      <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목 · 자금흐름 기준: 가격 모멘텀(후행지표)</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
-            <th>섹터</th><th>자금흐름</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>자금흐름 (모멘텀)</th><th class="ai-col">AI 싸이클</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${usRows}</tbody>
         </table>
@@ -424,7 +425,9 @@ async function loadDashboard(isManualRefresh){
       <div class="calendar">${calRows}</div>
 
       <div class="footnote">
-        <strong>데이터 출처.</strong> 가격·거래량·20일 모멘텀은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
+        <strong>데이터 출처.</strong> 가격·거래량·20일 모멘텀(후행지표)은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
+        한국 섹터의 자금흐름은 한국거래소(KRX) 개인/기관/외국인 순매수 실데이터(선행지표)를 기준으로 판정하며,
+        미국 섹터는 KRX 데이터가 없어 가격 모멘텀(후행지표)으로 대체 판정합니다.
         싸이클 판단, 신뢰도 점수, 뉴스요약, 일정별 영향섹터는 Claude(Anthropic)가 최근 뉴스 헤드라인을 참고해 생성한 추정치로,
         투자 자문이 아닌 리서치 참고 자료입니다. 매일 한국시간 08:00, 12:00, 16:00, 20:00에 자동 갱신됩니다.
       </div>

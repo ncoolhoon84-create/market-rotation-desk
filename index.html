@@ -782,7 +782,7 @@ async function loadDashboard(isManualRefresh){
         <div class="index-us">${usIndexCards}</div>
       </div>
 
-      <div class="section-label"><div class="bar"></div><h2>이번 주 매수세 랭킹</h2><span class="note">WEEKLY BUYING RANKING · 한국 섹터 · 최근 5거래일 순매수 상위 5종목 · 투자자 유형별</span></div>
+      <div class="section-label"><div class="bar"></div><h2>이번 주 매수세 랭킹</h2><span class="note">WEEKLY BUYING RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 상위 5종목</span></div>
       <div class="ranking-grid">
         ${renderRankingCol('개인 순매수 TOP 5', data.ranking && data.ranking.individual)}
         ${renderRankingCol('기관 순매수 TOP 5', data.ranking && data.ranking.institution)}
@@ -828,6 +828,9 @@ async function loadDashboard(isManualRefresh){
       <div class="footnote">
         <strong>데이터 출처.</strong> 가격·거래량·모멘텀은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
         한국 섹터의 자금흐름은 한국거래소(KRX) 개인/기관/외국인 순매수 실데이터(선행지표)를 기준으로 판정합니다.
+        <strong>이번 주 매수세 랭킹</strong>은 섹터 ETF가 아니라, 각 섹터를 대표하는 종목 5개(시가총액 상위 위주)의
+        실제 수급만 합산한 근사치입니다(ETF 수급은 랭킹에서 제외). KRX가 "업종 전체" 수급을 한 번에 제공하는 기능이 없어 나온 절충 방식이며,
+        섹터 내 모든 종목의 완전한 합산은 아닙니다.
         미국 섹터는 KRX 같은 독립적인 수급 데이터가 없어 자금흐름·싸이클 판정을 제공하지 않으며,
         대신 OBV(On-Balance Volume, 상승일 거래량은 더하고 하락일엔 빼는 누적 지표)로
         가격 움직임에 거래량이 실제로 뒷받침되는지("강")와 그렇지 않은지("약")만 참고용으로 표시합니다.

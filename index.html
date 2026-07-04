@@ -179,14 +179,21 @@
   .flow-wrap.has-tip{ cursor:help; }
   .flow-wrap.has-tip .flow-badge{ border-bottom:1px dotted currentColor; }
 
-  .flow-narrative{
-    font-family:'IBM Plex Mono',monospace; font-size:10.5px; line-height:1.4;
-    border-bottom:1px dotted currentColor; padding-bottom:1px; white-space:nowrap;
+  .flow-triad{
+    display:inline-flex; align-items:center; gap:10px;
+    border-bottom:1px dotted var(--faint); padding-bottom:2px;
   }
-  .flow-narrative.up{ color:var(--up); }
-  .flow-narrative.down{ color:var(--down); }
-  .flow-narrative.flat{ color:var(--muted); }
-  .flow-narrative.mixed{ color:var(--ai); }
+  .flow-tri{
+    display:inline-flex; align-items:baseline; gap:3px;
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; color:var(--faint);
+  }
+  .flow-tri .tri-arrow{ font-size:12px; font-weight:700; }
+  .flow-tri.up{ color:var(--muted); }
+  .flow-tri.up .tri-arrow{ color:var(--up); }
+  .flow-tri.down{ color:var(--muted); }
+  .flow-tri.down .tri-arrow{ color:var(--down); }
+  .flow-tri.flat{ color:var(--faint); }
+  .flow-tri.flat .tri-arrow{ color:var(--faint); }
 
   .flow-tooltip{
     position:absolute; top:calc(100% + 9px); left:0;
@@ -389,44 +396,28 @@ function investorMiniChart(recent5Days){
 }
 
 /* =========================================================
-   개인/기관/외국인 5일 추세를 자연어 한 줄 문장으로 합성
-   예) 개인만 매수우위 -> "최근 개인매수강세"
-       기관+외인 둘 다 매수우위 -> "최근 기관,외인 매수강세"
-       개인 매수 / 기관+외인 매도로 엇갈리면 -> "최근 개인매수, 기관,외인 매도강세"
+   개인/기관/외국인 5일 추세를 △▲▽▼ 화살표 3개로 압축 표시
+   예) 개인 ▲ · 기관 ▼ · 외인 ▼
    ========================================================= */
-function buildFlowNarrative(iv){
-  const parts = [
+function buildFlowTriad(iv){
+  const items = [
     { name: '개인', trend: iv.individual_trend },
     { name: '기관', trend: iv.institution_trend },
     { name: '외인', trend: iv.foreign_trend },
   ];
-  const buyers = parts.filter(p => p.trend === '순매수 우위').map(p => p.name);
-  const sellers = parts.filter(p => p.trend === '순매도 우위').map(p => p.name);
-
-  const seg = (arr, verb) => {
-    if (!arr.length) return null;
-    return arr.length > 1 ? `${arr.join(',')} ${verb}` : `${arr[0]}${verb}`;
-  };
-
-  const segments = [seg(buyers, '매수'), seg(sellers, '매도')].filter(Boolean);
-
-  if (!segments.length) {
-    return { label: '최근 뚜렷한 방향성 없음', cls: 'flat' };
-  }
-
-  segments[segments.length - 1] += '강세';
-  const label = '최근 ' + segments.join(', ');
-  const cls = (buyers.length && !sellers.length) ? 'up'
-    : (sellers.length && !buyers.length) ? 'down'
-    : 'mixed';
-  return { label, cls };
+  const tags = items.map(it => {
+    const symbol = it.trend === '순매수 우위' ? '▲' : it.trend === '순매도 우위' ? '▼' : '–';
+    const cls = it.trend === '순매수 우위' ? 'up' : it.trend === '순매도 우위' ? 'down' : 'flat';
+    return `<span class="flow-tri ${cls}">${it.name}<span class="tri-arrow">${symbol}</span></span>`;
+  }).join('');
+  return `<span class="flow-triad">${tags}</span>`;
 }
 
 function flowBadgeWithTooltip(item){
   const iv = item.investor_flow;
   if(!iv) return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
 
-  const { label, cls } = buildFlowNarrative(iv);
+  const triad = buildFlowTriad(iv);
   const chart = iv.recent5_days && iv.recent5_days.length
     ? investorMiniChart(iv.recent5_days)
     : (() => {
@@ -441,7 +432,7 @@ function flowBadgeWithTooltip(item){
 
   return `
     <span class="flow-wrap has-tip">
-      <span class="flow-narrative ${cls}">${label}</span>
+      ${triad}
       <span class="flow-tooltip">
         <div class="tip-header">최근 5거래일 순매수/순매도</div>
         ${chart}
@@ -590,7 +581,7 @@ async function loadDashboard(isManualRefresh){
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
-            <th>섹터</th><th>자금흐름 (외국인 수급)</th><th>차기싸이클 예측 (규칙기반)</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
+            <th>섹터</th><th>5영업일 수급흐름</th><th>차기싸이클 예측 (규칙기반)</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
           <tbody>${krRows}</tbody>
         </table>

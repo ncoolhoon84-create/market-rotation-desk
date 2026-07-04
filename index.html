@@ -179,6 +179,15 @@
   .flow-wrap.has-tip{ cursor:help; }
   .flow-wrap.has-tip .flow-badge{ border-bottom:1px dotted currentColor; }
 
+  .flow-narrative{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; line-height:1.4;
+    border-bottom:1px dotted currentColor; padding-bottom:1px; white-space:nowrap;
+  }
+  .flow-narrative.up{ color:var(--up); }
+  .flow-narrative.down{ color:var(--down); }
+  .flow-narrative.flat{ color:var(--muted); }
+  .flow-narrative.mixed{ color:var(--ai); }
+
   .flow-tooltip{
     position:absolute; top:calc(100% + 9px); left:0;
     min-width:230px; background:var(--panel-2); border:1px solid var(--line);
@@ -379,26 +388,60 @@ function investorMiniChart(recent5Days){
   return `<div class="mini-chart">${rows}<div class="mini-chart-range">${range} (최근일 진하게)</div></div>`;
 }
 
-function flowBadgeWithTooltip(item){
-  const badge = flowBadgeHtml(item.flow);
-  const iv = item.investor_flow;
-  if(!iv) return `<span class="flow-wrap">${badge}</span>`;
+/* =========================================================
+   개인/기관/외국인 5일 추세를 자연어 한 줄 문장으로 합성
+   예) 개인만 매수우위 -> "최근 개인매수강세"
+       기관+외인 둘 다 매수우위 -> "최근 기관,외인 매수강세"
+       개인 매수 / 기관+외인 매도로 엇갈리면 -> "최근 개인매수, 기관,외인 매도강세"
+   ========================================================= */
+function buildFlowNarrative(iv){
+  const parts = [
+    { name: '개인', trend: iv.individual_trend },
+    { name: '기관', trend: iv.institution_trend },
+    { name: '외인', trend: iv.foreign_trend },
+  ];
+  const buyers = parts.filter(p => p.trend === '순매수 우위').map(p => p.name);
+  const sellers = parts.filter(p => p.trend === '순매도 우위').map(p => p.name);
 
+  const seg = (arr, verb) => {
+    if (!arr.length) return null;
+    return arr.length > 1 ? `${arr.join(',')} ${verb}` : `${arr[0]}${verb}`;
+  };
+
+  const segments = [seg(buyers, '매수'), seg(sellers, '매도')].filter(Boolean);
+
+  if (!segments.length) {
+    return { label: '최근 뚜렷한 방향성 없음', cls: 'flat' };
+  }
+
+  segments[segments.length - 1] += '강세';
+  const label = '최근 ' + segments.join(', ');
+  const cls = (buyers.length && !sellers.length) ? 'up'
+    : (sellers.length && !buyers.length) ? 'down'
+    : 'mixed';
+  return { label, cls };
+}
+
+function flowBadgeWithTooltip(item){
+  const iv = item.investor_flow;
+  if(!iv) return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
+
+  const { label, cls } = buildFlowNarrative(iv);
   const chart = iv.recent5_days && iv.recent5_days.length
     ? investorMiniChart(iv.recent5_days)
     : (() => {
         // 구버전 데이터 호환: 일별 데이터가 없으면 최근 거래일 금액만 표시
-        const tipRow = (label, val) => {
+        const tipRow = (label2, val) => {
           const dir = val >= 0 ? 'buy' : 'sell';
-          const cls = val >= 0 ? 'up' : 'down';
-          return `<div class="tip-row ${dir}"><span class="who">${label}</span><span class="amt ${cls}">${fmtEok(val)}</span></div>`;
+          const cls2 = val >= 0 ? 'up' : 'down';
+          return `<div class="tip-row ${dir}"><span class="who">${label2}</span><span class="amt ${cls2}">${fmtEok(val)}</span></div>`;
         };
         return tipRow('개인', iv.individual) + tipRow('기관', iv.institution) + tipRow('외국인', iv.foreign);
       })();
 
   return `
     <span class="flow-wrap has-tip">
-      ${badge}
+      <span class="flow-narrative ${cls}">${label}</span>
       <span class="flow-tooltip">
         <div class="tip-header">최근 5거래일 순매수/순매도</div>
         ${chart}

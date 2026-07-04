@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-04T05:42:58.148077+00:00",
+  "updated_at": "2026-07-04T06:02:23.844192+00:00",
   "indices": [
     {
       "group": "주요지수",
@@ -59,7 +59,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "3분기 조정 경고 속 반도체 비중 확대",
+      "news_summary": "3분기 조정 경고, 모멘텀도 약세",
       "headlines": [
         {
           "title": "BofA \"S&P500, 3분기 조정 가능성…최악 땐 6,850\" - 연합인포맥스",
@@ -90,7 +90,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "개별종목 혼조 속 나스닥 약세 지속",
+      "news_summary": "개별종목 등락 혼재, 지수 약세 지속",
       "headlines": [
         {
           "title": "Spyre Therapeutics (NASDAQ:SYRE) CFO 스콧 버로우즈, 65.8만 달러 규모 주식 매각 - Investing.com 한국어",
@@ -119,15 +119,27 @@
       "volume": 4812407,
       "momentum_20d": 0.03,
       "flow": "중립",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -10451831956,
+        "institution": 9188907236,
+        "foreign": 3748171715,
+        "foreign_recent5_sum": 6926220990,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.15,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.15)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "공급과잉 우려로 반도체 급락 경고",
+      "news_summary": "급등에도 수요 둔화 우려 상존",
       "headlines": [
         {
-          "title": "메타發 반도체 공급과잉 신호…하닉 14%-삼전 9% 급락 - 동아일보",
-          "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE45aU84ZnpOc2EyQVczcVI0Ykw1MmpRX3pFaHlzT1ppX0ptTEZHcnZhbHBnWFhzaG01ZUxzcnRVQUNOeUkxVjhhLVRHbFplLWEzZFA3ZHU1U3pkR3M5T2puaDBtUXI4ekFVOHItZjB3VEZJc0hOZHfSAWZBVV95cUxQS1pJSHg4YWxDbmE0aVc1U1ItU2hqV08wQkFHQkp5TFB6T2R2UXF6VkJGcnJLbHBQZW8xUTlqZFlyd1hBNU5QVFFzckQ3dFc0aXE5S3hPNWt0dFAwUWhvTVhzdkhRcFE?oc=5"
+          "title": "코스피 2% 하락날 상한가 랠리…반도체 클러스터 테마주 주의보 [이런국장 저런주식] - 서울경제신문",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBzRGJ2akFQTTc5M2xzQnFmOXBPWERZT1pjSzFVWlJiN0V5Vk04a3prSmlHQmRwbmFyd2h5NkpKanM4Wk96M3hDV3VNWHl6Tjk2a0HSAVNBVV95cUxOLUVFTU9IdGVkcnNPN1A5Z2tCdElza3NrNzl0b1EyYnIydDhmN3V5cDBVUlRLZWlhNklYdzVVRjZZSXNib3hzY2pqV1B6dllPTUhQNA?oc=5"
         },
         {
           "title": "\"종말의 시작에 불과\" 경고까지‥반도체 수요 정말 꺾일까? - MBC 뉴스",
@@ -149,12 +161,24 @@
       "pct_change": 0.73,
       "volume": 974318,
       "momentum_20d": -18.99,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": 313889168,
+        "institution": 257967944,
+        "foreign": -590055307,
+        "foreign_recent5_sum": -682938351,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.13,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.13)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "2차전지 반등 조짐, 변동성 속 분산투자 부각",
+      "news_summary": "2차전지 반등 기대 속 자금흐름은 중립",
       "headlines": [
         {
           "title": "방전된 2차전지株…\"이번엔 다르다\" 반전 전망 [B급기자의 B급리포트] - v.daum.net",
@@ -180,12 +204,24 @@
       "pct_change": 0.9,
       "volume": 67859,
       "momentum_20d": -2.79,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": 129351860,
+        "institution": -98653770,
+        "foreign": -37271500,
+        "foreign_recent5_sum": -52904491,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.08,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.08)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "바이오 IPO 온도차, 개별 종목만 급등",
+      "news_summary": "바이오 IPO 온도차, 개별종목 급등 혼재",
       "headlines": [
         {
           "title": "상반기 바이오 IPO, 기관 수요 집중…상장 후 주가는 온도차 - 데일리팜",
@@ -212,11 +248,23 @@
       "volume": 2908650,
       "momentum_20d": 0.05,
       "flow": "중립",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -4525180399,
+        "institution": 4633910770,
+        "foreign": -108349296,
+        "foreign_recent5_sum": -1137291985,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.2,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.2)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "정책 부담에 밸류업 효과 미미",
+      "news_summary": "밸류업 효과 미미, 정책 부담에 은행주 약세",
       "headlines": [
         {
           "title": "NT 버터필드 은행 주가 60.42달러로 사상 최고치 경신 - Investing.com 한국어",
@@ -242,12 +290,24 @@
       "pct_change": 0.14,
       "volume": 840984,
       "momentum_20d": -10.03,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -206649609,
+        "institution": 1176253876,
+        "foreign": -1340608707,
+        "foreign_recent5_sum": 2214597584,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.4,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.4)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "실적 호조에도 조선주 급락, 반등 전망 엇갈림",
+      "news_summary": "실적 호조에도 조선주 주가 급락세",
       "headlines": [
         {
           "title": "실적은 역대급인데 주가는 급락…롤러코스터 탄 '조선주' - 한국경제",
@@ -273,12 +333,24 @@
       "pct_change": 3.24,
       "volume": 791484,
       "momentum_20d": 3.49,
-      "flow": "자금 유입",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "자금 유출",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -678410158,
+        "institution": 238261554,
+        "foreign": -506848606,
+        "foreign_recent5_sum": -2611833282,
+        "foreign_streak_days": 2,
+        "foreign_zscore": -0.29,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.29)"
+      },
       "cycle": "-",
-      "confidence": 4,
-      "news_summary": "현대로템 저평가 부각, 방산주 실적 기대",
+      "confidence": 2,
+      "news_summary": "주가 상승 속 외국인 자금은 유출 지속",
       "headlines": [
         {
           "title": "브라질 호위함 진수 호재에도…'獨 방산 거인' TKMS 주가 연초 대비 28% 폭락 - 글로벌이코노믹",
@@ -304,12 +376,24 @@
       "pct_change": -2.84,
       "volume": 6155286,
       "momentum_20d": -2.95,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": 11324486687,
+        "institution": -10696346718,
+        "foreign": -1917139479,
+        "foreign_recent5_sum": -2790280509,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.17,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.17)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "전력기기 급등에도 지수는 하락 반전",
+      "news_summary": "전력기기주 강세에도 지수는 약세",
       "headlines": [
         {
           "title": "7월 3일 한국전력 주가 38,250원 마감 상승세 - TopStarNews",
@@ -335,12 +419,24 @@
       "pct_change": 1.42,
       "volume": 1097604,
       "momentum_20d": -19.89,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -478670618,
+        "institution": 2131815242,
+        "foreign": -1927492809,
+        "foreign_recent5_sum": -667625003,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.11,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.11)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "현대차 목표주가 상향에도 전망 엇갈려",
+      "news_summary": "현대차 목표주가 상향, 전망 엇갈림",
       "headlines": [
         {
           "title": "볼보자동차 주가, 오늘 왜 오르나? - Investing.com 한국어",
@@ -366,12 +462,24 @@
       "pct_change": 0.08,
       "volume": 28758,
       "momentum_20d": -15.85,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -38450829,
+        "institution": 59528879,
+        "foreign": -21078050,
+        "foreign_recent5_sum": -51503017,
+        "foreign_streak_days": 2,
+        "foreign_zscore": -0.17,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.17)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "효성화학 거래재개, LG화학 턴어라운드 기대",
+      "news_summary": "효성화학 거래재개, LG화학 소재 반등 기대",
       "headlines": [
         {
           "title": "오늘 스미토모 화학 주가가 급등하는 이유는? - Investing.com 한국어",
@@ -397,24 +505,36 @@
       "pct_change": -1.2,
       "volume": 2223371,
       "momentum_20d": -9.38,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -403940660,
+        "institution": 270674779,
+        "foreign": -112467198,
+        "foreign_recent5_sum": 628325780,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.27,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.27)"
+      },
       "cycle": "-",
-      "confidence": 4,
-      "news_summary": "건설주 약세, 자금부담·CB발행 확대",
+      "confidence": 2,
+      "news_summary": "건설株 변동성 확대, CB발행 재무부담 우려",
       "headlines": [
         {
           "title": "7월 1주차 대우건설 주가 18380원 마감 변동성 확대 지속 - TopStarNews",
           "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE13eDJxY2VqY1d1N1RESEVUTWJzZFNrZkc1LVBicDAxN2F3aEVKUThQNmZQT0pCUFVJZWdMREQxN1hpVmh3Tk03UTRPMXdRU2tuYnl3dkhvNTN5WWNad0VDLXlxdFNmM1MzbGx3RG5zcHpZUQ?oc=5"
         },
         {
-          "title": "UBS, 유나이티드렌탈스 목표주가 상향…건설 경기 회복 기대 - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE95dm96VXllTERDQlZaMnNWekFRX2t4NGVXY3BhV21maGVzMmZrNzU1NWl0V0xFVlFvVzJvUWVTdUl3TEFtN2FOaC0xaWN4N0Fzelc5RXZBajNwVmJpYU90bDJtMk8tUWdBTm1qSWcyNUhkVmpf?oc=5"
-        },
-        {
           "title": "\"현대건설도 한다\"…고금리·재무부담에 코스피로 번지는 CB 발행 - 인베스트조선",
           "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPZ2JIY2ZvaGtaZjlYcmpxeEtXbUpjMksydXlWS3A4TlB4SWoxTmVQNlQ4VGI3SXJQbWpnRjlwQkNlRWttcEdXTUNsODFKNVEtZkI1NEgzNmNBSzdDaV9oRjJwVlZCVm8ySTFjT2RQLXAwU2Fjam0zblZTdWVEME1KWjNhSQ?oc=5"
+        },
+        {
+          "title": "동신건설 주가 파죽지세...공공건설 모멘텀 부각 - 핀포인트뉴스",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1hYlFZV1FwZy1ETU1TTzE5Z3hnay1HaVpUeDB5emZ6aEV3aGdXZTg3QlhaN216WEFYZV9hUkRsRmhlSGZlb0pRZ182WER6ZXhMVWo2OUlYTGdySmJkNC1SWlJ2bHNMdHltbjJNbmpnUEtnVU3SAXdBVV95cUxNQjJsUWI0OVJoRzJUTUVQaGp3WktqOHVPdm9ETmpxcG9SNjEtS3RHQW42amI4LXExZHQtZm12WU8xQjUybXBwekdVNGpadTg2Y1BzazE0b1FwVGdVVVEwUkNIRVZ0N3dOcXMzQmdzb3FOUnl4SlFiaw?oc=5"
         }
       ]
     },
@@ -428,12 +548,24 @@
       "pct_change": 1.78,
       "volume": 25938,
       "momentum_20d": -18.34,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -6847595,
+        "institution": 5094500,
+        "foreign": -16879780,
+        "foreign_recent5_sum": -29004019,
+        "foreign_streak_days": 2,
+        "foreign_zscore": -0.04,
+        "individual_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.04)"
+      },
       "cycle": "-",
-      "confidence": 3,
-      "news_summary": "목표가 하향·원화약세로 철강 부진",
+      "confidence": 2,
+      "news_summary": "철강 목표주가 하향, 원화약세로 업황 부담",
       "headlines": [
         {
           "title": "동국제강 (460860) - 씽크풀 AI",
@@ -459,12 +591,24 @@
       "pct_change": -2.57,
       "volume": 309601,
       "momentum_20d": -4.75,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": 162126401,
+        "institution": -151253619,
+        "foreign": -10991395,
+        "foreign_recent5_sum": -25203573,
+        "foreign_streak_days": 2,
+        "foreign_zscore": -0.06,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.06)"
+      },
       "cycle": "-",
-      "confidence": 4,
-      "news_summary": "엔터주 부진, 케이웨이브 상폐 위기",
+      "confidence": 3,
+      "news_summary": "엔터업계 부진, 케이웨이브미디어 상폐 위기",
       "headlines": [
         {
           "title": "엔터사업 손 뗀다…케이웨이브미디어, 솔레어 지분 95% 인수 전면 취소 - 더구루",
@@ -490,12 +634,24 @@
       "pct_change": -0.79,
       "volume": 4907920,
       "momentum_20d": 10.95,
-      "flow": "자금 유입",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
-      "cycle": "현재 싸이클",
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -629290695,
+        "institution": 794631957,
+        "foreign": -339860722,
+        "foreign_recent5_sum": 87987337,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.09,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.09)"
+      },
+      "cycle": "-",
       "confidence": 3,
-      "news_summary": "실적 기대감에 급락장서 화장품주 강세",
+      "news_summary": "실적기대감에 화장품주 강세, 자금유입은 미미",
       "headlines": [
         {
           "title": "화장품 등 소비재株 ‘부활의 노래’ - 조선비즈 - Chosunbiz",
@@ -521,12 +677,24 @@
       "pct_change": 1.47,
       "volume": 867357,
       "momentum_20d": -24.07,
-      "flow": "자금 유출",
-      "flow_basis": "가격 모멘텀(후행지표)",
-      "investor_flow": null,
+      "flow": "중립",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -2139953085,
+        "institution": 2844767796,
+        "foreign": -718587956,
+        "foreign_recent5_sum": -802763024,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.07,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
+        "foreign_trend": "순매도 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.07)"
+      },
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "로봇주 반등, 모멘텀은 여전히 약세",
+      "news_summary": "로봇 수주 기대에도 자금흐름은 중립",
       "headlines": [
         {
           "title": "주간 로봇 기업 주가 동향(06/29 ~ 07/03) - 로봇신문",
@@ -537,8 +705,8 @@
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE8yVTI0ejVBOWtDMUF1UHV2VWNNd0lhQlpBb284Mk51bkgzUjRkd1BRQTV4YzVTd2lYRGNLSUc0LTVnX3ZScXdWcDR3dU1sbFU3T1FHSUNxT1pRN3dxRWZnRkIwYW05Y1U2NjcxTWJrQWE?oc=5"
         },
         {
-          "title": "[코스피 현미경 분석] HL만도, 로봇 액추에이터 대규모 공급 역량으로 주가 뛸까 - 데일리인베스트",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBhZ3Q3bDhGaE9ONWliVmdnNW9ZYjZxelRMN24xRmUxS2NtWHgyUEExd2pHYmV4TGRWb2NKOWkzUWRzLXhabFhRNlJ4WlJKWFpCaHVwWE0xeEpzVjY4aENpRzJ0elB5NEJMXzV2cdIBb0FVX3lxTE5RYVBaZFY0NXllVkNzcGJnUEhtRjFIb3VsRnZOVWlfalE0VlBsNUV2Q3lnZTA1a1RBajVRdEJMMzNMdG5Mc3pka3c1RWt6Y0dDZ1J2anR3d19tUzJ0ZUFkOVJyR1FZZTU5d3dRRzB2aw?oc=5"
+          "title": "신한證 \" 로봇 수주가 주가 재평가 열쇠…목표주가 7만7000원 상향\" - v.daum.net",
+          "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5hQ0RDQ2pKOTRDc19YTHo5blY1R0tmbUhNbUdwOGdJcWJOYzVnc2ljSDNSNm4zNkFzbGVZd3RYbVVLZ1d5WldHaDM4RWplNlk?oc=5"
         }
       ]
     }
@@ -558,8 +726,8 @@
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
-      "confidence": 3,
-      "news_summary": "기술주 조정, 최근 급등 후 되돌림",
+      "confidence": 2,
+      "news_summary": "기술주 변동성 속 혼조세 지속",
       "headlines": [
         {
           "title": "우리기술 투자분석 - 주달",
@@ -590,7 +758,7 @@
       "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "금리·실적 기대감에 금융주 급등",
+      "news_summary": "금리·실적 기대에 금융주 급등",
       "headlines": [
         {
           "title": "신한금융지주 KB금융지주 주가 장중 4%대 올라, 시장 변동성 확대에 경기방어 매력 부각 - 비즈니스포스트",
@@ -621,7 +789,7 @@
       "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 3,
-      "news_summary": "신고가 종목 있으나 변동성 큰 혼조세",
+      "news_summary": "신고가 종목 있지만 업종 변동성 혼재",
       "headlines": [
         {
           "title": "얼라인먼트 헬스케어 주가, 52주 신고가 23.89달러 기록 - Investing.com 한국어",
@@ -652,15 +820,15 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "모멘텀 부진 속 개별 종목 혼조세",
+      "news_summary": "개별종목 강세, 섹터 모멘텀은 부진",
       "headlines": [
         {
           "title": "ISAE4: ISA 에너지 주가가 오늘 하락한 이유는? - Investing.com 한국어",
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1ndVJ4Mks3eEVwc3hUdFRHUldVZHdudUQtYW1fZ1Q0OEpjaTE5WjJEVkVRdE8xVVFTLXJKZUQxMk9CbEtsZURGVjlfbDBrTGFIbHE3Nk43SFJlSklibGtZdlN0MklKYURxeXh2TGtOaWk?oc=5"
         },
         {
-          "title": "데본 에너지(DVN) 주가, 탐사·생산 부문의 새로운 가치 평가 논란 속에서도 여전히 합리적인 수준으로 보인다 - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPNnlBbWtJekpUeHZFaWJUaVV4cHVaQmw3VFBEbkYtc2dOV00yaU0tV3RBdzBDZDVlUFREb1ZFWkhZejM4N0pyZGpXNFVvTUY0Z0JhMXZnQzhURXdTSmw0QmNjeUZEQVJxQ3VJS2hJNFVEWlNOeS1URlZWQk1panMxdnhGUFJXd2NhdmV5NFNXZlNnMG_SAZMBQVVfeXFMTzZ5QW1rSXpKVHh2RWliVGlVeHB1WkJsN1RQRG5GLXNnTldNMmlNLVd0QXcwQ2Q1ZVBURG9WRVpIWXozODdKcmRqVzRVb01GNGdCYTF2Z0M4VEV3U0psNEJjY3lGREFScUN1SUtoSTRVRFpTTnktVEZWVkJNaWpzMXZ4RlBSV3djYXZleTRTV2ZTZzBv?oc=5"
+          "title": "'中 IPO 대어' 화룬 신에너지, 상장 첫날 주가 장중 198% 급등 - 연합뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9JS01nV1V4ajRGQzZSeVZBVklGenBSSE55TkpwbGlYWlFZN0ZaMHhjRktWbGw3cDJ6M2x1X1F0Q2pfaDh2VHN3d1VPSEFOS0N5eUtCWmlnVzRPeknSAWBBVV95cUxPb0dVYTB0bzNPYjZhQk1la1d3ZTNHbmVoMTl0ZV9SbC12QXc2UnNQYXpsRUQ2bW9OYkRURExoUjY4bFBnR2pGV2ozTTdkSFUyTy11NC1ZdmhtbGlURUZvZXc?oc=5"
         },
         {
           "title": "블룸 에너지, 데이터센터용 자금조달 확대에 시간외서 주가 상승 - 연합인포맥스",
@@ -683,7 +851,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "테슬라 급등 vs 메리어트 약세 혼조",
+      "news_summary": "테슬라 급등에도 소비재 혼조세",
       "headlines": [
         {
           "title": "[뉴욕증시] 국제유가 진정에 3대 지수 반등…기술주 상승 - 글로벌이코노믹",
@@ -745,7 +913,7 @@
       "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "유가 급락·순환매로 산업재 사상 최고 랠리",
+      "news_summary": "유가 급락에 산업재 사상 최고 랠리",
       "headlines": [
         {
           "title": "美-이란 임시 합의에 유가 급락…산업재 지수 ‘사상 최고’ 랠리│Global Money Club - 중앙일보",
@@ -776,7 +944,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "소재주 개별 호재로 상승세 지속",
+      "news_summary": "소재주 개별 호재 속 완만한 상승세",
       "headlines": [
         {
           "title": "[MK시그널] 파미셀, AI 반도체 소재 사업 재평가 기대감 등에 주가 상승세... MK시그널 추천 후 상승률 20.51% 기록 - 매일경제 마켓",
@@ -807,7 +975,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "주식 자금 부동산 유입, 풍선효과 부각",
+      "news_summary": "주식 활황이 부동산 풍선효과로 이어짐",
       "headlines": [
         {
           "title": "\"원수에게 주식을, 자식엔 부동산\" 주가 폭락에 주목 받는 부동산 웹소설 - 땅집고",
@@ -869,7 +1037,7 @@
       "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "차터 급등에도 섹터 전반은 약세",
+      "news_summary": "차터 급등에도 SBA는 하락, 혼조세",
       "headlines": [
         {
           "title": "차터커뮤니케이션, 스페이스X와 모바일 협력설에 주가 9% 급등 - 마켓인",
@@ -892,14 +1060,14 @@
       "event": "미국 6월 고용보고서(비농업고용지표) 발표",
       "affected_sectors": "지수 전체, 금융 (Financials, XLF)",
       "impact": "중립",
-      "comment": "고용지표 결과에 따라 금리 전망 변동성 확대"
+      "comment": "고용지표에 따라 금리·시장 변동성 확대 가능"
     },
     {
       "date": "2026-07-14",
       "event": "미국 6월 CPI(소비자물가) 발표",
-      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 기술 (Technology, XLK)",
+      "affected_sectors": "지수 전체, 금융 (Financials, XLF)",
       "impact": "중립",
-      "comment": "물가지표 결과에 따라 금리·증시 방향성 좌우"
+      "comment": "물가지표 결과에 따라 금리·증시 방향성 결정"
     },
     {
       "date": "2026-07-15",
@@ -913,21 +1081,21 @@
       "event": "FOMC 회의 첫날 (금리결정은 익일)",
       "affected_sectors": "지수 전체, 금융 (Financials, XLF), 부동산 (Real Estate, XLRE)",
       "impact": "중립",
-      "comment": "결정 하루 전, 관망세로 변동성 제한적"
+      "comment": "결과 대기 속 관망세, 변동성 제한적"
     },
     {
       "date": "2026-07-29",
       "event": "FOMC 금리결정 발표 및 의장 기자회견",
-      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 부동산 (Real Estate, XLRE)",
+      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 기술 (Technology, XLK)",
       "impact": "중립",
-      "comment": "금리 동결·인하 여부에 따라 시장 방향성 결정"
+      "comment": "금리 동결 여부와 매파적 발언 강도가 관건"
     }
   ],
   "megatrends": [
     {
-      "trend": "AI 자금 블랙홀",
-      "description": "IPO·증자·대출까지 AI가 글로벌 자금을 흡수 중",
-      "related_sectors": "반도체, AI인프라, 데이터센터",
+      "trend": "AI 인프라 자금 쏠림",
+      "description": "IPO·증자·사모대출까지 AI 투자자금이 전방위로 집중",
+      "related_sectors": "AI인프라, 반도체, 사모대출",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
@@ -952,9 +1120,9 @@
       ]
     },
     {
-      "trend": "금·구리 자원랠리",
+      "trend": "금·구리 원자재 슈퍼사이클",
       "description": "글로벌 IB들이 금·구리 업황 낙관하며 목표가 상향",
-      "related_sectors": "비철금속, 자원개발, 광업",
+      "related_sectors": "비철금속, 자원개발, 금광업",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
@@ -979,8 +1147,8 @@
       ]
     },
     {
-      "trend": "포스트반도체 확산",
-      "description": "반도체 쏠림 이후 조선·광통신·우주항공으로 주도주 이동",
+      "trend": "반도체 이후 신주도주 부상",
+      "description": "조선·광통신·우주항공이 반도체 뒤를 잇는 테마로 부상",
       "related_sectors": "조선, 광통신, 우주항공",
       "source_headlines": [
         {
@@ -1006,9 +1174,9 @@
       ]
     },
     {
-      "trend": "외국인 수급 변동성",
-      "description": "코스닥 귀환·코스피 이탈 등 외국인 자금 흐름이 급변",
-      "related_sectors": "코스피, 코스닥, 채권",
+      "trend": "외국인 수급 재유입",
+      "description": "코스닥·코스피에 외국인 자금이 다시 유입되며 장세 주도",
+      "related_sectors": "코스닥, 반도체, ETF",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
@@ -1033,9 +1201,9 @@
       ]
     },
     {
-      "trend": "로봇산업 재조명",
-      "description": "젠슨 황 방한 등 이벤트로 로봇 관련주 급등세",
-      "related_sectors": "로봇, 자동화, 반도체",
+      "trend": "피지컬AI·6G 테마 확산",
+      "description": "AI가 실물로 확장되며 6G 등 신기술 테마 부각",
+      "related_sectors": "피지컬AI, 6G, 광통신",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",

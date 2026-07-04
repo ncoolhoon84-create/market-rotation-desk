@@ -311,6 +311,23 @@ def fetch_investor_flow(krx_ticker: str, is_etf: bool = False):
         institution_trend = trend_label("기관합계")
         foreign_trend = trend_label("외국인합계")
 
+        # 최근 5거래일(이번 주) vs 그 이전 5거래일(지난 주) 순매수 비교
+        # -> "매수세 랭킹"에서 순매수액과 증가율을 함께 보여주기 위함
+        def weekly_summary(col_name):
+            recent5_sum = int(recent5[col_name].sum())
+            prior5 = df[col_name].iloc[-10:-5] if len(df) >= 10 else None
+            prior5_sum = int(prior5.sum()) if prior5 is not None and len(prior5) == 5 else None
+            growth_pct = None
+            if prior5_sum:  # 0이거나 None이면 증가율 계산 불가(분모 0 방지)
+                growth_pct = round((recent5_sum - prior5_sum) / abs(prior5_sum) * 100, 1)
+            return {"net_buy": recent5_sum, "growth_pct": growth_pct}
+
+        weekly = {
+            "individual": weekly_summary("개인"),
+            "institution": weekly_summary("기관합계"),
+            "foreign": weekly_summary("외국인합계"),
+        }
+
         # 최근 5거래일 일별 개인/기관/외국인 순매수 금액 (대시보드 마우스오버 미니차트용)
         # 날짜 오름차순(과거 -> 최근)으로 정렬해서 넘김
         recent5_days = []
@@ -329,6 +346,7 @@ def fetch_investor_flow(krx_ticker: str, is_etf: bool = False):
             "institution": int(latest.get("기관합계", 0)),
             "foreign": int(latest.get("외국인합계", 0)),
             "recent5_days": recent5_days,
+            "weekly_summary": weekly,
             "foreign_recent5_sum": int(recent5["외국인합계"].sum()),
             "foreign_streak_days": streak,
             "foreign_zscore": foreign_zscore,

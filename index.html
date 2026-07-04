@@ -23,6 +23,8 @@
     --down-dim:rgba(201,106,86,.14);
     --ai:#c99a4a;
     --ai-dim:rgba(201,154,74,.12);
+    --watch:#6f9bd1;
+    --watch-dim:rgba(111,155,209,.12);
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   html{ scroll-behavior:smooth; }
@@ -73,7 +75,7 @@
   .ai-tag::before{ content:"◆"; font-size:6px; }
 
   /* ===== Index cards ===== */
-  .index-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .index-row{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
   .index-card{ background:var(--panel); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
   .index-top{ display:flex; justify-content:space-between; align-items:flex-start; }
   .index-name{ font-family:'Source Serif 4',serif; font-size:17px; font-weight:600; }
@@ -117,6 +119,7 @@
   .cycle-tag{ font-size:11px; font-family:'IBM Plex Mono',monospace; }
   .cycle-tag.current{ color:var(--up); font-weight:600; }
   .cycle-tag.next{ color:var(--ai); }
+  .cycle-tag.watch{ color:var(--watch); }
   .cycle-empty{ color:var(--faint); }
 
   .news-cell{ max-width:280px; font-size:12px; color:var(--text); line-height:1.55; }
@@ -319,6 +322,7 @@ function flowBadgeHtml(flow){
 function cycleTag(cycle){
   if(cycle === '현재 싸이클') return `<span class="cycle-tag current">● 현재 싸이클</span>`;
   if(cycle === '차기 싸이클 가능성') return `<span class="cycle-tag next">차기 싸이클 가능성</span>`;
+  if(cycle === '관찰 대상') return `<span class="cycle-tag watch">◐ 관찰 대상</span>`;
   return `<span class="cycle-empty">—</span>`;
 }
 
@@ -609,6 +613,7 @@ async function loadDashboard(isManualRefresh){
         <strong>차기싸이클 예측 판정 기준 (규칙 기반, AI 아님).</strong>
         <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 자금흐름도 유입인 경우 (가격·수급이 이미 함께 상승) ·
         <u>차기 싸이클 가능성</u> = 자금흐름은 유입인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·
+        <u>관찰 대상</u> = 정식 자금유입 조건(외국인 2일 이상 연속 매수 + 통계적 유의성)은 아직 못 채웠지만, 최근 5일 외국인 순매수 방향 자체는 매수 우위이고 가격도 상승 중인 경우 (아직 이르지만 지켜볼 신호) ·
         <u>“-”</u> = 위 조건에 해당하지 않는 경우.
         이 판정은 위 두 실데이터로 코드가 직접 계산하며, 신뢰도 점수·뉴스요약·일정별 영향섹터만 Claude(Anthropic)가 생성한 추정치입니다.
         투자 자문이 아닌 리서치 참고 자료입니다. 매일 한국시간 08:00, 12:00, 16:00, 20:00에 자동 갱신됩니다.

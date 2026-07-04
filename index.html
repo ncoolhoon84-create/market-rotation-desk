@@ -76,6 +76,11 @@
 
   /* ===== Index cards ===== */
   .index-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+
+  /* ===== 주요지수: KR(왼쪽 세로 스택) / US(오른쪽 2x2) 분리 레이아웃 ===== */
+  .index-section{ display:flex; gap:1px; background:var(--line); border:1px solid var(--line); align-items:stretch; }
+  .index-kr{ display:flex; flex-direction:column; gap:1px; flex:1 1 42%; min-width:260px; }
+  .index-us{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; flex:1 1 58%; }
   .index-card{ background:var(--panel); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
   .index-top{ display:flex; justify-content:space-between; align-items:flex-start; }
   .index-name{ font-family:'Source Serif 4',serif; font-size:17px; font-weight:600; }
@@ -268,6 +273,8 @@
 
   @media (max-width:1000px){
     .index-row{ grid-template-columns:1fr; }
+    .index-section{ flex-direction:column; }
+    .index-us{ grid-template-columns:1fr; }
     .cal-row{ grid-template-columns:76px 62px 1fr; }
     .masthead{ padding:20px; } .container{ padding:20px 20px 50px; } .legend{ padding:12px 20px; }
   }
@@ -566,7 +573,8 @@ async function loadDashboard(isManualRefresh){
     document.getElementById('liveStatus').textContent = '데이터 연결됨';
     document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
 
-    const indexCards = (data.indices || []).map(renderIndexCard).join('');
+    const krIndexCards = (data.indices || []).filter(i => i.investor_flow).map(renderIndexCard).join('');
+    const usIndexCards = (data.indices || []).filter(i => !i.investor_flow).map(renderIndexCard).join('');
     const trendCards = (data.megatrends || []).map(renderMegatrendCard).join('');
     const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');
     const usRows = (data.us_sectors || []).map(renderSectorRow).join('');
@@ -574,7 +582,10 @@ async function loadDashboard(isManualRefresh){
 
     container.innerHTML = `
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
-      <div class="index-row">${indexCards}</div>
+      <div class="index-section">
+        <div class="index-kr">${krIndexCards}</div>
+        <div class="index-us">${usIndexCards}</div>
+      </div>
 
       ${trendCards ? `
       <div class="section-label"><div class="bar"></div><h2>메가트렌드 / 수급 뉴스</h2><span class="note">EMERGING TRENDS — AI 추정</span></div>

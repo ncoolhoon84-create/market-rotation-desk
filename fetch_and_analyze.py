@@ -129,6 +129,40 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
                 close_20d_ago = hist["Close"].iloc[-21]
                 momentum = (today_close - close_20d_ago) / close_20d_ago * 100
 
+            # 5영업일 전 종가 (단기 모멘텀, US 섹터 OBV 판정용으로도 사용)
+            momentum_5d = None
+            if len(hist) >= 6:
+                close_5d_ago = hist["Close"].iloc[-6]
+                momentum_5d = (today_close - close_5d_ago) / close_5d_ago * 100
+
+            # OBV(On-Balance Volume) 기반 매수/매도세 판정
+            # - 상승일엔 그날 거래량을 더하고 하락일엔 뺀 누적값(OBV)의 최근 5일 변화를 계산
+            # - 가격 방향(5일 모멘텀)과 OBV 방향이 같으면 "강"(거래량이 뒷받침),
+            #   가격만 움직이고 거래량이 안 따라오면 "약"(힘 빠진 신호, 되돌림 가능성)
+            # - KRX 실데이터처럼 완전히 독립적인 소스는 아니지만(같은 가격/거래량 데이터에서 파생),
+            #   최소한 "거래량 확인"이라는 두 번째 관점을 더해주는 보조지표
+            obv_signal = None
+            if len(hist) >= 6:
+                closes = hist["Close"].tolist()
+                volumes = hist["Volume"].tolist()
+                obv_series = [0]
+                for i in range(1, len(closes)):
+                    if closes[i] > closes[i - 1]:
+                        obv_series.append(obv_series[-1] + volumes[i])
+                    elif closes[i] < closes[i - 1]:
+                        obv_series.append(obv_series[-1] - volumes[i])
+                    else:
+                        obv_series.append(obv_series[-1])
+                obv_change_5d = obv_series[-1] - obv_series[-6]
+
+                if momentum_5d is not None:
+                    if momentum_5d > 0:
+                        obv_signal = "매수세 강" if obv_change_5d > 0 else "매수세 약"
+                    elif momentum_5d < 0:
+                        obv_signal = "매도세 강" if obv_change_5d < 0 else "매도세 약"
+                    else:
+                        obv_signal = "중립"
+
             volume = int(hist["Volume"].iloc[-1]) if "Volume" in hist else None
 
             return {
@@ -138,6 +172,8 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
                 "pct_change": round(float(pct_change), 2),
                 "volume": volume,
                 "momentum_20d": round(float(momentum), 2) if momentum is not None else None,
+                "momentum_5d": round(float(momentum_5d), 2) if momentum_5d is not None else None,
+                "obv_signal": obv_signal,
             }
         except Exception as e:
             print(f"  [오류] {ticker} 시도 {attempt}/{retries} 가격 조회 실패: {e}")

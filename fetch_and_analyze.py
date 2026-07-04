@@ -267,11 +267,24 @@ def fetch_investor_flow(krx_ticker: str, is_etf: bool = False):
         institution_trend = trend_label("기관합계")
         foreign_trend = trend_label("외국인합계")
 
+        # 최근 5거래일 일별 개인/기관/외국인 순매수 금액 (대시보드 마우스오버 미니차트용)
+        # 날짜 오름차순(과거 -> 최근)으로 정렬해서 넘김
+        recent5_days = []
+        for idx, row in recent5.iterrows():
+            day_date = idx.date() if hasattr(idx, "date") else idx
+            recent5_days.append({
+                "date": str(day_date),
+                "individual": int(row.get("개인", 0)),
+                "institution": int(row.get("기관합계", 0)),
+                "foreign": int(row.get("외국인합계", 0)),
+            })
+
         return {
             "date": str(df.index[-1].date()),
             "individual": int(latest.get("개인", 0)),
             "institution": int(latest.get("기관합계", 0)),
             "foreign": int(latest.get("외국인합계", 0)),
+            "recent5_days": recent5_days,
             "foreign_recent5_sum": int(recent5["외국인합계"].sum()),
             "foreign_streak_days": streak,
             "foreign_zscore": foreign_zscore,

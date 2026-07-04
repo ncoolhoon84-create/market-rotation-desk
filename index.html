@@ -213,6 +213,29 @@
   .flow-tooltip .tip-row.sell .who::before{ background:var(--down); }
   .flow-tooltip .tip-row .amt.up{ color:var(--up); font-weight:600; }
   .flow-tooltip .tip-row .amt.down{ color:var(--down); font-weight:600; }
+
+  /* ===== 5일치 개인/기관/외국인 미니 바 차트 (툴팁 내부) ===== */
+  .mini-chart{ display:flex; flex-direction:column; gap:6px; }
+  .mini-chart-row{ display:flex; align-items:center; gap:8px; }
+  .mini-chart-row .who-label{
+    width:28px; flex-shrink:0; font-family:'IBM Plex Mono',monospace;
+    font-size:9px; color:var(--muted);
+  }
+  .mini-bars{ display:flex; align-items:center; gap:3px; height:26px; }
+  .mini-bar-col{ position:relative; width:10px; height:26px; cursor:default; }
+  .mini-bar-col::before{
+    content:""; position:absolute; left:0; right:0; top:50%;
+    height:1px; background:var(--line-soft);
+  }
+  .mini-bar-fill{ position:absolute; left:1px; right:1px; border-radius:1px; min-height:1px; }
+  .mini-bar-fill.up{ background:var(--up); bottom:50%; }
+  .mini-bar-fill.down{ background:var(--down); top:50%; }
+  .mini-bar-col.today .mini-bar-fill{ opacity:1; }
+  .mini-bar-col:not(.today) .mini-bar-fill{ opacity:.55; }
+  .mini-chart-range{
+    font-family:'IBM Plex Mono',monospace; font-size:8.5px; color:var(--faint);
+    text-align:right; margin-top:1px;
+  }
   .flow-tooltip .tip-summary{
     margin-top:8px; padding-top:8px; border-top:1px dashed var(--line-soft);
     font-family:'IBM Plex Sans',sans-serif; font-size:11px; color:var(--text); line-height:1.55;
@@ -326,25 +349,59 @@ function renderInvestorFlow(flow){
      마우스를 올리면 개인/기관/외국인 금액 + 트렌드 요약 카드가 뜸
    - investor_flow가 없으면(미국 섹터): 기존 뱃지만 표시 (툴팁 없음)
    ========================================================= */
+function investorMiniChart(recent5Days){
+  if(!recent5Days || !recent5Days.length) return '';
+  const keys = [
+    { key: 'individual', label: '개인' },
+    { key: 'institution', label: '기관' },
+    { key: 'foreign', label: '외국인' },
+  ];
+  const maxAbs = Math.max(
+    1,
+    ...recent5Days.flatMap(d => keys.map(k => Math.abs(d[k.key] || 0)))
+  );
+  const lastIdx = recent5Days.length - 1;
+
+  const rows = keys.map(k => {
+    const bars = recent5Days.map((d, i) => {
+      const val = d[k.key] || 0;
+      const fraction = Math.min(Math.abs(val) / maxAbs, 1); // 0~1
+      const heightPct = (fraction * 50).toFixed(1); // 중앙 기준선에서 위/아래로 최대 50%
+      const dir = val >= 0 ? 'up' : 'down';
+      const todayCls = i === lastIdx ? ' today' : '';
+      const title = `${d.date} · ${k.label} ${val >= 0 ? '순매수' : '순매도'} ${fmtEok(Math.abs(val))}`;
+      return `<span class="mini-bar-col${todayCls}" title="${title}"><span class="mini-bar-fill ${dir}" style="height:${heightPct}%"></span></span>`;
+    }).join('');
+    return `<div class="mini-chart-row"><span class="who-label">${k.label}</span><span class="mini-bars">${bars}</span></div>`;
+  }).join('');
+
+  const range = `${recent5Days[0].date} ~ ${recent5Days[lastIdx].date}`;
+  return `<div class="mini-chart">${rows}<div class="mini-chart-range">${range} (최근일 진하게)</div></div>`;
+}
+
 function flowBadgeWithTooltip(item){
   const badge = flowBadgeHtml(item.flow);
   const iv = item.investor_flow;
   if(!iv) return `<span class="flow-wrap">${badge}</span>`;
 
-  const tipRow = (label, val) => {
-    const dir = val >= 0 ? 'buy' : 'sell';
-    const cls = val >= 0 ? 'up' : 'down';
-    return `<div class="tip-row ${dir}"><span class="who">${label}</span><span class="amt ${cls}">${fmtEok(val)}</span></div>`;
-  };
+  const chart = iv.recent5_days && iv.recent5_days.length
+    ? investorMiniChart(iv.recent5_days)
+    : (() => {
+        // 구버전 데이터 호환: 일별 데이터가 없으면 최근 거래일 금액만 표시
+        const tipRow = (label, val) => {
+          const dir = val >= 0 ? 'buy' : 'sell';
+          const cls = val >= 0 ? 'up' : 'down';
+          return `<div class="tip-row ${dir}"><span class="who">${label}</span><span class="amt ${cls}">${fmtEok(val)}</span></div>`;
+        };
+        return tipRow('개인', iv.individual) + tipRow('기관', iv.institution) + tipRow('외국인', iv.foreign);
+      })();
 
   return `
     <span class="flow-wrap has-tip">
       ${badge}
       <span class="flow-tooltip">
-        <div class="tip-header">순매수 금액 (최근 거래일)</div>
-        ${tipRow('개인', iv.individual)}
-        ${tipRow('기관', iv.institution)}
-        ${tipRow('외국인', iv.foreign)}
+        <div class="tip-header">최근 5거래일 순매수/순매도</div>
+        ${chart}
         <div class="tip-summary">${iv.trend_summary || ''}</div>
         <div class="tip-date">${iv.date || ''} 기준</div>
       </span>

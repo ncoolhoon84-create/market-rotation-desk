@@ -500,15 +500,23 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
 def analyze_calendar_event(client: Anthropic, date: str, event: str) -> dict:
     print(f"  캘린더 분석 중: {date} - {event}")
 
+    headlines = get_news_headlines(event, 3)
+
     system_prompt = (
         "당신은 거시경제 이벤트가 주식 섹터에 미치는 영향을 분석하는 애널리스트입니다. "
         "반드시 아래 JSON 형식으로만 답변하세요.\n"
         '{"affected_sectors": "영향받는 섹터 1~3개를 쉼표로 (다음 목록 중에서만 선택: '
         + SECTOR_NAME_LIST + ')", '
         '"impact": "호재" 또는 "악재" 또는 "중립", '
-        '"comment": "30자 이내 한국어 코멘트"}'
+        '"comment": "이 이벤트로 예상되는 상황(원인) → 그로 인한 결과 → 어떤 섹터에 '
+        '호재/악재로 작용할지까지 이어지는 한 문장. 60자 이내 한국어. '
+        '예시 형식: \'고용지표가 예상보다 강하게 나오면 금리인하 기대가 후퇴해 반도체 섹터에 악재로 작용 예상\'"}'
     )
-    user_prompt = f"날짜: {date}\n이벤트: {event}"
+    user_prompt = (
+        f"날짜: {date}\n이벤트: {event}\n"
+        + "최근 관련 뉴스:\n"
+        + ("\n".join(f"- {h['title']}" for h in headlines) if headlines else "(없음)")
+    )
 
     ai_result = call_claude_json(client, system_prompt, user_prompt)
     time.sleep(0.3)
@@ -519,6 +527,7 @@ def analyze_calendar_event(client: Anthropic, date: str, event: str) -> dict:
         "affected_sectors": ai_result.get("affected_sectors", ""),
         "impact": ai_result.get("impact", "중립"),
         "comment": ai_result.get("comment", ai_result.get("__error", "")),
+        "headlines": headlines,
     }
 
 

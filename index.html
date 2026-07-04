@@ -113,7 +113,7 @@
 
   /* ===== Sector table ===== */
   .sector-table-wrap{ border:1px solid var(--line); overflow-x:auto; background:var(--panel); }
-  table.sector{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:1180px; }
+  table.sector{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:1180px; table-layout:fixed; }
   table.sector thead th{ background:var(--panel-2); text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.05em; color:var(--muted); padding:11px 16px; border-bottom:1px solid var(--line); white-space:nowrap; }
   table.sector thead th.ai-col{ color:var(--ai); }
   table.sector tbody td{ padding:14px 16px; border-bottom:1px solid var(--line-soft); vertical-align:top; }
@@ -648,6 +648,10 @@ async function loadDashboard(isManualRefresh){
       <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목 · 자금흐름 기준: 외국인 수급(선행지표) · 뱃지에 마우스오버 시 상세</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
+          <colgroup>
+            <col style="width:16%"><col style="width:16%"><col style="width:14%">
+            <col style="width:18%"><col style="width:10%"><col style="width:26%">
+          </colgroup>
           <thead><tr>
             <th>섹터</th><th>5영업일 수급흐름</th><th>차기싸이클 예측 (규칙기반)</th><th>20일 모멘텀 (후행지표)</th><th class="ai-col">AI 신뢰도</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>
@@ -658,6 +662,10 @@ async function loadDashboard(isManualRefresh){
       <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목 · OBV(거래량 누적) 기반 매수/매도세 판정 · 참고용, 싸이클 예측 제외</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
+          <colgroup>
+            <col style="width:18%"><col style="width:14%"><col style="width:16%">
+            <col style="width:16%"><col style="width:36%">
+          </colgroup>
           <thead><tr>
             <th>섹터</th><th>OBV 매수/매도세</th><th>5일 모멘텀</th><th>20일 모멘텀</th><th class="ai-col">AI 뉴스요약</th>
           </tr></thead>

@@ -219,22 +219,48 @@ def get_news_headlines(query: str, max_count: int = 3) -> list:
 # 4. Claude API 호출 (JSON 응답 요청)
 # =========================================================
 
-def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str) -> dict:
-    try:
-        message = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=500,
-            system=system_prompt,
-            messages=[{"role": "user", "content": user_prompt}],
-        )
-        raw_text = "".join(
-            block.text for block in message.content if hasattr(block, "text")
-        ).strip()
-        cleaned = re.sub(r"```json|```", "", raw_text).strip()
-        return json.loads(cleaned)
-    except Exception as e:
-        print(f"  [오류] Claude 분석 실패: {e}")
-        return {"__error": str(e)}
+def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, retries: int = 2) -> dict:
+    """Claude에게 JSON 응답을 요청. 파싱 실패 시 '고쳐서 다시 보내라'고 재요청."""
+    messages = [{"role": "user", "content": user_prompt}]
+
+    for attempt in range(1, retries + 1):
+        try:
+            message = client.messages.create(
+                model=CLAUDE_MODEL,
+                max_tokens=500,
+                system=system_prompt,
+                messages=messages,
+            )
+            raw_text = "".join(
+                block.text for block in message.content if hasattr(block, "text")
+            ).strip()
+            cleaned = re.sub(r"```json|```", "", raw_text).strip()
+
+            try:
+                return json.loads(cleaned)
+            except json.JSONDecodeError as parse_err:
+                print(f"  [경고] JSON 파싱 실패 (시도 {attempt}/{retries}): {parse_err}")
+                if attempt < retries:
+                    # 모델에게 이전 응답을 보여주고, 유효한 JSON으로 고쳐 달라고 재요청
+                    messages.append({"role": "assistant", "content": raw_text})
+                    messages.append({
+                        "role": "user",
+                        "content": (
+                            "방금 응답은 유효한 JSON이 아니었습니다. 문자열 안의 따옴표(\")는 "
+                            "반드시 \\\" 로 이스케이프하고, 오직 유효한 JSON만 다시 응답하세요. "
+                            "다른 설명 텍스트는 절대 포함하지 마세요."
+                        )
+                    })
+                    continue
+                return {"__error": f"JSON 파싱 실패: {str(parse_err)}"}
+
+        except Exception as e:
+            print(f"  [오류] Claude API 호출 실패 (시도 {attempt}/{retries}): {e}")
+            if attempt >= retries:
+                return {"__error": str(e)}
+            time.sleep(1)
+
+    return {"__error": "알 수 없는 오류"}
 
 
 # =========================================================

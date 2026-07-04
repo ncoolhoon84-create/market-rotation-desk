@@ -137,7 +137,7 @@
   .footnote{ margin-top:30px; padding:18px 20px; border:1px solid var(--line); background:var(--panel); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); line-height:1.9; }
   .footnote strong{ color:var(--muted); }
 
-  /* ===== KOSPI investor flow ===== */
+  /* ===== KOSPI investor flow (index card, always-visible detail) ===== */
   .flow-detail{ margin-top:2px; display:flex; flex-direction:column; gap:8px; }
   .flow-row{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
   .flow-row .label{ width:34px; color:var(--muted); flex-shrink:0; }
@@ -169,14 +169,57 @@
   .news-dropdown a:hover{ color:var(--ai); }
   .news-dropdown .empty{ color:var(--faint); font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
 
-  /* ===== Per-investor mini trend badges (sector table) ===== */
-  .investor-mini{ display:flex; flex-direction:column; gap:4px; min-width:110px; }
-  .investor-mini .row{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:10px; }
-  .investor-mini .row .who{ width:28px; color:var(--faint); flex-shrink:0; }
-  .investor-mini .row .trend-badge{ padding:1px 6px; border-radius:3px; font-weight:500; }
-  .investor-mini .row .trend-badge.buy{ background:var(--up-dim); color:var(--up); }
-  .investor-mini .row .trend-badge.sell{ background:var(--down-dim); color:var(--down); }
-  .investor-mini .row .trend-badge.flat{ background:rgba(139,144,156,.12); color:var(--muted); }
+  /* =========================================================
+     자금흐름 뱃지 + 커스텀 호버 툴팁 (개인/기관/외국인 상세)
+     - 뱃지에 investor_flow가 있으면(=한국 섹터), 마우스를 올렸을 때
+       개인/기관/외국인 순매수 금액과 트렌드 요약을 카드로 보여줌
+     - investor_flow가 없으면(=미국 섹터) 그냥 기존 뱃지만 표시, 툴팁 없음
+     ========================================================= */
+  .flow-wrap{ position:relative; display:inline-flex; }
+  .flow-wrap.has-tip{ cursor:help; }
+  .flow-wrap.has-tip .flow-badge{ border-bottom:1px dotted currentColor; }
+
+  .flow-tooltip{
+    position:absolute; top:calc(100% + 9px); left:0;
+    min-width:230px; background:var(--panel-2); border:1px solid var(--line);
+    border-radius:6px; padding:11px 13px; box-shadow:0 10px 28px rgba(0,0,0,.45);
+    opacity:0; visibility:hidden; transform:translateY(3px);
+    transition:opacity .13s ease, transform .13s ease;
+    z-index:30; pointer-events:none;
+  }
+  .flow-wrap.has-tip:hover .flow-tooltip{ opacity:1; visibility:visible; transform:translateY(0); }
+  .flow-tooltip::before{
+    content:""; position:absolute; bottom:100%; left:14px;
+    border:6px solid transparent; border-bottom-color:var(--line);
+  }
+  .flow-tooltip::after{
+    content:""; position:absolute; bottom:100%; left:14px; margin-bottom:-1px;
+    border:5px solid transparent; border-bottom-color:var(--panel-2);
+  }
+  .flow-tooltip .tip-header{
+    font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.06em;
+    color:var(--faint); text-transform:uppercase; margin-bottom:8px;
+    padding-bottom:7px; border-bottom:1px solid var(--line-soft);
+  }
+  .flow-tooltip .tip-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:14px; font-family:'IBM Plex Mono',monospace; font-size:11px; padding:3px 0;
+  }
+  .flow-tooltip .tip-row .who{ display:flex; align-items:center; gap:6px; color:var(--muted); }
+  .flow-tooltip .tip-row .who::before{
+    content:""; width:6px; height:6px; border-radius:50%; background:var(--faint); flex-shrink:0;
+  }
+  .flow-tooltip .tip-row.buy .who::before{ background:var(--up); }
+  .flow-tooltip .tip-row.sell .who::before{ background:var(--down); }
+  .flow-tooltip .tip-row .amt.up{ color:var(--up); font-weight:600; }
+  .flow-tooltip .tip-row .amt.down{ color:var(--down); font-weight:600; }
+  .flow-tooltip .tip-summary{
+    margin-top:8px; padding-top:8px; border-top:1px dashed var(--line-soft);
+    font-family:'IBM Plex Sans',sans-serif; font-size:11px; color:var(--text); line-height:1.55;
+  }
+  .flow-tooltip .tip-date{
+    margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--faint);
+  }
 
   .loading, .error{ padding:80px 20px; text-align:center; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12px; }
   .error{ color:var(--down); }
@@ -210,7 +253,7 @@
 
 <div class="legend">
   <span><span class="swatch live"></span>가격 · 거래량 · 모멘텀(후행지표) — 실시간 시세 기반 계산값</span>
-  <span><span class="swatch live"></span>수급(개인/기관/외국인, 선행지표) — 한국거래소(KRX) 실데이터</span>
+  <span><span class="swatch live"></span>수급(개인/기관/외국인, 선행지표) — 한국거래소(KRX) 실데이터, 뱃지에 마우스를 올리면 상세 표시</span>
   <span><span class="swatch ai"></span>싸이클 · 신뢰도 · 뉴스요약 — Claude AI 추정 (참고용)</span>
 </div>
 
@@ -228,7 +271,7 @@ function dots(count, max){
   return html;
 }
 
-function flowBadge(flow){
+function flowBadgeHtml(flow){
   if(flow === '자금 유입') return `<span class="flow-badge flow-in">자금 유입</span>`;
   if(flow === '자금 유출') return `<span class="flow-badge flow-out">자금 유출</span>`;
   return `<span class="flow-badge flow-flat">중립</span>`;
@@ -250,6 +293,12 @@ function momentumBar(m){
 
 function pctColorClass(v){ return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
 
+function fmtEok(val){
+  const eok = val / 100000000; // 원 -> 억원
+  const sign = eok >= 0 ? '+' : '';
+  return `${sign}${eok.toFixed(0)}억`;
+}
+
 let uidCounter = 0;
 function nextUid(){ return 'news-' + (uidCounter++); }
 
@@ -261,18 +310,45 @@ function renderInvestorFlow(flow){
     const cls = val >= 0 ? 'buy' : 'sell';
     return `<div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>`;
   };
-  const fmt = (val) => {
-    const eok = val / 100000000; // 원 -> 억원
-    const sign = eok >= 0 ? '+' : '';
-    return `${sign}${eok.toFixed(0)}억`;
-  };
   return `
     <div class="flow-detail">
-      <div class="flow-row"><span class="label">개인</span>${bar(flow.individual)}<span class="val ${flow.individual>=0?'up':'down'}">${fmt(flow.individual)}</span></div>
-      <div class="flow-row"><span class="label">기관</span>${bar(flow.institution)}<span class="val ${flow.institution>=0?'up':'down'}">${fmt(flow.institution)}</span></div>
-      <div class="flow-row"><span class="label">외국인</span>${bar(flow.foreign)}<span class="val ${flow.foreign>=0?'up':'down'}">${fmt(flow.foreign)}</span></div>
+      <div class="flow-row"><span class="label">개인</span>${bar(flow.individual)}<span class="val ${flow.individual>=0?'up':'down'}">${fmtEok(flow.individual)}</span></div>
+      <div class="flow-row"><span class="label">기관</span>${bar(flow.institution)}<span class="val ${flow.institution>=0?'up':'down'}">${fmtEok(flow.institution)}</span></div>
+      <div class="flow-row"><span class="label">외국인</span>${bar(flow.foreign)}<span class="val ${flow.foreign>=0?'up':'down'}">${fmtEok(flow.foreign)}</span></div>
       <div class="flow-trend">${flow.trend_summary || ''} <span class="mono" style="color:var(--faint)">(${flow.date || ''} 기준)</span></div>
     </div>
+  `;
+}
+
+/* =========================================================
+   자금흐름 뱃지 + 커스텀 호버 툴팁
+   - investor_flow가 있으면(한국 섹터): 뱃지 하나만 표시하고,
+     마우스를 올리면 개인/기관/외국인 금액 + 트렌드 요약 카드가 뜸
+   - investor_flow가 없으면(미국 섹터): 기존 뱃지만 표시 (툴팁 없음)
+   ========================================================= */
+function flowBadgeWithTooltip(item){
+  const badge = flowBadgeHtml(item.flow);
+  const iv = item.investor_flow;
+  if(!iv) return `<span class="flow-wrap">${badge}</span>`;
+
+  const tipRow = (label, val) => {
+    const dir = val >= 0 ? 'buy' : 'sell';
+    const cls = val >= 0 ? 'up' : 'down';
+    return `<div class="tip-row ${dir}"><span class="who">${label}</span><span class="amt ${cls}">${fmtEok(val)}</span></div>`;
+  };
+
+  return `
+    <span class="flow-wrap has-tip">
+      ${badge}
+      <span class="flow-tooltip">
+        <div class="tip-header">순매수 금액 (최근 거래일)</div>
+        ${tipRow('개인', iv.individual)}
+        ${tipRow('기관', iv.institution)}
+        ${tipRow('외국인', iv.foreign)}
+        <div class="tip-summary">${iv.trend_summary || ''}</div>
+        <div class="tip-date">${iv.date || ''} 기준</div>
+      </span>
+    </span>
   `;
 }
 
@@ -307,7 +383,7 @@ function renderIndexCard(item){
       </div>
       ${item.investor_flow ? renderInvestorFlow(item.investor_flow) : ''}
       <div class="index-mid">
-        ${flowBadge(item.flow)}
+        ${flowBadgeHtml(item.flow)}
         <div class="conf-block">
           <span class="conf-label">AI 신뢰도</span>
           ${dots(item.confidence||0,5)}
@@ -322,35 +398,16 @@ function renderIndexCard(item){
   `;
 }
 
-function investorMini(flow){
-  if(!flow) return '';
-  const badge = (trend) => {
-    const cls = trend === '순매수 우위' ? 'buy' : trend === '순매도 우위' ? 'sell' : 'flat';
-    return `<span class="trend-badge ${cls}">${trend}</span>`;
-  };
-  const z = flow.foreign_zscore;
-  const intensityNote = `외인 ${flow.foreign_streak_days ?? 0}일 연속` + (z != null ? `, 강도 ${z}` : '');
-  return `
-    <div class="investor-mini">
-      <div class="row"><span class="who">개인</span>${badge(flow.individual_trend)}</div>
-      <div class="row"><span class="who">기관</span>${badge(flow.institution_trend)}</div>
-      <div class="row"><span class="who">외인</span>${badge(flow.foreign_trend)}</div>
-      <div class="mono" style="font-size:9px;color:var(--faint);margin-top:2px;">${intensityNote}</div>
-    </div>
-  `;
-}
-
 function renderSectorRow(item){
   const label = item.momentum_20d != null
     ? (item.momentum_20d > 2 ? '강세' : item.momentum_20d < -2 ? '약세' : '중립')
     : '중립';
   const labelClass = item.momentum_20d > 2 ? 'up' : item.momentum_20d < -2 ? 'down' : 'flat';
   const uid = nextUid();
-  const flowCell = item.investor_flow ? investorMini(item.investor_flow) : flowBadge(item.flow);
   return `
     <tr>
       <td class="sector-name">${item.name}</td>
-      <td>${flowCell}</td>
+      <td>${flowBadgeWithTooltip(item)}</td>
       <td>${cycleTag(item.cycle)}</td>
       <td class="momentum-cell">
         <span class="momentum-label ${labelClass}">${label} ${item.momentum_20d != null ? '('+item.momentum_20d.toFixed(1)+'%)' : ''}</span>
@@ -429,7 +486,7 @@ async function loadDashboard(isManualRefresh){
       <div class="trend-grid">${trendCards}</div>
       ` : ''}
 
-      <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목 · 자금흐름 기준: 외국인 수급(선행지표)</span></div>
+      <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목 · 자금흐름 기준: 외국인 수급(선행지표) · 뱃지에 마우스오버 시 상세</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
@@ -439,7 +496,7 @@ async function loadDashboard(isManualRefresh){
         </table>
       </div>
 
-      <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목 · 자금흐름 기준: 가격 모멘텀(후행지표)</span></div>
+      <div class="section-label"><div class="bar"></div><h2>미국 섹터</h2><span class="note">US SECTOR FLOW · ${(data.us_sectors||[]).length}개 종목 · 자금흐름 기준: 가격 모멘텀(후행지표, 참고용)</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
           <thead><tr>
@@ -455,7 +512,9 @@ async function loadDashboard(isManualRefresh){
       <div class="footnote">
         <strong>데이터 출처.</strong> 가격·거래량·20일 모멘텀(후행지표)은 실시간 시세(지연 가능)를 기반으로 규칙에 따라 자동 계산됩니다.
         한국 섹터의 자금흐름은 한국거래소(KRX) 개인/기관/외국인 순매수 실데이터(선행지표)를 기준으로 판정하며,
-        미국 섹터는 KRX 데이터가 없어 가격 모멘텀(후행지표)으로 대체 판정합니다.<br>
+        미국 섹터는 KRX 데이터가 없어 가격 모멘텀(후행지표)으로 대체 판정합니다.
+        <strong>주의:</strong> 미국 섹터는 자금흐름 자체가 모멘텀에서 파생되므로, "현재 싸이클" 판정이 가격·수급 이중확인이 아닌
+        모멘텀 단일 신호일 수 있어 한국 섹터보다 참고 신뢰도가 낮습니다.<br>
         <strong>차기싸이클 예측 판정 기준 (규칙 기반, AI 아님).</strong>
         <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 자금흐름도 유입인 경우 (가격·수급이 이미 함께 상승) ·
         <u>차기 싸이클 가능성</u> = 자금흐름은 유입인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·

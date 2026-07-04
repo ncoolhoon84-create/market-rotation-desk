@@ -91,39 +91,45 @@ CLAUDE_MODEL = "claude-sonnet-5"
 # 2. 가격/모멘텀 데이터 가져오기
 # =========================================================
 
-def fetch_price_info(ticker: str) -> dict:
-    """현재가, 전일대비, 등락률, 20일 모멘텀을 가져옴"""
-    try:
-        t = yf.Ticker(ticker)
-        hist = t.history(period="2mo")  # 20영업일 모멘텀 계산을 위해 넉넉히 2개월치
+def fetch_price_info(ticker: str, retries: int = 2) -> dict:
+    """현재가, 전일대비, 등락률, 20일 모멘텀을 가져옴 (일시적 실패 시 재시도)"""
+    for attempt in range(1, retries + 1):
+        try:
+            t = yf.Ticker(ticker)
+            hist = t.history(period="2mo")  # 20영업일 모멘텀 계산을 위해 넉넉히 2개월치
 
-        if hist.empty or len(hist) < 2:
-            return None
+            if hist.empty or len(hist) < 2:
+                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 데이터가 비어있음 (행 개수: {len(hist)})")
+                time.sleep(2)
+                continue
 
-        today_close = hist["Close"].iloc[-1]
-        prev_close = hist["Close"].iloc[-2]
-        change = today_close - prev_close
-        pct_change = (change / prev_close) * 100
+            today_close = hist["Close"].iloc[-1]
+            prev_close = hist["Close"].iloc[-2]
+            change = today_close - prev_close
+            pct_change = (change / prev_close) * 100
 
-        # 20영업일 전 종가 (모멘텀 계산용)
-        momentum = None
-        if len(hist) >= 21:
-            close_20d_ago = hist["Close"].iloc[-21]
-            momentum = (today_close - close_20d_ago) / close_20d_ago * 100
+            # 20영업일 전 종가 (모멘텀 계산용)
+            momentum = None
+            if len(hist) >= 21:
+                close_20d_ago = hist["Close"].iloc[-21]
+                momentum = (today_close - close_20d_ago) / close_20d_ago * 100
 
-        volume = int(hist["Volume"].iloc[-1]) if "Volume" in hist else None
+            volume = int(hist["Volume"].iloc[-1]) if "Volume" in hist else None
 
-        return {
-            "price": round(float(today_close), 2),
-            "prev_close": round(float(prev_close), 2),
-            "change": round(float(change), 2),
-            "pct_change": round(float(pct_change), 2),
-            "volume": volume,
-            "momentum_20d": round(float(momentum), 2) if momentum is not None else None,
-        }
-    except Exception as e:
-        print(f"  [오류] {ticker} 가격 조회 실패: {e}")
-        return None
+            return {
+                "price": round(float(today_close), 2),
+                "prev_close": round(float(prev_close), 2),
+                "change": round(float(change), 2),
+                "pct_change": round(float(pct_change), 2),
+                "volume": volume,
+                "momentum_20d": round(float(momentum), 2) if momentum is not None else None,
+            }
+        except Exception as e:
+            print(f"  [오류] {ticker} 시도 {attempt}/{retries} 가격 조회 실패: {e}")
+            time.sleep(2)
+
+    print(f"  [실패] {ticker}: {retries}번 재시도했지만 데이터를 가져오지 못했습니다.")
+    return None
 
 
 def determine_flow(momentum) -> str:

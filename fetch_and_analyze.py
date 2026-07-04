@@ -16,6 +16,16 @@
     python fetch_and_analyze.py
 
 GitHub Actions에서는 저장소 Secrets에 등록된 키를 자동으로 읽습니다.
+
+------------------------------------------------------
+[2026-07-04 수정사항]
+한국 섹터(반도체/2차전지/화장품 등)는 전부 KODEX/TIGER "ETF"인데,
+기존에는 일반 주식용 함수(get_market_trading_value_by_date)로
+수급을 조회하고 있었음. 이 함수는 ETF에는 원래 지원되지 않는
+함수라서, 한국 섹터 14개 전부 수급 데이터가 항상 null로 나오는
+버그가 있었음 (KOSPI 지수나 개별 주식은 정상 작동했었음).
+-> ETF 전용 함수(get_etf_trading_volume_and_value)로 교체.
+   컬럼명도 "기관"/"외국인" -> "기관합계"/"외국인합계"로 통일.
 """
 
 import json
@@ -189,7 +199,7 @@ def determine_flow(momentum=None, flow_data=None) -> str:
 #      KOSPI 지수든, 개별 섹터 ETF든 동일하게 사용 가능
 # =========================================================
 
-def fetch_investor_flow(krx_ticker: str):
+def fetch_investor_flow(krx_ticker: str, is_etf: bool = False):
     """
     최근 거래일의 개인/기관/외국인 순매수 금액, 최근 5거래일 추세를 가져오고,
     노이즈에 강하도록 두 가지를 추가로 계산함:
@@ -197,13 +207,24 @@ def fetch_investor_flow(krx_ticker: str):
     - foreign_zscore: 최근 5일 평균이 최근 30거래일 평균 대비 통계적으로 얼마나 이례적인지
       (0에 가까우면 평소와 비슷, 클수록 평소보다 훨씬 강한 매수/매도세)
     krx_ticker: "KOSPI" 같은 지수명 또는 "091160" 같은 6자리 종목코드
+    is_etf: True면 ETF 전용 조회 함수를 사용함.
+      (KODEX/TIGER 같은 한국 섹터 ETF는 일반 주식용 함수로는 조회가 안 되고,
+       반드시 ETF 전용 함수를 써야 함 — 안 그러면 항상 실패함)
     금액 단위: 원 (양수=순매수, 음수=순매도)
     """
     try:
         end = datetime.now().strftime("%Y%m%d")
         start = (datetime.now() - timedelta(days=50)).strftime("%Y%m%d")  # 30영업일 확보 위해 넉넉히
 
-        df = krx.get_market_trading_value_by_date(start, end, krx_ticker)
+        if is_etf:
+            df = krx.get_etf_trading_volume_and_value(start, end, krx_ticker, "거래대금", "순매수")
+            if df is not None and not df.empty:
+                # ETF 전용 함수는 컬럼명이 "기관"/"외국인" (합계 안 붙음) 이라
+                # 기존 로직이 기대하는 "기관합계"/"외국인합계"로 통일시켜줌
+                df = df.rename(columns={"기관": "기관합계", "외국인": "외국인합계"})
+        else:
+            df = krx.get_market_trading_value_by_date(start, end, krx_ticker)
+
         if df is None or df.empty or len(df) < 5:
             print(f"  [경고] {krx_ticker} 수급 데이터가 비어있거나 부족합니다.")
             return None
@@ -358,11 +379,12 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
         }
 
     # 한국 종목(.KS로 끝남)이면 외국인 수급(선행지표)을 우선 사용,
-    # 미국 종목이면 KRX 데이터가 없으므로 가격 모멘텀(후행지표)으로 대체
+    # 미국 종목이면 KRX 데이터가 없으므로 가격 모멘텀(후행지표)으로 대체.
+    # 한국 섹터는 전부 KODEX/TIGER "ETF"이므로 반드시 ETF 전용 함수(is_etf=True)로 조회해야 함.
     investor_flow = None
-    if ticker.endswith(".KS") or ticker == "KRX:KOSPI":
+    if ticker.endswith(".KS"):
         krx_code = ticker.replace(".KS", "")
-        investor_flow = fetch_investor_flow(krx_code)
+        investor_flow = fetch_investor_flow(krx_code, is_etf=True)
 
     foreign_recent_sum = investor_flow["foreign_recent5_sum"] if investor_flow else None
     flow = determine_flow(price_info["momentum_20d"], investor_flow)
@@ -533,7 +555,7 @@ def main():
     }
 
     print("\n[KOSPI 수급(개인/기관/외국인)]")
-    kospi_flow = fetch_investor_flow("KOSPI")
+    kospi_flow = fetch_investor_flow("KOSPI")  # KOSPI는 지수이지 ETF가 아니므로 is_etf=False(기본값)
 
     print("\n[주요지수]")
     for name, ticker in INDICES.items():

@@ -29,6 +29,7 @@ from urllib.parse import quote
 import requests
 import yfinance as yf
 from anthropic import Anthropic
+from pykrx import stock as krx
 
 # =========================================================
 # 1. 종목 목록 (구글 시트 버전과 동일한 구성)
@@ -144,16 +145,71 @@ def determine_flow(momentum) -> str:
 
 
 # =========================================================
+# 3-1. KOSPI 개인/기관/외국인 수급 (한국거래소 실데이터, pykrx)
+# =========================================================
+
+def fetch_kospi_investor_flow():
+    """
+    최근 거래일의 개인/기관/외국인 순매수 금액과, 최근 5거래일 추세를 가져옴.
+    금액 단위: 원 (양수=순매수, 음수=순매도)
+    """
+    try:
+        end = datetime.now().strftime("%Y%m%d")
+        start = (datetime.now() - timedelta(days=20)).strftime("%Y%m%d")
+
+        df = krx.get_market_trading_value_by_date(start, end, "KOSPI")
+        if df is None or df.empty:
+            print("  [경고] KOSPI 수급 데이터가 비어있습니다.")
+            return None
+
+        latest = df.iloc[-1]
+        recent5 = df.tail(5)
+
+        def trend_text(col_name, label):
+            total = recent5[col_name].sum()
+            if total > 0:
+                return f"{label} 최근 5거래일 순매수 우위"
+            elif total < 0:
+                return f"{label} 최근 5거래일 순매도 우위"
+            return f"{label} 최근 5거래일 중립"
+
+        return {
+            "date": str(df.index[-1].date()),
+            "individual": int(latest.get("개인", 0)),
+            "institution": int(latest.get("기관합계", 0)),
+            "foreign": int(latest.get("외국인합계", 0)),
+            "trend_summary": " · ".join([
+                trend_text("개인", "개인"),
+                trend_text("기관합계", "기관"),
+                trend_text("외국인합계", "외국인"),
+            ]),
+        }
+    except Exception as e:
+        print(f"  [경고] KOSPI 수급 데이터 조회 실패: {e}")
+        return None
+
+
+# =========================================================
 # 3. 구글 뉴스 RSS (무료, 키 불필요)
 # =========================================================
 
 def get_news_headlines(query: str, max_count: int = 3) -> list:
+    """뉴스 헤드라인과 링크를 함께 가져옴. 반환값: [{"title": ..., "link": ...}, ...]"""
     try:
         url = f"https://news.google.com/rss/search?q={quote(query)}&hl=ko&gl=KR&ceid=KR:ko"
         resp = requests.get(url, timeout=10)
         root = ET.fromstring(resp.content)
         items = root.findall(".//item")[:max_count]
-        return [item.find("title").text for item in items if item.find("title") is not None]
+        results = []
+        for item in items:
+            title_el = item.find("title")
+            link_el = item.find("link")
+            if title_el is not None:
+                results.append({
+                    "title": title_el.text,
+                    "link": link_el.text if link_el is not None else None,
+                })
+        return results
     except Exception as e:
         print(f"  [경고] 뉴스 조회 실패 ({query}): {e}")
         return []
@@ -212,7 +268,7 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
         f"종목: {name}\n"
         f"등락률: {price_info['pct_change']}%\n"
         f"20일 모멘텀: {price_info['momentum_20d']}%\n"
-        f"최근 뉴스:\n" + ("\n".join(f"- {h}" for h in headlines) if headlines else "(없음)")
+        f"최근 뉴스:\n" + ("\n".join(f"- {h['title']}" for h in headlines) if headlines else "(없음)")
     )
 
     ai_result = call_claude_json(client, system_prompt, user_prompt)
@@ -261,6 +317,54 @@ def analyze_calendar_event(client: Anthropic, date: str, event: str) -> dict:
 
 
 # =========================================================
+# 5-1. 메가트렌드 / 수급 뉴스 — 개별 종목이 아닌 "시장 전체" 관점 트렌드 추출
+# =========================================================
+
+MEGATREND_QUERIES = [
+    "외국인 순매수 동향",
+    "글로벌 자금 흐름 신흥산업",
+    "차세대 유망 산업 테마",
+    "수급 주도주 전망",
+]
+
+def analyze_megatrends(client: Anthropic) -> list:
+    print("\n[메가트렌드 / 수급 뉴스] 분석 중...")
+
+    all_headlines = []
+    for q in MEGATREND_QUERIES:
+        all_headlines += get_news_headlines(q, 4)
+        time.sleep(0.2)
+
+    if not all_headlines:
+        return []
+
+    headline_text = "\n".join(f"- {h['title']}" for h in all_headlines)
+
+    system_prompt = (
+        "당신은 시장 전체의 자금 흐름과 산업 트렌드를 조기에 포착하는 수석 애널리스트입니다. "
+        "아래 뉴스 헤드라인들을 종합해서, 앞으로 주목할 만한 '메가트렌드'(특정 종목이 아닌 "
+        "산업/테마/자금흐름 단위의 큰 흐름) 3~5개를 뽑아주세요. "
+        "반드시 아래 JSON 배열 형식으로만 답변하세요. 다른 텍스트는 포함하지 마세요.\n"
+        '[{"trend": "트렌드 제목 (15자 이내)", '
+        '"description": "왜 주목해야 하는지 1문장 설명 (40자 이내)", '
+        '"related_sectors": "관련 섹터 1~3개 쉼표 구분"}]'
+    )
+    user_prompt = "최근 수집된 뉴스 헤드라인:\n" + headline_text
+
+    ai_result = call_claude_json(client, system_prompt, user_prompt)
+    time.sleep(0.3)
+
+    if isinstance(ai_result, list):
+        # 참고용 근거 뉴스(제목+링크)를 같이 붙여서 반환
+        for trend in ai_result:
+            trend["source_headlines"] = all_headlines[:5]
+        return ai_result
+
+    print(f"  [경고] 메가트렌드 분석 실패: {ai_result}")
+    return []
+
+
+# =========================================================
 # 6-1. NaN/Infinity 값을 JSON에 안전하게 쓸 수 있도록 정리
 #      (파이썬은 NaN을 허용하지만, 브라우저는 이를 유효한 JSON으로
 #      인식하지 못해 "Unexpected token" 에러를 일으킵니다)
@@ -302,11 +406,18 @@ def main():
         "kr_sectors": [],
         "us_sectors": [],
         "calendar": [],
+        "megatrends": [],
     }
+
+    print("\n[KOSPI 수급(개인/기관/외국인)]")
+    kospi_flow = fetch_kospi_investor_flow()
 
     print("\n[주요지수]")
     for name, ticker in INDICES.items():
-        result["indices"].append(analyze_item(client, "주요지수", name, ticker))
+        item = analyze_item(client, "주요지수", name, ticker)
+        if name == "KOSPI" and kospi_flow:
+            item["investor_flow"] = kospi_flow
+        result["indices"].append(item)
 
     print("\n[한국 섹터]")
     for name, ticker in KR_SECTORS.items():
@@ -319,6 +430,8 @@ def main():
     print("\n[이달 주요일정]")
     for item in CALENDAR_EVENTS:
         result["calendar"].append(analyze_calendar_event(client, item["date"], item["event"]))
+
+    result["megatrends"] = analyze_megatrends(client)
 
     # data.json 으로 저장 (대시보드가 이 파일을 읽어서 화면에 표시)
     # NaN/Infinity 값을 null로 정리한 뒤, allow_nan=False로 유효한 JSON만 생성되도록 함

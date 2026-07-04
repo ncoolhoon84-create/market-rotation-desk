@@ -134,6 +134,24 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
     return None
 
 
+def determine_cycle(momentum, flow: str) -> str:
+    """
+    차기싸이클 판정 (규칙 기반, 100% 결정적 계산 — AI가 아님).
+    - 현재 싸이클: 모멘텀 +5% 이상 이고 자금흐름이 '자금 유입'
+    - 차기 싸이클 가능성: 자금흐름은 '자금 유입'인데 모멘텀은 아직 +2% 미만
+    - 그 외: "-"
+    (이전에는 Claude에게 이 계산을 맡겼으나, LLM이 숫자 임계값을 가끔 정확히
+     따르지 않는 문제가 있어 코드로 직접 계산하도록 변경함 — 100% 재현 가능)
+    """
+    if momentum is None:
+        return "-"
+    if momentum >= 5 and flow == "자금 유입":
+        return "현재 싸이클"
+    if flow == "자금 유입" and momentum < 2:
+        return "차기 싸이클 가능성"
+    return "-"
+
+
 def determine_flow(momentum=None, flow_data=None) -> str:
     """
     자금흐름 판정.
@@ -354,17 +372,11 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
 
     system_prompt = (
         "당신은 주식 섹터 로테이션을 분석하는 애널리스트입니다. "
-        "아래 '판정 기준'을 반드시 그대로 따라서 cycle 값을 정하세요.\n\n"
-        "[판정 기준]\n"
-        "- 현재 싸이클: 20일 모멘텀이 +5% 이상 이고, 외국인 자금흐름 판정도 '자금 유입'인 경우 "
-        "(가격과, 연속성·강도까지 검증된 수급이 이미 함께 움직이고 있음)\n"
-        "- 차기 싸이클 가능성: 외국인 자금흐름 판정이 '자금 유입'이지만, 20일 모멘텀은 아직 +2% 미만인 경우 "
-        "(연속성·강도가 확인된 자금은 들어오는데 가격에는 아직 반영 안 됨 = 선행 신호)\n"
-        "- \"-\": 위 두 경우에 해당하지 않는 경우 (뚜렷한 신호 없음)\n"
-        "외국인 수급 데이터가 없는 경우(미국 종목)에는 모멘텀과 뉴스만으로 유사하게 판단하세요.\n\n"
+        "주어진 모멘텀, 자금흐름 판정, 최근 뉴스를 참고해서 "
+        "신뢰도 점수와 한 줄 뉴스 요약만 작성하세요. "
         "반드시 아래 JSON 형식으로만 답변하세요. 다른 텍스트는 절대 포함하지 마세요.\n"
-        '{"cycle": "현재 싸이클" 또는 "차기 싸이클 가능성" 또는 "-", '
-        '"confidence": 1~5 사이 정수 (판정 근거가 뚜렷할수록 높게), '
+        '{"confidence": 1~5 사이 정수 (모멘텀과 자금흐름 방향이 서로 일치할수록, '
+        '뉴스 근거가 뚜렷할수록 높게), '
         '"news_summary": "20자 이내 한국어 한 줄 요약"}'
     )
     user_prompt = (
@@ -391,7 +403,7 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
         "flow": flow,
         "flow_basis": "외국인 수급(선행지표)" if investor_flow else "가격 모멘텀(후행지표)",
         "investor_flow": investor_flow,
-        "cycle": ai_result.get("cycle", "-"),
+        "cycle": determine_cycle(price_info["momentum_20d"], flow),
         "confidence": ai_result.get("confidence", 3),
         "news_summary": ai_result.get("news_summary", ai_result.get("__error", "")),
         "headlines": headlines,

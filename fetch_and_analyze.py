@@ -86,6 +86,30 @@ US_SECTORS = {
     "커뮤니케이션 (Communication, XLC)": "XLC",
 }
 
+# =========================================================
+# 1-1. 섹터별 대표종목 5개 (시가총액 상위 위주)
+#      "매수세 랭킹"에서 ETF 하나만으로는 섹터 전체 수급을 대표하기 부족해서,
+#      각 섹터의 대표종목 5개 실제 수급을 추가로 조회해 ETF 수급과 합산함.
+#      (KRX에 "업종 전체" 수급을 한 번에 주는 함수가 없어서, 대표종목을
+#       개별 조회해서 근사치를 만드는 방식 — 완전한 전체 합산은 아님)
+# =========================================================
+SECTOR_REPRESENTATIVE_STOCKS = {
+    "반도체 (KODEX 반도체)": ["005930", "000660", "000990", "042700", "058470"],
+    "2차전지 (TIGER 2차전지테마)": ["373220", "006400", "096770", "247540", "003670"],
+    "바이오 (KODEX 헬스케어)": ["207940", "068270", "302440", "128940", "000100"],
+    "은행 (KODEX 은행)": ["105560", "055550", "086790", "316140", "323410"],
+    "조선 (TIGER 조선TOP10)": ["009540", "329180", "010140", "042660", "010620"],
+    "방산 (TIGER K방산&우주)": ["012450", "079550", "064350", "047810", "103140"],
+    "전력 (KODEX AI전력핵심설비)": ["010120", "298040", "103590", "267260", "034020"],
+    "자동차 (KODEX 자동차)": ["005380", "000270", "012330", "018880", "204320"],
+    "화학 (KODEX 에너지화학)": ["051910", "011170", "011780", "009830", "010950"],
+    "건설 (KODEX 건설)": ["028260", "000720", "006360", "375500", "047040"],
+    "철강 (KODEX 철강)": ["005490", "004020", "001230", "003030", "016380"],
+    "미디어·엔터 (TIGER 미디어컨텐츠)": ["352820", "035900", "041510", "122870", "035760"],
+    "화장품 (TIGER 화장품)": ["090430", "051900", "002790", "192820", "161890"],
+    "로봇 (KODEX 로봇액티브)": ["454910", "277810", "090360", "388720", "117730"],
+}
+
 # 이달 주요일정 (직접 수정/추가 가능)
 CALENDAR_EVENTS = [
     {"date": "2026-07-03", "event": "미국 6월 고용보고서(비농업고용지표) 발표"},
@@ -320,7 +344,7 @@ def fetch_investor_flow(krx_ticker: str, is_etf: bool = False):
             growth_pct = None
             if prior5_sum:  # 0이거나 None이면 증가율 계산 불가(분모 0 방지)
                 growth_pct = round((recent5_sum - prior5_sum) / abs(prior5_sum) * 100, 1)
-            return {"net_buy": recent5_sum, "growth_pct": growth_pct}
+            return {"net_buy": recent5_sum, "growth_pct": growth_pct, "prior5_sum": prior5_sum}
 
         weekly = {
             "individual": weekly_summary("개인"),
@@ -640,17 +664,51 @@ def save_ranking_history(history: list):
         json.dump(clean_for_json(history), f, ensure_ascii=False, indent=2, allow_nan=False)
 
 
+def clean_sector_name(name: str) -> str:
+    """랭킹 표시용: '반도체 (KODEX 반도체)' -> '반도체' 처럼 괄호 안 ETF/티커명 제거.
+    (매수세 랭킹은 섹터 자체의 수급을 보여주는 것이지, 특정 ETF 상품을
+     매수했다는 뜻이 아니므로 오해를 막기 위해 이름을 단순화함)"""
+    return re.sub(r"\(.*?\)", "", name).strip()
+
+
+def fetch_sector_representative_totals(tickers: list) -> dict:
+    """섹터 대표종목 5개의 최근5일/직전5일 순매수 합계를 투자자 유형별로 합산"""
+    totals = {k: {"net_buy": 0, "prior5_sum": 0} for k in RANKING_INVESTOR_KEYS}
+    for ticker in tickers:
+        flow = fetch_investor_flow(ticker, is_etf=False)
+        time.sleep(0.3)
+        if not flow or "weekly_summary" not in flow:
+            continue
+        for k in RANKING_INVESTOR_KEYS:
+            ws = flow["weekly_summary"].get(k)
+            if ws:
+                totals[k]["net_buy"] += ws["net_buy"]
+                totals[k]["prior5_sum"] += (ws.get("prior5_sum") or 0)
+    return totals
+
+
+def rep_stocks_only_weekly(rep_totals) -> dict:
+    """대표종목 5개 합산 수급만으로 순매수/증가율 계산 (ETF 수급은 랭킹에서 제외)"""
+    net_buy = rep_totals["net_buy"]
+    prior5_sum = rep_totals["prior5_sum"]
+    growth_pct = round((net_buy - prior5_sum) / abs(prior5_sum) * 100, 1) if prior5_sum else None
+    return {"net_buy": net_buy, "growth_pct": growth_pct}
+
+
 def compute_top10(kr_sectors: list, investor_key: str) -> list:
-    """한국 섹터 중 이번 주 순매수(양수)인 것만, 투자자 유형별로 상위 10개 반환"""
+    """섹터별 대표종목 5개 합산 수급(sector_wide_weekly) 기준으로 상위 10개 추출 (ETF 자체 수급은 제외)"""
     rows = []
     for item in kr_sectors:
         iv = item.get("investor_flow")
-        if not iv or "weekly_summary" not in iv:
+        if not iv:
             continue
-        ws = iv["weekly_summary"].get(investor_key)
+        source = iv.get("sector_wide_weekly") or iv.get("weekly_summary")
+        if not source:
+            continue
+        ws = source.get(investor_key)
         if not ws or ws["net_buy"] <= 0:
             continue
-        rows.append({"name": item["name"], "net_buy": ws["net_buy"], "growth_pct": ws["growth_pct"]})
+        rows.append({"name": clean_sector_name(item["name"]), "net_buy": ws["net_buy"], "growth_pct": ws["growth_pct"]})
     rows.sort(key=lambda r: r["net_buy"], reverse=True)
     return rows[:10]
 
@@ -779,6 +837,18 @@ def main():
     print("\n[한국 섹터]")
     for name, ticker in KR_SECTORS.items():
         result["kr_sectors"].append(analyze_item(client, "한국 섹터", name, ticker))
+
+    print("\n[섹터별 대표종목 5개 수급 조회 - 매수세 랭킹용 (ETF 제외, 대표종목 5개만 반영)]")
+    for item in result["kr_sectors"]:
+        reps = SECTOR_REPRESENTATIVE_STOCKS.get(item["name"])
+        if not reps:
+            continue
+        print(f"  대표종목 조회 중: {item['name']} {reps}")
+        rep_totals = fetch_sector_representative_totals(reps)
+        sector_wide = {key: rep_stocks_only_weekly(rep_totals[key]) for key in RANKING_INVESTOR_KEYS}
+        if item.get("investor_flow") is None:
+            item["investor_flow"] = {}
+        item["investor_flow"]["sector_wide_weekly"] = sector_wide
 
     print("\n[이번 주 매수세 랭킹 계산 + 히스토리 기록]")
     result["ranking"] = build_weekly_ranking(result["kr_sectors"])

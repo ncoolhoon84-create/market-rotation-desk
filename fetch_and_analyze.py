@@ -178,13 +178,17 @@ def fetch_investor_flow(krx_ticker: str):
         latest = df.iloc[-1]
         recent5 = df.tail(5)
 
-        def trend_text(col_name, label):
+        def trend_label(col_name):
             total = recent5[col_name].sum()
             if total > 0:
-                return f"{label} 최근 5거래일 순매수 우위"
+                return "순매수 우위"
             elif total < 0:
-                return f"{label} 최근 5거래일 순매도 우위"
-            return f"{label} 최근 5거래일 중립"
+                return "순매도 우위"
+            return "중립"
+
+        individual_trend = trend_label("개인")
+        institution_trend = trend_label("기관합계")
+        foreign_trend = trend_label("외국인합계")
 
         return {
             "date": str(df.index[-1].date()),
@@ -192,11 +196,14 @@ def fetch_investor_flow(krx_ticker: str):
             "institution": int(latest.get("기관합계", 0)),
             "foreign": int(latest.get("외국인합계", 0)),
             "foreign_recent5_sum": int(recent5["외국인합계"].sum()),
-            "trend_summary": " · ".join([
-                trend_text("개인", "개인"),
-                trend_text("기관합계", "기관"),
-                trend_text("외국인합계", "외국인"),
-            ]),
+            "individual_trend": individual_trend,
+            "institution_trend": institution_trend,
+            "foreign_trend": foreign_trend,
+            "trend_summary": (
+                f"개인 최근 5거래일 {individual_trend} · "
+                f"기관 최근 5거래일 {institution_trend} · "
+                f"외국인 최근 5거래일 {foreign_trend}"
+            ),
         }
     except Exception as e:
         print(f"  [경고] {krx_ticker} 수급 데이터 조회 실패: {e}")
@@ -306,10 +313,17 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
 
     system_prompt = (
         "당신은 주식 섹터 로테이션을 분석하는 애널리스트입니다. "
-        "주어진 모멘텀 수치와 최근 뉴스 헤드라인을 참고해서, "
+        "아래 '판정 기준'을 반드시 그대로 따라서 cycle 값을 정하세요.\n\n"
+        "[판정 기준]\n"
+        "- 현재 싸이클: 20일 모멘텀이 +5% 이상 이고, 외국인 수급도 순매수(+)인 경우 "
+        "(가격과 수급이 이미 함께 움직이고 있음)\n"
+        "- 차기 싸이클 가능성: 외국인 수급은 순매수(+)이지만, 20일 모멘텀은 아직 +2% 미만인 경우 "
+        "(자금은 들어오는데 가격에는 아직 반영 안 됨 = 선행 신호)\n"
+        "- \"-\": 위 두 경우에 해당하지 않는 경우 (뚜렷한 신호 없음)\n"
+        "외국인 수급 데이터가 없는 경우(미국 종목)에는 모멘텀과 뉴스만으로 유사하게 판단하세요.\n\n"
         "반드시 아래 JSON 형식으로만 답변하세요. 다른 텍스트는 절대 포함하지 마세요.\n"
         '{"cycle": "현재 싸이클" 또는 "차기 싸이클 가능성" 또는 "-", '
-        '"confidence": 1~5 사이 정수, '
+        '"confidence": 1~5 사이 정수 (판정 근거가 뚜렷할수록 높게), '
         '"news_summary": "20자 이내 한국어 한 줄 요약"}'
     )
     user_prompt = (

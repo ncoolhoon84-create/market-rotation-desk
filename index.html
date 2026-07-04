@@ -179,8 +179,14 @@
   .trend-news-toggle:hover{ text-decoration:underline; }
 
   /* ===== Clickable news summary + dropdown ===== */
-  .news-trigger{ cursor:pointer; border-bottom:1px dotted var(--faint); }
+  .news-trigger{ cursor:pointer; border-bottom:1px dotted var(--faint); text-decoration:none; }
   .news-trigger:hover{ border-bottom-color:var(--ai); color:var(--ai); }
+  .news-more-toggle{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faint);
+    background:none; border:none; cursor:pointer; padding:0 0 0 5px; vertical-align:baseline;
+  }
+  .news-more-toggle:hover{ color:var(--ai); }
+  .cal-news{ margin-top:8px; }
   .news-dropdown{ display:none; margin-top:8px; padding:10px 12px; background:var(--panel-2); border:1px solid var(--line); border-radius:4px; font-size:11.5px; }
   .news-dropdown.open{ display:block; }
   .news-dropdown a{ display:block; color:var(--text); text-decoration:none; padding:5px 0; border-bottom:1px solid var(--line-soft); }
@@ -516,6 +522,24 @@ function newsDropdown(headlines, uid){
   return `<div class="news-dropdown" id="${uid}">${items}</div>`;
 }
 
+/* =========================================================
+   뉴스요약 텍스트 — 첫 번째 관련 기사가 있으면 클릭 시 바로 그 기사로 이동.
+   기사가 여러 개일 때 나머지도 보고 싶은 경우를 위해 작은 ▾ 버튼으로
+   전체 목록(드롭다운)도 별도로 열어볼 수 있게 함.
+   ========================================================= */
+function newsSummaryHtml(item, uid){
+  const summary = escapeHtml(item.news_summary) || '분석 정보 없음';
+  const headlines = item.headlines || [];
+  const first = headlines[0];
+  const mainLink = (first && first.link)
+    ? `<a class="news-trigger" href="${first.link}" target="_blank" rel="noopener">${summary}</a>`
+    : `<span class="news-trigger" onclick="toggleNews('${uid}')">${summary}</span>`;
+  const moreBtn = headlines.length
+    ? `<button class="news-more-toggle" onclick="toggleNews('${uid}')" title="관련 뉴스 더 보기">▾</button>`
+    : '';
+  return `${mainLink}${moreBtn}${newsDropdown(headlines, uid)}`;
+}
+
 function toggleNews(uid){
   const el = document.getElementById(uid);
   if(el) el.classList.toggle('open');
@@ -544,9 +568,8 @@ function renderIndexCard(item){
       </div>
       <div class="index-summary">
         <span class="ai-tag">AI</span>
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary) || '분석 정보 없음'} ▾</span>
+        ${newsSummaryHtml(item, uid)}
       </div>
-      ${newsDropdown(item.headlines, uid)}
     </div>
   `;
 }
@@ -568,8 +591,7 @@ function renderSectorRow(item){
       </td>
       <td>${dots(item.confidence||0,5)}</td>
       <td class="news-cell">
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary)} ▾</span>
-        ${newsDropdown(item.headlines, uid)}
+        ${newsSummaryHtml(item, uid)}
       </td>
     </tr>
   `;
@@ -589,8 +611,7 @@ function renderUsSectorRow(item){
       <td>${obvBadgeHtml(item.obv_signal)}</td>
       <td class="momentum-cell">${momentumCellContent(item.momentum_20d)}</td>
       <td class="news-cell">
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary)} ▾</span>
-        ${newsDropdown(item.headlines, uid)}
+        ${newsSummaryHtml(item, uid)}
       </td>
     </tr>
   `;
@@ -611,6 +632,7 @@ function renderMegatrendCard(trend){
 
 function renderCalendarRow(item){
   const tagClass = item.impact === '호재' ? 'tag-favor' : item.impact === '악재' ? 'tag-caution' : 'tag-neutral';
+  const uid = nextUid();
   return `
     <div class="cal-row">
       <div class="cal-date">${item.date}</div>
@@ -621,6 +643,11 @@ function renderCalendarRow(item){
           <span class="ai-tag">AI</span>
           <span>${escapeHtml(item.comment)}${item.affected_sectors ? ' · 영향섹터 '+escapeHtml(item.affected_sectors) : ''}</span>
         </div>
+        ${(item.headlines && item.headlines.length) ? `
+        <div class="cal-news">
+          <button class="trend-news-toggle" onclick="toggleNews('${uid}')">관련 뉴스 보기 ▾</button>
+          ${newsDropdown(item.headlines, uid)}
+        </div>` : ''}
       </div>
     </div>
   `;

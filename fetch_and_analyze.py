@@ -615,6 +615,123 @@ def clean_for_json(obj):
 
 
 # =========================================================
+# 6-2. 이번 주 매수세 랭킹 — 히스토리 기반 지난주 순위/신규진입/연속주차 계산
+#      (data.json과 별도로 ranking_history.json 파일에 매일 스냅샷을 저장해서,
+#       다음 실행 때 "지난주"와 비교할 수 있게 함. GitHub Actions가 이 파일도
+#       같이 커밋해야 하므로 update.yml의 git add에도 추가해야 함)
+# =========================================================
+RANKING_HISTORY_FILE = "ranking_history.json"
+RANKING_INVESTOR_KEYS = ["individual", "institution", "foreign"]
+
+
+def load_ranking_history() -> list:
+    if not os.path.exists(RANKING_HISTORY_FILE):
+        return []
+    try:
+        with open(RANKING_HISTORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"  [경고] {RANKING_HISTORY_FILE} 읽기 실패: {e}")
+        return []
+
+
+def save_ranking_history(history: list):
+    with open(RANKING_HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(clean_for_json(history), f, ensure_ascii=False, indent=2, allow_nan=False)
+
+
+def compute_top10(kr_sectors: list, investor_key: str) -> list:
+    """한국 섹터 중 이번 주 순매수(양수)인 것만, 투자자 유형별로 상위 10개 반환"""
+    rows = []
+    for item in kr_sectors:
+        iv = item.get("investor_flow")
+        if not iv or "weekly_summary" not in iv:
+            continue
+        ws = iv["weekly_summary"].get(investor_key)
+        if not ws or ws["net_buy"] <= 0:
+            continue
+        rows.append({"name": item["name"], "net_buy": ws["net_buy"], "growth_pct": ws["growth_pct"]})
+    rows.sort(key=lambda r: r["net_buy"], reverse=True)
+    return rows[:10]
+
+
+def find_snapshot_near(history_by_date: dict, target_date, tolerance_days: int = 2):
+    """target_date 기준 +-tolerance_days 이내에서 가장 가까운 스냅샷을 찾음 (주말/휴장 보정용)"""
+    for offset in range(0, tolerance_days + 1):
+        for d in (target_date - timedelta(days=offset), target_date + timedelta(days=offset)):
+            snap = history_by_date.get(d.isoformat())
+            if snap:
+                return snap
+    return None
+
+
+def lookup_rank(snapshot, investor_key: str, name: str):
+    if not snapshot:
+        return None
+    lst = snapshot.get("rankings", {}).get(investor_key, [])
+    for i, row in enumerate(lst):
+        if row["name"] == name:
+            return i + 1
+    return None
+
+
+def compute_streak_weeks(history_by_date: dict, investor_key: str, name: str, today_date, max_weeks: int = 12) -> int:
+    """오늘을 포함해서, 7일 간격으로 거슬러 올라가며 몇 주 연속 TOP5였는지 계산"""
+    streak = 1  # 오늘 이미 TOP5에 있다는 전제 하에 호출됨
+    check_date = today_date
+    for _ in range(1, max_weeks):
+        check_date = check_date - timedelta(days=7)
+        snap = find_snapshot_near(history_by_date, check_date)
+        if not snap:
+            break
+        rank = lookup_rank(snap, investor_key, name)
+        if rank is not None and rank <= 5:
+            streak += 1
+        else:
+            break
+    return streak
+
+
+def build_weekly_ranking(kr_sectors: list) -> dict:
+    """개인/기관/외국인별 TOP5 + 지난주 순위/신규진입/연속주차 메타데이터를 만들고,
+    오늘자 스냅샷을 히스토리 파일에 기록함"""
+    today_date = datetime.now().date()
+    history = load_ranking_history()
+    history_by_date = {h["date"]: h for h in history}
+
+    top10_by_type = {key: compute_top10(kr_sectors, key) for key in RANKING_INVESTOR_KEYS}
+
+    result = {}
+    for key in RANKING_INVESTOR_KEYS:
+        top5 = top10_by_type[key][:5]
+        enriched = []
+        for i, row in enumerate(top5):
+            prior_snap = find_snapshot_near(history_by_date, today_date - timedelta(days=7))
+            last_week_rank = lookup_rank(prior_snap, key, row["name"])
+            is_new_entry = last_week_rank is None
+            weeks_in_top5 = 1 if is_new_entry else compute_streak_weeks(history_by_date, key, row["name"], today_date)
+            enriched.append({
+                **row,
+                "rank": i + 1,
+                "last_week_rank": last_week_rank,
+                "is_new_entry": is_new_entry,
+                "weeks_in_top5": weeks_in_top5,
+            })
+        result[key] = enriched
+
+    # 오늘자 스냅샷 기록 (같은 날 여러 번 실행돼도 마지막 실행 값으로 덮어씀)
+    history_by_date[today_date.isoformat()] = {"date": today_date.isoformat(), "rankings": top10_by_type}
+    cutoff = (today_date - timedelta(days=90)).isoformat()
+    new_history = sorted(
+        [h for h in history_by_date.values() if h["date"] >= cutoff],
+        key=lambda h: h["date"],
+    )
+    save_ranking_history(new_history)
+
+    return result
+
+
+# =========================================================
 # 7. 메인 실행
 # =========================================================
 
@@ -662,6 +779,9 @@ def main():
     print("\n[한국 섹터]")
     for name, ticker in KR_SECTORS.items():
         result["kr_sectors"].append(analyze_item(client, "한국 섹터", name, ticker))
+
+    print("\n[이번 주 매수세 랭킹 계산 + 히스토리 기록]")
+    result["ranking"] = build_weekly_ranking(result["kr_sectors"])
 
     print("\n[미국 섹터]")
     for name, ticker in US_SECTORS.items():

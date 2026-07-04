@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-04T04:02:44.537192+00:00",
+  "updated_at": "2026-07-04T04:13:49.519765+00:00",
   "indices": [
     {
       "group": "주요지수",
@@ -11,7 +11,16 @@
       "pct_change": 5.76,
       "volume": 465800,
       "momentum_20d": -0.89,
-      "flow": "중립",
+      "flow": "자금 유출",
+      "flow_basis": "외국인 수급(선행지표)",
+      "investor_flow": {
+        "date": "2026-07-03",
+        "individual": -2294244849992,
+        "institution": 4407883765211,
+        "foreign": -2175019501794,
+        "foreign_recent5_sum": -19780806890733,
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위"
+      },
       "cycle": "-",
       "confidence": 2,
       "news_summary": "반도체 한파로 코스피 급락 우려",
@@ -28,14 +37,7 @@
           "title": "반도체 한파에 코스피 7,600대로...하이닉스 14% 폭락 - YTN",
           "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1sSmI3X1NEUFNQczNVNUhPbWZRQlkxOG95QlEtcFJ2S0pOVURhdTBoRm5udW5PelhSTWgtajhabk5wQk5jU2t1ZElkWGdINjhySmFxUlFOUzNGWGNKckE?oc=5"
         }
-      ],
-      "investor_flow": {
-        "date": "2026-07-03",
-        "individual": -2294244849992,
-        "institution": 4407883765211,
-        "foreign": -2175019501794,
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위"
-      }
+      ]
     },
     {
       "group": "주요지수",
@@ -48,9 +50,11 @@
       "volume": 5463520000,
       "momentum_20d": -0.93,
       "flow": "중립",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "조정 가능성 속 반도체 비중 확대",
+      "news_summary": "조정 가능성 경고, 반도체 비중 급증",
       "headlines": [
         {
           "title": "BofA \"S&P500, 3분기 조정 가능성…최악 땐 6,850\" - 연합인포맥스",
@@ -77,9 +81,11 @@
       "volume": 9529580000,
       "momentum_20d": -3.8,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "나스닥 약세, 개별 종목 변동성 확대",
+      "news_summary": "나스닥 약세, 개별종목 변동성 확대",
       "headlines": [
         {
           "title": "Spyre Therapeutics (NASDAQ:SYRE) CFO 스콧 버로우즈, 65.8만 달러 규모 주식 매각 - Investing.com 한국어",
@@ -108,9 +114,11 @@
       "volume": 4812407,
       "momentum_20d": 0.03,
       "flow": "중립",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "반도체 공급과잉 우려 속 주가 급등락",
+      "news_summary": "반도체 공급과잉 우려로 급락 후 반등",
       "headlines": [
         {
           "title": "\"종말의 시작에 불과\" 경고까지‥반도체 수요 정말 꺾일까? - MBC 뉴스",
@@ -137,9 +145,11 @@
       "volume": 974318,
       "momentum_20d": -18.99,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "단기 반등 조짐, 변동성 여전히 확대",
+      "news_summary": "2차전지 반등 조짐, 저점 매수 기대감",
       "headlines": [
         {
           "title": "방전된 2차전지株…\"이번엔 다르다\" 반전 전망 [B급기자의 B급리포트] - v.daum.net",
@@ -166,9 +176,11 @@
       "volume": 67859,
       "momentum_20d": -2.79,
       "flow": "자금 유출",
-      "cycle": "-",
-      "confidence": 3,
-      "news_summary": "바이오 IPO 온도차, 개별 종목만 급등",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
+      "cycle": "차기 싸이클 가능성",
+      "confidence": 2,
+      "news_summary": "바이오 IPO 온도차, 개별 종목 급등",
       "headlines": [
         {
           "title": "상반기 바이오 IPO, 기관 수요 집중…상장 후 주가는 온도차 - 데일리팜",
@@ -195,9 +207,11 @@
       "volume": 2908650,
       "momentum_20d": 0.05,
       "flow": "중립",
-      "cycle": "-",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
+      "cycle": "차기 싸이클 가능성",
       "confidence": 2,
-      "news_summary": "밸류업 부진, 정책 리스크로 주가 눌림",
+      "news_summary": "밸류업 부진, 정책 리스크로 은행주 상승 제한적",
       "headlines": [
         {
           "title": "NT 버터필드 은행 주가 60.42달러로 사상 최고치 경신 - Investing.com 한국어",
@@ -224,9 +238,11 @@
       "volume": 840984,
       "momentum_20d": -10.03,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "실적 호조에도 조선주 급락, 반등 기대",
+      "news_summary": "실적 호조에도 주가 급락, 반등 기대",
       "headlines": [
         {
           "title": "실적은 역대급인데 주가는 급락…롤러코스터 탄 '조선주' - 한국경제",
@@ -253,9 +269,11 @@
       "volume": 791484,
       "momentum_20d": 3.49,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "방산주 실적 호조, 저평가 부각",
+      "news_summary": "현대로템 저평가 부각, 실적 기대감 지속",
       "headlines": [
         {
           "title": "브라질 호위함 진수 호재에도…'獨 방산 거인' TKMS 주가 연초 대비 28% 폭락 - 글로벌이코노믹",
@@ -263,7 +281,7 @@
         },
         {
           "title": "[버핏 리포트] 현대로템, 실적 성장 지속…주가는 방산업종 내 저평가- 하나 - 버핏연구소",
-          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1ySEhQNUNPMWNGYVoyOUZqOFotTWcxV3JpX3RZSUZWV24yM1B1eVlpN0Y2TjBiQTM1eW1QM3FEcWdOc2dDT3F0djY1X0FmRUU0bXlPbGUtWVl0cnQ3a041Q2dn?oc=5"
+          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFB3ZHl5eUJnMnZVbzJLeF9zSkFqZHAyVFFfemZlTy1YcmxrSEV6Y2R2YkJqWDFBUVlSaDhKbDhKTF9OVjR2UVppRnJYa2tKTHVBWU5kZzRLM08zZXBuaFNWb2gza19pMW1ic18weE1Zaw?oc=5"
         },
         {
           "title": "“현대로템, 방산 5사 중 가장 낮은 밸류에이션…2분기 실적 기대치 부합” - 매일경제 마켓",
@@ -282,9 +300,11 @@
       "volume": 6155286,
       "momentum_20d": -2.95,
       "flow": "자금 유출",
-      "cycle": "-",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
+      "cycle": "차기 싸이클 가능성",
       "confidence": 2,
-      "news_summary": "전력기기 강세 속 ETF는 약세",
+      "news_summary": "전력기기주 강세 속 ETF는 약세 혼조",
       "headlines": [
         {
           "title": "7월 3일 한국전력 주가 38,250원 마감 상승세 - TopStarNews",
@@ -311,9 +331,11 @@
       "volume": 1097604,
       "momentum_20d": -19.89,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "판매부진에도 목표주가 상향 조정",
+      "news_summary": "현대차 목표주가 상향, 반등 기대",
       "headlines": [
         {
           "title": "볼보자동차 주가, 오늘 왜 오르나? - Investing.com 한국어",
@@ -340,9 +362,11 @@
       "volume": 28758,
       "momentum_20d": -15.85,
       "flow": "자금 유출",
-      "cycle": "-",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
+      "cycle": "차기 싸이클 가능성",
       "confidence": 2,
-      "news_summary": "화학주 개별 이슈 혼재, 뚜렷한 방향성 부재",
+      "news_summary": "화학주 개별 반등 신호, 업종 회복 초기 단계",
       "headlines": [
         {
           "title": "오늘 스미토모 화학 주가가 급등하는 이유는? - Investing.com 한국어",
@@ -369,9 +393,11 @@
       "volume": 2223371,
       "momentum_20d": -9.38,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "원전·해외수주 기대 vs 모멘텀 약세",
+      "news_summary": "건설주 변동성 확대, 원전·수주 기대감 공존",
       "headlines": [
         {
           "title": "7월 1주차 대우건설 주가 18380원 마감 변동성 확대 지속 - TopStarNews",
@@ -398,9 +424,11 @@
       "volume": 25938,
       "momentum_20d": -18.34,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
-      "confidence": 4,
-      "news_summary": "목표주가 하향, 원화약세로 철강 부진",
+      "confidence": 2,
+      "news_summary": "목표가 하향, 원화약세로 철강 부진",
       "headlines": [
         {
           "title": "다들 종전 축포 와중에…POSCO홀딩스 목표주가 54만 → 48만원 - 매일경제 마켓",
@@ -427,6 +455,8 @@
       "volume": 309601,
       "momentum_20d": -4.75,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 4,
       "news_summary": "엔터업계 부진, 상폐 위기 등 악재 지속",
@@ -456,9 +486,11 @@
       "volume": 4907920,
       "momentum_20d": 10.95,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "화장품株, 실적기대에 강세 지속",
+      "news_summary": "실적기대에 급락장서 화장품株 강세",
       "headlines": [
         {
           "title": "화장품 등 소비재株 ‘부활의 노래’ - 조선비즈 - Chosunbiz",
@@ -485,6 +517,8 @@
       "volume": 867357,
       "momentum_20d": -24.07,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "차기 싸이클 가능성",
       "confidence": 3,
       "news_summary": "로봇주 반등 조짐, 액추에이터 공급 기대",
@@ -516,9 +550,11 @@
       "volume": 14192600,
       "momentum_20d": -7.86,
       "flow": "자금 유출",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "기술주 약세, 반도체는 강세 혼조",
+      "news_summary": "기술주 조정, 반도체는 강세 지속",
       "headlines": [
         {
           "title": "우리기술 투자분석 - 주달",
@@ -545,9 +581,11 @@
       "volume": 46285200,
       "momentum_20d": 9.72,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "금리·실적 기대에 금융주 강세",
+      "news_summary": "금리·실적 기대감에 금융주 급등",
       "headlines": [
         {
           "title": "신한금융지주 KB금융지주 주가 장중 4%대 올라, 시장 변동성 확대에 경기방어 매력 부각 - 비즈니스포스트",
@@ -574,9 +612,11 @@
       "volume": 14722300,
       "momentum_20d": 11.46,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 3,
-      "news_summary": "헬스케어 신고가·성장기대 속 변동성 혼재",
+      "news_summary": "헬스케어 신고가 속 변동성 확대",
       "headlines": [
         {
           "title": "얼라인먼트 헬스케어 주가, 52주 신고가 23.89달러 기록 - Investing.com 한국어",
@@ -603,9 +643,11 @@
       "volume": 28538200,
       "momentum_20d": -8.7,
       "flow": "자금 유출",
-      "cycle": "-",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
+      "cycle": "차기 싸이클 가능성",
       "confidence": 2,
-      "news_summary": "에너지 업종 혼조, 모멘텀 부진 지속",
+      "news_summary": "에너지주 혼조, 데이터센터 수요 기대",
       "headlines": [
         {
           "title": "ISAE4: ISA 에너지 주가가 오늘 하락한 이유는? - Investing.com 한국어",
@@ -632,6 +674,8 @@
       "volume": 10884600,
       "momentum_20d": 0.53,
       "flow": "중립",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
       "news_summary": "혼조세, 테슬라 급등·마리엇 하락",
@@ -661,9 +705,11 @@
       "volume": 16706900,
       "momentum_20d": 4.16,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 3,
-      "news_summary": "AI테마 후퇴, 필수소비재 반등 기대",
+      "news_summary": "필수소비재 반등 전망, 매력도 상승",
       "headlines": [
         {
           "title": "바클레이즈, 유럽 필수 소비재 최선호주 공개…매력도 상승 - Investing.com 한국어",
@@ -690,9 +736,11 @@
       "volume": 6536000,
       "momentum_20d": 5.93,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "유가 급락, 산업재 지수 사상 최고 랠리",
+      "news_summary": "유가 급락에 산업재 사상 최고 랠리",
       "headlines": [
         {
           "title": "美-이란 임시 합의에 유가 급락…산업재 지수 ‘사상 최고’ 랠리│Global Money Club - 중앙일보",
@@ -719,9 +767,11 @@
       "volume": 12375700,
       "momentum_20d": 1.11,
       "flow": "중립",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 3,
-      "news_summary": "첨단소재 턴어라운드 기대감 상승",
+      "news_summary": "첨단소재·반도체소재 기대감에 상승세",
       "headlines": [
         {
           "title": "[MK시그널] 파미셀, AI 반도체 소재 사업 재평가 기대감 등에 주가 상승세... MK시그널 추천 후 상승률 20.51% 기록 - 매일경제 마켓",
@@ -748,9 +798,11 @@
       "volume": 5503100,
       "momentum_20d": 3.59,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "차기 싸이클 가능성",
       "confidence": 2,
-      "news_summary": "부동산 규제 풍선효과, 모멘텀 상승세",
+      "news_summary": "주식자금 부동산 유입, 풍선효과 우려",
       "headlines": [
         {
           "title": "\"원수에게 주식을, 자식엔 부동산\" 주가 폭락에 주목 받는 부동산 웹소설 - 땅집고",
@@ -777,9 +829,11 @@
       "volume": 24335400,
       "momentum_20d": 5.36,
       "flow": "자금 유입",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 4,
-      "news_summary": "AI 수혜와 방어력 부각, 유틸리티 강세",
+      "news_summary": "AI수요·방어력 부각, 유틸리티 상승세",
       "headlines": [
         {
           "title": "급락장에도 빛난 유틸리티株…`AI 붐` 덕에 방어력 입증 - 매일신문",
@@ -806,9 +860,11 @@
       "volume": 8388900,
       "momentum_20d": -1.96,
       "flow": "중립",
+      "flow_basis": "가격 모멘텀(후행지표)",
+      "investor_flow": null,
       "cycle": "-",
       "confidence": 2,
-      "news_summary": "커뮤니케이션 업종 혼조세, 모멘텀 약화",
+      "news_summary": "혼조세, 모멘텀은 약세 지속",
       "headlines": [
         {
           "title": "차터커뮤니케이션, 스페이스X와 모바일 협력설에 주가 9% 급등 - 마켓인",
@@ -831,42 +887,42 @@
       "event": "미국 6월 고용보고서(비농업고용지표) 발표",
       "affected_sectors": "금융 (Financials, XLF), 지수 전체",
       "impact": "중립",
-      "comment": "고용지표 결과에 따라 금리·증시 방향성 좌우"
+      "comment": "고용지표 결과에 따라 금리·증시 변동성 확대 예상"
     },
     {
       "date": "2026-07-14",
       "event": "미국 6월 CPI(소비자물가) 발표",
-      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 필수소비재 (Cons. Staples, XLP)",
+      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 기술 (Technology, XLK)",
       "impact": "중립",
-      "comment": "물가지표 결과에 따라 금리·증시 방향성 좌우"
+      "comment": "CPI 결과에 따라 금리 전망 변화, 시장 변동성 확대"
     },
     {
       "date": "2026-07-15",
       "event": "2분기 실적시즌 개막 (JP모건 등 주요 은행 실적 발표 시작)",
       "affected_sectors": "은행 (KODEX 은행), 금융 (Financials, XLF)",
       "impact": "중립",
-      "comment": "실적시즌 개막, 은행 실적에 시장 관심 집중"
+      "comment": "실적 발표 시작, 결과에 따라 변동성 확대 예상"
     },
     {
       "date": "2026-07-28",
       "event": "FOMC 회의 첫날 (금리결정은 익일)",
       "affected_sectors": "지수 전체, 금융 (Financials, XLF), 부동산 (Real Estate, XLRE)",
       "impact": "중립",
-      "comment": "결과 발표 전 관망세, 변동성 제한적"
+      "comment": "결과 대기, 관망세 속 변동성 제한적"
     },
     {
       "date": "2026-07-29",
       "event": "FOMC 금리결정 발표 및 의장 기자회견",
-      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 기술 (Technology, XLK)",
+      "affected_sectors": "지수 전체, 금융 (Financials, XLF), 부동산 (Real Estate, XLRE)",
       "impact": "중립",
-      "comment": "결과 및 발언 따라 변동성 확대 예상"
+      "comment": "금리 동결·인하 여부에 따라 시장 방향성 결정"
     }
   ],
   "megatrends": [
     {
-      "trend": "AI 자금 슈퍼사이클",
-      "description": "IPO·증자·사모대출 등 전방위 자금이 AI 인프라로 집중",
-      "related_sectors": "반도체, 데이터센터, 사모대출",
+      "trend": "AI 자금 블랙홀 현상",
+      "description": "IPO·증자·사모대출까지 전세계 자금이 AI로 집중",
+      "related_sectors": "AI, 반도체, 데이터센터",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
@@ -891,62 +947,8 @@
       ]
     },
     {
-      "trend": "금속 원자재 랠리",
-      "description": "글로벌 IB들이 금·구리 업황 낙관하며 목표가 상향",
-      "related_sectors": "비철금속, 자원개발, 조선",
-      "source_headlines": [
-        {
-          "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE4xV21jNEFONWJFUUxxejAwcHdpN1AyZDRXWUk5YVRmUUtndW5tVk96N1BiMk1RRDdDYzh5RGZ4NWt6VndscDNyOUZuNHB5RzRQR191SkY2T3F3NFlkcWhrTEx5T1RvMG1RR0FueDg1d2FaY1gxUlVj0gF3QVVfeXFMTjFXbWM0QU41YkVRTHF6MDBwd2k3UDJkNFdZSTlhVGZRS2d1bm1WT3o3UGIyTVFEN0NjOHlEZng1a3pWd2xwM3I5Rm40cHlHNFBHX3VKRjZPcXc0WWRxaGtMTHlPVG8wbVFHQW54ODV3YVpjWDFSVWM?oc=5"
-        },
-        {
-          "title": "코스닥에 외국인이 돌아왔다 … 2조 '싹쓸이' - 매일경제 마켓",
-          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBaOEw2MGh1NnJScTR2ajQ4UE1YM3M1Umo2YmQtQlpfSkptLWxyWEU3eERMd2MtSm9VVzVaRnZ5bmlwY0RPWFFOZ3ctMWpNSERMblE?oc=5"
-        },
-        {
-          "title": "'코스피 불장' 이끈 외국인은 누구?…1위 미국, 2위 아일랜드 - 연합뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LVGFfNGJZZ05tRl9YZGpaVDlaQzAwM1NNSWlrWnFZZXJCWnE1RXV5WDljTGMxQXRmTXZDc3hZWnFzMVBadWVSQkdYaU5lWEdERjB3YW1kbzhYdlXSAWBBVV95cUxObVNVMmZXbEc2TjRpRFdMRUlmejV2SngwVHhFbExPd2xhS3hpRDlnb0RIazRrYUpCaXFnWTNlSDQxajZxNWtyRkZzdXBDWGd6allIRTFYRW05ZzdRWklEbU8?oc=5"
-        },
-        {
-          "title": "외국인 2개월 연속 韓주식 '팔자'…채권은 순매수 - 아시아경제",
-          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE0wZjZSX1dBTkwydzVWbWdFYzIzRGVEQkRCTTZvM3VGOTV2N3I2dzk4LTlXY2NwUXgxaFAzRGFRcGJVUndMYjdrUnZxSk5KTlZjSTRsQ1gxRm9Ka3NNSkZfbThB?oc=5"
-        },
-        {
-          "title": "베트남, 국가소득은 승격했는데... 증시 평가는 제자리? - 아주경제",
-          "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAxc3FocHpRelNocTl5V0hpZXNhOU1mclBWbXM0RVo5cUZfeHAxdDZkcXpERGJHakd6dUc3VGtjUnp2STlHZVJ2VEVsMkh1UHlqWmRqbkUxOVnSAVhBVV95cUxQMXNxaHB6UXpTaHE5eVdIaWVzYTlNZnJQVm1zNEVaOXFGX3hwMXQ2ZHF6RERiR2pHenVHN1RrY1J6dkk5R2VSdlRFbDJIdVB5alpkam5FMTlZ?oc=5"
-        }
-      ]
-    },
-    {
-      "trend": "외국인 수급 재편",
-      "description": "코스닥 복귀 vs 코스피 순매도 등 외국인 자금 이동 뚜렷",
-      "related_sectors": "코스닥, 코스피, 채권",
-      "source_headlines": [
-        {
-          "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE4xV21jNEFONWJFUUxxejAwcHdpN1AyZDRXWUk5YVRmUUtndW5tVk96N1BiMk1RRDdDYzh5RGZ4NWt6VndscDNyOUZuNHB5RzRQR191SkY2T3F3NFlkcWhrTEx5T1RvMG1RR0FueDg1d2FaY1gxUlVj0gF3QVVfeXFMTjFXbWM0QU41YkVRTHF6MDBwd2k3UDJkNFdZSTlhVGZRS2d1bm1WT3o3UGIyTVFEN0NjOHlEZng1a3pWd2xwM3I5Rm40cHlHNFBHX3VKRjZPcXc0WWRxaGtMTHlPVG8wbVFHQW54ODV3YVpjWDFSVWM?oc=5"
-        },
-        {
-          "title": "코스닥에 외국인이 돌아왔다 … 2조 '싹쓸이' - 매일경제 마켓",
-          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBaOEw2MGh1NnJScTR2ajQ4UE1YM3M1Umo2YmQtQlpfSkptLWxyWEU3eERMd2MtSm9VVzVaRnZ5bmlwY0RPWFFOZ3ctMWpNSERMblE?oc=5"
-        },
-        {
-          "title": "'코스피 불장' 이끈 외국인은 누구?…1위 미국, 2위 아일랜드 - 연합뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LVGFfNGJZZ05tRl9YZGpaVDlaQzAwM1NNSWlrWnFZZXJCWnE1RXV5WDljTGMxQXRmTXZDc3hZWnFzMVBadWVSQkdYaU5lWEdERjB3YW1kbzhYdlXSAWBBVV95cUxObVNVMmZXbEc2TjRpRFdMRUlmejV2SngwVHhFbExPd2xhS3hpRDlnb0RIazRrYUpCaXFnWTNlSDQxajZxNWtyRkZzdXBDWGd6allIRTFYRW05ZzdRWklEbU8?oc=5"
-        },
-        {
-          "title": "외국인 2개월 연속 韓주식 '팔자'…채권은 순매수 - 아시아경제",
-          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE0wZjZSX1dBTkwydzVWbWdFYzIzRGVEQkRCTTZvM3VGOTV2N3I2dzk4LTlXY2NwUXgxaFAzRGFRcGJVUndMYjdrUnZxSk5KTlZjSTRsQ1gxRm9Ka3NNSkZfbThB?oc=5"
-        },
-        {
-          "title": "베트남, 국가소득은 승격했는데... 증시 평가는 제자리? - 아주경제",
-          "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAxc3FocHpRelNocTl5V0hpZXNhOU1mclBWbXM0RVo5cUZfeHAxdDZkcXpERGJHakd6dUc3VGtjUnp2STlHZVJ2VEVsMkh1UHlqWmRqbkUxOVnSAVhBVV95cUxQMXNxaHB6UXpTaHE5eVdIaWVzYTlNZnJQVm1zNEVaOXFGX3hwMXQ2ZHF6RERiR2pHenVHN1RrY1J6dkk5R2VSdlRFbDJIdVB5alpkam5FMTlZ?oc=5"
-        }
-      ]
-    },
-    {
-      "trend": "반도체 후속 테마 확산",
-      "description": "반도체 쏠림 이후 조선·광통신·우주항공으로 순환매 기대",
+      "trend": "반도체 후속 테마 부상",
+      "description": "반도체 쏠림 이후 조선·광통신·우주항공이 차기 주도주로",
       "related_sectors": "조선, 광통신, 우주항공",
       "source_headlines": [
         {
@@ -972,9 +974,63 @@
       ]
     },
     {
-      "trend": "안전자산 이탈, 대체투자 부상",
-      "description": "부동산 대신 금·주식 등 새로운 자산으로 부자들의 자금 이동",
-      "related_sectors": "금, ETF, 대체투자",
+      "trend": "외국인 수급 양극화",
+      "description": "코스닥엔 유입되나 코스피는 매도 지속되는 이중 흐름",
+      "related_sectors": "코스닥, 코스피, 반도체",
+      "source_headlines": [
+        {
+          "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE4xV21jNEFONWJFUUxxejAwcHdpN1AyZDRXWUk5YVRmUUtndW5tVk96N1BiMk1RRDdDYzh5RGZ4NWt6VndscDNyOUZuNHB5RzRQR191SkY2T3F3NFlkcWhrTEx5T1RvMG1RR0FueDg1d2FaY1gxUlVj0gF3QVVfeXFMTjFXbWM0QU41YkVRTHF6MDBwd2k3UDJkNFdZSTlhVGZRS2d1bm1WT3o3UGIyTVFEN0NjOHlEZng1a3pWd2xwM3I5Rm40cHlHNFBHX3VKRjZPcXc0WWRxaGtMTHlPVG8wbVFHQW54ODV3YVpjWDFSVWM?oc=5"
+        },
+        {
+          "title": "코스닥에 외국인이 돌아왔다 … 2조 '싹쓸이' - 매일경제 마켓",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBaOEw2MGh1NnJScTR2ajQ4UE1YM3M1Umo2YmQtQlpfSkptLWxyWEU3eERMd2MtSm9VVzVaRnZ5bmlwY0RPWFFOZ3ctMWpNSERMblE?oc=5"
+        },
+        {
+          "title": "'코스피 불장' 이끈 외국인은 누구?…1위 미국, 2위 아일랜드 - 연합뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LVGFfNGJZZ05tRl9YZGpaVDlaQzAwM1NNSWlrWnFZZXJCWnE1RXV5WDljTGMxQXRmTXZDc3hZWnFzMVBadWVSQkdYaU5lWEdERjB3YW1kbzhYdlXSAWBBVV95cUxObVNVMmZXbEc2TjRpRFdMRUlmejV2SngwVHhFbExPd2xhS3hpRDlnb0RIazRrYUpCaXFnWTNlSDQxajZxNWtyRkZzdXBDWGd6allIRTFYRW05ZzdRWklEbU8?oc=5"
+        },
+        {
+          "title": "외국인 2개월 연속 韓주식 '팔자'…채권은 순매수 - 아시아경제",
+          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE0wZjZSX1dBTkwydzVWbWdFYzIzRGVEQkRCTTZvM3VGOTV2N3I2dzk4LTlXY2NwUXgxaFAzRGFRcGJVUndMYjdrUnZxSk5KTlZjSTRsQ1gxRm9Ka3NNSkZfbThB?oc=5"
+        },
+        {
+          "title": "베트남, 국가소득은 승격했는데... 증시 평가는 제자리? - 아주경제",
+          "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAxc3FocHpRelNocTl5V0hpZXNhOU1mclBWbXM0RVo5cUZfeHAxdDZkcXpERGJHakd6dUc3VGtjUnp2STlHZVJ2VEVsMkh1UHlqWmRqbkUxOVnSAVhBVV95cUxQMXNxaHB6UXpTaHE5eVdIaWVzYTlNZnJQVm1zNEVaOXFGX3hwMXQ2ZHF6RERiR2pHenVHN1RrY1J6dkk5R2VSdlRFbDJIdVB5alpkam5FMTlZ?oc=5"
+        }
+      ]
+    },
+    {
+      "trend": "금·구리 자원 강세",
+      "description": "글로벌 IB 목표가 상향에 금·구리 업황 낙관론 확산",
+      "related_sectors": "비철금속, 자원개발, 원자재",
+      "source_headlines": [
+        {
+          "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE4xV21jNEFONWJFUUxxejAwcHdpN1AyZDRXWUk5YVRmUUtndW5tVk96N1BiMk1RRDdDYzh5RGZ4NWt6VndscDNyOUZuNHB5RzRQR191SkY2T3F3NFlkcWhrTEx5T1RvMG1RR0FueDg1d2FaY1gxUlVj0gF3QVVfeXFMTjFXbWM0QU41YkVRTHF6MDBwd2k3UDJkNFdZSTlhVGZRS2d1bm1WT3o3UGIyTVFEN0NjOHlEZng1a3pWd2xwM3I5Rm40cHlHNFBHX3VKRjZPcXc0WWRxaGtMTHlPVG8wbVFHQW54ODV3YVpjWDFSVWM?oc=5"
+        },
+        {
+          "title": "코스닥에 외국인이 돌아왔다 … 2조 '싹쓸이' - 매일경제 마켓",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBaOEw2MGh1NnJScTR2ajQ4UE1YM3M1Umo2YmQtQlpfSkptLWxyWEU3eERMd2MtSm9VVzVaRnZ5bmlwY0RPWFFOZ3ctMWpNSERMblE?oc=5"
+        },
+        {
+          "title": "'코스피 불장' 이끈 외국인은 누구?…1위 미국, 2위 아일랜드 - 연합뉴스",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1LVGFfNGJZZ05tRl9YZGpaVDlaQzAwM1NNSWlrWnFZZXJCWnE1RXV5WDljTGMxQXRmTXZDc3hZWnFzMVBadWVSQkdYaU5lWEdERjB3YW1kbzhYdlXSAWBBVV95cUxObVNVMmZXbEc2TjRpRFdMRUlmejV2SngwVHhFbExPd2xhS3hpRDlnb0RIazRrYUpCaXFnWTNlSDQxajZxNWtyRkZzdXBDWGd6allIRTFYRW05ZzdRWklEbU8?oc=5"
+        },
+        {
+          "title": "외국인 2개월 연속 韓주식 '팔자'…채권은 순매수 - 아시아경제",
+          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE0wZjZSX1dBTkwydzVWbWdFYzIzRGVEQkRCTTZvM3VGOTV2N3I2dzk4LTlXY2NwUXgxaFAzRGFRcGJVUndMYjdrUnZxSk5KTlZjSTRsQ1gxRm9Ka3NNSkZfbThB?oc=5"
+        },
+        {
+          "title": "베트남, 국가소득은 승격했는데... 증시 평가는 제자리? - 아주경제",
+          "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFAxc3FocHpRelNocTl5V0hpZXNhOU1mclBWbXM0RVo5cUZfeHAxdDZkcXpERGJHakd6dUc3VGtjUnp2STlHZVJ2VEVsMkh1UHlqWmRqbkUxOVnSAVhBVV95cUxQMXNxaHB6UXpTaHE5eVdIaWVzYTlNZnJQVm1zNEVaOXFGX3hwMXQ2ZHF6RERiR2pHenVHN1RrY1J6dkk5R2VSdlRFbDJIdVB5alpkam5FMTlZ?oc=5"
+        }
+      ]
+    },
+    {
+      "trend": "실물자산 대체 투자",
+      "description": "중국 부자들 부동산 대신 대체투자처로 자금 이동 중",
+      "related_sectors": "금융, 대체투자, 자산관리",
       "source_headlines": [
         {
           "title": "[3일 매매 동향] 시장별, 외국인 및 기관 순매수·순매도 상위종목...외국인 매수 1위는 삼성전기 - 핀포인트뉴스",

@@ -32,6 +32,8 @@ jobs:
       - name: 데이터 수집 및 분석 실행
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          KRX_ID: ${{ secrets.KRX_ID }}
+          KRX_PW: ${{ secrets.KRX_PW }}
         run: python fetch_and_analyze.py
 
       # 5. 결과(data.json)를 저장소에 자동 커밋

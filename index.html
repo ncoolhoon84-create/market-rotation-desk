@@ -328,11 +328,14 @@ function investorMini(flow){
     const cls = trend === '순매수 우위' ? 'buy' : trend === '순매도 우위' ? 'sell' : 'flat';
     return `<span class="trend-badge ${cls}">${trend}</span>`;
   };
+  const z = flow.foreign_zscore;
+  const intensityNote = `외인 ${flow.foreign_streak_days ?? 0}일 연속` + (z != null ? `, 강도 ${z}` : '');
   return `
     <div class="investor-mini">
       <div class="row"><span class="who">개인</span>${badge(flow.individual_trend)}</div>
       <div class="row"><span class="who">기관</span>${badge(flow.institution_trend)}</div>
       <div class="row"><span class="who">외인</span>${badge(flow.foreign_trend)}</div>
+      <div class="mono" style="font-size:9px;color:var(--faint);margin-top:2px;">${intensityNote}</div>
     </div>
   `;
 }

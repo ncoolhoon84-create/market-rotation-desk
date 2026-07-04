@@ -49,7 +49,6 @@ from pykrx import stock as krx
 INDICES = {
     "KOSPI": "^KS11",
     "코스닥": "^KQ11",
-    "코스피200": "^KS200",  # 참고: 실제 코스피200 "선물"은 무료 API로 못 받아 코스피200 지수로 대체
     "나스닥": "^IXIC",
     "나스닥 선물": "NQ=F",
     "S&P 500": "^GSPC",

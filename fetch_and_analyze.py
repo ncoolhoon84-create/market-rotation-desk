@@ -133,8 +133,19 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
     return None
 
 
-def determine_flow(momentum) -> str:
-    """모멘텀 수치를 기준으로 자금흐름 규칙 기반 판단"""
+def determine_flow(momentum=None, foreign_recent_sum=None) -> str:
+    """
+    자금흐름 판정.
+    - foreign_recent_sum(최근 5거래일 외국인 순매수 합계)이 있으면 이를 우선 사용 (선행지표)
+    - 없으면 가격 모멘텀으로 대체 판단 (후행지표, 이미 오른 뒤에야 잡히는 신호)
+    """
+    if foreign_recent_sum is not None:
+        if foreign_recent_sum > 0:
+            return "자금 유입"
+        elif foreign_recent_sum < 0:
+            return "자금 유출"
+        return "중립"
+
     if momentum is None:
         return "중립"
     if momentum > 2:
@@ -145,21 +156,23 @@ def determine_flow(momentum) -> str:
 
 
 # =========================================================
-# 3-1. KOSPI 개인/기관/외국인 수급 (한국거래소 실데이터, pykrx)
+# 3-1. 개인/기관/외국인 수급 (한국거래소 실데이터, pykrx)
+#      KOSPI 지수든, 개별 섹터 ETF든 동일하게 사용 가능
 # =========================================================
 
-def fetch_kospi_investor_flow():
+def fetch_investor_flow(krx_ticker: str):
     """
     최근 거래일의 개인/기관/외국인 순매수 금액과, 최근 5거래일 추세를 가져옴.
+    krx_ticker: "KOSPI" 같은 지수명 또는 "091160" 같은 6자리 종목코드
     금액 단위: 원 (양수=순매수, 음수=순매도)
     """
     try:
         end = datetime.now().strftime("%Y%m%d")
         start = (datetime.now() - timedelta(days=20)).strftime("%Y%m%d")
 
-        df = krx.get_market_trading_value_by_date(start, end, "KOSPI")
+        df = krx.get_market_trading_value_by_date(start, end, krx_ticker)
         if df is None or df.empty:
-            print("  [경고] KOSPI 수급 데이터가 비어있습니다.")
+            print(f"  [경고] {krx_ticker} 수급 데이터가 비어있습니다.")
             return None
 
         latest = df.iloc[-1]
@@ -178,6 +191,7 @@ def fetch_kospi_investor_flow():
             "individual": int(latest.get("개인", 0)),
             "institution": int(latest.get("기관합계", 0)),
             "foreign": int(latest.get("외국인합계", 0)),
+            "foreign_recent5_sum": int(recent5["외국인합계"].sum()),
             "trend_summary": " · ".join([
                 trend_text("개인", "개인"),
                 trend_text("기관합계", "기관"),
@@ -185,7 +199,7 @@ def fetch_kospi_investor_flow():
             ]),
         }
     except Exception as e:
-        print(f"  [경고] KOSPI 수급 데이터 조회 실패: {e}")
+        print(f"  [경고] {krx_ticker} 수급 데이터 조회 실패: {e}")
         return None
 
 
@@ -277,7 +291,15 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
             "error": "가격 데이터를 가져오지 못했습니다.",
         }
 
-    flow = determine_flow(price_info["momentum_20d"])
+    # 한국 종목(.KS로 끝남)이면 외국인 수급(선행지표)을 우선 사용,
+    # 미국 종목이면 KRX 데이터가 없으므로 가격 모멘텀(후행지표)으로 대체
+    investor_flow = None
+    if ticker.endswith(".KS") or ticker == "KRX:KOSPI":
+        krx_code = ticker.replace(".KS", "")
+        investor_flow = fetch_investor_flow(krx_code)
+
+    foreign_recent_sum = investor_flow["foreign_recent5_sum"] if investor_flow else None
+    flow = determine_flow(price_info["momentum_20d"], foreign_recent_sum)
 
     search_name = re.sub(r"\(.*?\)", "", name).strip()
     headlines = get_news_headlines(search_name + " 주가", 3)
@@ -293,8 +315,9 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
     user_prompt = (
         f"종목: {name}\n"
         f"등락률: {price_info['pct_change']}%\n"
-        f"20일 모멘텀: {price_info['momentum_20d']}%\n"
-        f"최근 뉴스:\n" + ("\n".join(f"- {h['title']}" for h in headlines) if headlines else "(없음)")
+        f"20일 모멘텀(후행지표): {price_info['momentum_20d']}%\n"
+        + (f"외국인 최근 5거래일 순매수(선행지표): {foreign_recent_sum:,}원\n" if foreign_recent_sum is not None else "")
+        + f"최근 뉴스:\n" + ("\n".join(f"- {h['title']}" for h in headlines) if headlines else "(없음)")
     )
 
     ai_result = call_claude_json(client, system_prompt, user_prompt)
@@ -306,6 +329,8 @@ def analyze_item(client: Anthropic, group: str, name: str, ticker: str) -> dict:
         "ticker": ticker,
         **price_info,
         "flow": flow,
+        "flow_basis": "외국인 수급(선행지표)" if investor_flow else "가격 모멘텀(후행지표)",
+        "investor_flow": investor_flow,
         "cycle": ai_result.get("cycle", "-"),
         "confidence": ai_result.get("confidence", 3),
         "news_summary": ai_result.get("news_summary", ai_result.get("__error", "")),
@@ -436,13 +461,15 @@ def main():
     }
 
     print("\n[KOSPI 수급(개인/기관/외국인)]")
-    kospi_flow = fetch_kospi_investor_flow()
+    kospi_flow = fetch_investor_flow("KOSPI")
 
     print("\n[주요지수]")
     for name, ticker in INDICES.items():
         item = analyze_item(client, "주요지수", name, ticker)
         if name == "KOSPI" and kospi_flow:
             item["investor_flow"] = kospi_flow
+            item["flow"] = determine_flow(item.get("momentum_20d"), kospi_flow["foreign_recent5_sum"])
+            item["flow_basis"] = "외국인 수급(선행지표)"
         result["indices"].append(item)
 
     print("\n[한국 섹터]")

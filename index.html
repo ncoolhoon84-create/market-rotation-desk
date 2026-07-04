@@ -137,6 +137,38 @@
   .footnote{ margin-top:30px; padding:18px 20px; border:1px solid var(--line); background:var(--panel); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); line-height:1.9; }
   .footnote strong{ color:var(--muted); }
 
+  /* ===== KOSPI investor flow ===== */
+  .flow-detail{ margin-top:2px; display:flex; flex-direction:column; gap:8px; }
+  .flow-row{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
+  .flow-row .label{ width:34px; color:var(--muted); flex-shrink:0; }
+  .flow-row .bar-track{ flex:1; height:6px; background:var(--line); border-radius:3px; position:relative; }
+  .flow-row .bar-track::before{ content:""; position:absolute; left:50%; top:-2px; bottom:-2px; width:1px; background:var(--faint); }
+  .flow-row .bar-fill{ position:absolute; top:0; bottom:0; border-radius:3px; }
+  .flow-row .bar-fill.buy{ background:var(--up); left:50%; }
+  .flow-row .bar-fill.sell{ background:var(--down); right:50%; }
+  .flow-row .val{ width:88px; text-align:right; flex-shrink:0; }
+  .flow-trend{ font-size:11px; color:var(--muted); margin-top:6px; padding-top:8px; border-top:1px dashed var(--line-soft); }
+
+  /* ===== Megatrend cards ===== */
+  .trend-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .trend-card{ background:var(--panel); padding:18px 20px; display:flex; flex-direction:column; gap:10px; }
+  .trend-title{ font-family:'Source Serif 4',serif; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
+  .trend-title::before{ content:"▲"; color:var(--ai); font-size:10px; }
+  .trend-desc{ font-size:12.5px; color:var(--text); line-height:1.6; }
+  .trend-sectors{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faint); }
+  .trend-news-toggle{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ai); cursor:pointer; background:none; border:none; padding:0; text-align:left; margin-top:4px; }
+  .trend-news-toggle:hover{ text-decoration:underline; }
+
+  /* ===== Clickable news summary + dropdown ===== */
+  .news-trigger{ cursor:pointer; border-bottom:1px dotted var(--faint); }
+  .news-trigger:hover{ border-bottom-color:var(--ai); color:var(--ai); }
+  .news-dropdown{ display:none; margin-top:8px; padding:10px 12px; background:var(--panel-2); border:1px solid var(--line); border-radius:4px; font-size:11.5px; }
+  .news-dropdown.open{ display:block; }
+  .news-dropdown a{ display:block; color:var(--text); text-decoration:none; padding:5px 0; border-bottom:1px solid var(--line-soft); }
+  .news-dropdown a:last-child{ border-bottom:none; }
+  .news-dropdown a:hover{ color:var(--ai); }
+  .news-dropdown .empty{ color:var(--faint); font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
+
   .loading, .error{ padding:80px 20px; text-align:center; color:var(--muted); font-family:'IBM Plex Mono',monospace; font-size:12px; }
   .error{ color:var(--down); }
 
@@ -208,9 +240,52 @@ function momentumBar(m){
 
 function pctColorClass(v){ return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
 
+let uidCounter = 0;
+function nextUid(){ return 'news-' + (uidCounter++); }
+
+function renderInvestorFlow(flow){
+  if(!flow) return '';
+  const maxAbs = Math.max(Math.abs(flow.individual), Math.abs(flow.institution), Math.abs(flow.foreign), 1);
+  const bar = (val) => {
+    const pct = Math.min(Math.abs(val) / maxAbs, 1) * 50;
+    const cls = val >= 0 ? 'buy' : 'sell';
+    return `<div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>`;
+  };
+  const fmt = (val) => {
+    const eok = val / 100000000; // 원 -> 억원
+    const sign = eok >= 0 ? '+' : '';
+    return `${sign}${eok.toFixed(0)}억`;
+  };
+  return `
+    <div class="flow-detail">
+      <div class="flow-row"><span class="label">개인</span>${bar(flow.individual)}<span class="val ${flow.individual>=0?'up':'down'}">${fmt(flow.individual)}</span></div>
+      <div class="flow-row"><span class="label">기관</span>${bar(flow.institution)}<span class="val ${flow.institution>=0?'up':'down'}">${fmt(flow.institution)}</span></div>
+      <div class="flow-row"><span class="label">외국인</span>${bar(flow.foreign)}<span class="val ${flow.foreign>=0?'up':'down'}">${fmt(flow.foreign)}</span></div>
+      <div class="flow-trend">${flow.trend_summary || ''} <span class="mono" style="color:var(--faint)">(${flow.date || ''} 기준)</span></div>
+    </div>
+  `;
+}
+
+function newsDropdown(headlines, uid){
+  const list = (headlines || []);
+  const items = list.length
+    ? list.map(h => h.link
+        ? `<a href="${h.link}" target="_blank" rel="noopener">${h.title}</a>`
+        : `<span style="display:block;padding:5px 0;color:var(--muted)">${h.title}</span>`
+      ).join('')
+    : `<div class="empty">관련 뉴스 원문이 없습니다.</div>`;
+  return `<div class="news-dropdown" id="${uid}">${items}</div>`;
+}
+
+function toggleNews(uid){
+  const el = document.getElementById(uid);
+  if(el) el.classList.toggle('open');
+}
+
 function renderIndexCard(item){
   const chgClass = pctColorClass(item.pct_change ?? 0);
   const arrow = (item.change ?? 0) >= 0 ? '▲' : '▼';
+  const uid = nextUid();
   return `
     <div class="index-card">
       <div class="index-top">
@@ -220,6 +295,7 @@ function renderIndexCard(item){
           <div class="index-chg ${chgClass}">${arrow} ${Math.abs(item.change ?? 0).toFixed(2)} (${(item.pct_change ?? 0) >= 0 ? '+' : ''}${item.pct_change ?? 0}%)</div>
         </div>
       </div>
+      ${item.investor_flow ? renderInvestorFlow(item.investor_flow) : ''}
       <div class="index-mid">
         ${flowBadge(item.flow)}
         <div class="conf-block">
@@ -227,7 +303,11 @@ function renderIndexCard(item){
           ${dots(item.confidence||0,5)}
         </div>
       </div>
-      <div class="index-summary"><span class="ai-tag">AI</span><span>${item.news_summary || '분석 정보 없음'}</span></div>
+      <div class="index-summary">
+        <span class="ai-tag">AI</span>
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${item.news_summary || '분석 정보 없음'} ▾</span>
+      </div>
+      ${newsDropdown(item.headlines, uid)}
     </div>
   `;
 }
@@ -237,6 +317,7 @@ function renderSectorRow(item){
     ? (item.momentum_20d > 2 ? '강세' : item.momentum_20d < -2 ? '약세' : '중립')
     : '중립';
   const labelClass = item.momentum_20d > 2 ? 'up' : item.momentum_20d < -2 ? 'down' : 'flat';
+  const uid = nextUid();
   return `
     <tr>
       <td class="sector-name">${item.name}</td>
@@ -247,8 +328,24 @@ function renderSectorRow(item){
         ${momentumBar(item.momentum_20d)}
       </td>
       <td>${dots(item.confidence||0,5)}</td>
-      <td class="news-cell">${item.news_summary || ''}</td>
+      <td class="news-cell">
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${item.news_summary || ''} ▾</span>
+        ${newsDropdown(item.headlines, uid)}
+      </td>
     </tr>
+  `;
+}
+
+function renderMegatrendCard(trend){
+  const uid = nextUid();
+  return `
+    <div class="trend-card">
+      <div class="trend-title">${trend.trend || '트렌드'}</div>
+      <div class="trend-desc">${trend.description || ''}</div>
+      <div class="trend-sectors">관련 섹터: ${trend.related_sectors || '-'}</div>
+      <button class="trend-news-toggle" onclick="toggleNews('${uid}')">근거 뉴스 보기 ▾</button>
+      ${newsDropdown(trend.source_headlines, uid)}
+    </div>
   `;
 }
 
@@ -289,6 +386,7 @@ async function loadDashboard(isManualRefresh){
     document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
 
     const indexCards = (data.indices || []).map(renderIndexCard).join('');
+    const trendCards = (data.megatrends || []).map(renderMegatrendCard).join('');
     const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');
     const usRows = (data.us_sectors || []).map(renderSectorRow).join('');
     const calRows = (data.calendar || []).map(renderCalendarRow).join('');
@@ -296,6 +394,11 @@ async function loadDashboard(isManualRefresh){
     container.innerHTML = `
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
       <div class="index-row">${indexCards}</div>
+
+      ${trendCards ? `
+      <div class="section-label"><div class="bar"></div><h2>메가트렌드 / 수급 뉴스</h2><span class="note">EMERGING TRENDS — AI 추정</span></div>
+      <div class="trend-grid">${trendCards}</div>
+      ` : ''}
 
       <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목</span></div>
       <div class="sector-table-wrap">

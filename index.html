@@ -377,6 +377,23 @@ function momentumBar(m){
 
 function pctColorClass(v){ return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
 
+/* =========================================================
+   외부에서 들어오는 텍스트(뉴스 제목, AI 생성 텍스트 등)를
+   HTML에 삽입하기 전에 안전하게 이스케이프 처리.
+   - 뉴스 제목이나 AI 요약 안에 우연히 <, >, & 같은 문자가 섞여 있으면
+     브라우저가 이를 실제 HTML 태그로 오인해서, 그 이후의 표 구조
+     전체가 깨지는 문제가 있었음 (컬럼이 밀리거나 사라지는 버그의 원인)
+   ========================================================= */
+function escapeHtml(str){
+  if(str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function fmtEok(val){
   const eok = val / 100000000; // 원 -> 억원
   const sign = eok >= 0 ? '+' : '';
@@ -481,7 +498,7 @@ function flowBadgeWithTooltip(item){
       <span class="flow-tooltip">
         <div class="tip-header">최근 5거래일 순매수/순매도</div>
         ${chart}
-        <div class="tip-summary">${iv.trend_summary || ''}</div>
+        <div class="tip-summary">${escapeHtml(iv.trend_summary)}</div>
         <div class="tip-date">${iv.date || ''} 기준</div>
       </span>
     </span>
@@ -492,8 +509,8 @@ function newsDropdown(headlines, uid){
   const list = (headlines || []);
   const items = list.length
     ? list.map(h => h.link
-        ? `<a href="${h.link}" target="_blank" rel="noopener">${h.title}</a>`
-        : `<span style="display:block;padding:5px 0;color:var(--muted)">${h.title}</span>`
+        ? `<a href="${h.link}" target="_blank" rel="noopener">${escapeHtml(h.title)}</a>`
+        : `<span style="display:block;padding:5px 0;color:var(--muted)">${escapeHtml(h.title)}</span>`
       ).join('')
     : `<div class="empty">관련 뉴스 원문이 없습니다.</div>`;
   return `<div class="news-dropdown" id="${uid}">${items}</div>`;
@@ -527,7 +544,7 @@ function renderIndexCard(item){
       </div>
       <div class="index-summary">
         <span class="ai-tag">AI</span>
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${item.news_summary || '분석 정보 없음'} ▾</span>
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary) || '분석 정보 없음'} ▾</span>
       </div>
       ${newsDropdown(item.headlines, uid)}
     </div>
@@ -551,7 +568,7 @@ function renderSectorRow(item){
       </td>
       <td>${dots(item.confidence||0,5)}</td>
       <td class="news-cell">
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${item.news_summary || ''} ▾</span>
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary)} ▾</span>
         ${newsDropdown(item.headlines, uid)}
       </td>
     </tr>
@@ -573,7 +590,7 @@ function renderUsSectorRow(item){
       <td class="momentum-cell">${momentumCellContent(item.momentum_5d)}</td>
       <td class="momentum-cell">${momentumCellContent(item.momentum_20d)}</td>
       <td class="news-cell">
-        <span class="news-trigger" onclick="toggleNews('${uid}')">${item.news_summary || ''} ▾</span>
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${escapeHtml(item.news_summary)} ▾</span>
         ${newsDropdown(item.headlines, uid)}
       </td>
     </tr>
@@ -584,9 +601,9 @@ function renderMegatrendCard(trend){
   const uid = nextUid();
   return `
     <div class="trend-card">
-      <div class="trend-title">${trend.trend || '트렌드'}</div>
-      <div class="trend-desc">${trend.description || ''}</div>
-      <div class="trend-sectors">관련 섹터: ${trend.related_sectors || '-'}</div>
+      <div class="trend-title">${escapeHtml(trend.trend) || '트렌드'}</div>
+      <div class="trend-desc">${escapeHtml(trend.description)}</div>
+      <div class="trend-sectors">관련 섹터: ${escapeHtml(trend.related_sectors) || '-'}</div>
       <button class="trend-news-toggle" onclick="toggleNews('${uid}')">근거 뉴스 보기 ▾</button>
       ${newsDropdown(trend.source_headlines, uid)}
     </div>
@@ -600,10 +617,10 @@ function renderCalendarRow(item){
       <div class="cal-date">${item.date}</div>
       <div><span class="cal-tag ${tagClass}">${item.impact || '중립'}</span></div>
       <div>
-        <div class="cal-event">${item.event}</div>
+        <div class="cal-event">${escapeHtml(item.event)}</div>
         <div class="cal-meta">
           <span class="ai-tag">AI</span>
-          <span>${item.comment || ''}${item.affected_sectors ? ' · 영향섹터 '+item.affected_sectors : ''}</span>
+          <span>${escapeHtml(item.comment)}${item.affected_sectors ? ' · 영향섹터 '+escapeHtml(item.affected_sectors) : ''}</span>
         </div>
       </div>
     </div>

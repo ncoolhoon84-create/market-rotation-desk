@@ -305,6 +305,7 @@
   .ranking-name{ font-family:'Source Serif 4',serif; font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ranking-bar-track{ height:3px; background:var(--line); border-radius:2px; margin-top:5px; overflow:hidden; }
   .ranking-bar-fill{ height:100%; background:var(--up); border-radius:2px; }
+  .ranking-bar-fill.sell{ background:var(--down); }
   .ranking-figures{ text-align:right; flex-shrink:0; }
   .ranking-amount{ font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--up); }
   .ranking-growth{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; margin-top:2px; }
@@ -669,37 +670,36 @@ function rankChangeBadge(row){
   return `<span class="rank-badge flat">– <span class="rank-badge-sub">(전주 동일)</span></span>`;
 }
 
-function streakBadge(row){
-  if(row.weeks_in_top5 >= 2){
-    return `<span class="rank-badge streak">${row.weeks_in_top5}주째 TOP5</span>`;
-  }
-  return '';
-}
 
-function renderRankingCol(title, rows){
+function renderRankingCol(title, rows, mode){
+  mode = mode || 'buy';
   if(!rows || !rows.length){
     return `
       <div class="ranking-col">
         <div class="ranking-col-title">${title}</div>
-        <div class="ranking-empty">이번 주 순매수 상위 종목 없음</div>
+        <div class="ranking-empty">${mode === 'buy' ? '이번 주 순매수 상위 종목 없음' : '이번 주 순매도 상위 종목 없음'}</div>
       </div>
     `;
   }
-  const maxAmt = Math.max(...rows.map(r => r.net_buy), 1);
+  const maxAbs = Math.max(...rows.map(r => Math.abs(r.net_buy)), 1);
+  const barCls = mode === 'sell' ? 'sell' : 'buy';
+  const amountCls = mode === 'sell' ? 'down' : 'up';
+  const streakLabel = mode === 'sell' ? '주째 매도상위' : '주째 TOP5';
   const items = rows.map(r => {
-    const pct = Math.min(r.net_buy / maxAmt, 1) * 100;
+    const pct = Math.min(Math.abs(r.net_buy) / maxAbs, 1) * 100;
     const growthCls = r.growth_pct == null ? 'flat' : r.growth_pct > 0 ? 'up' : r.growth_pct < 0 ? 'down' : 'flat';
     const growthText = r.growth_pct == null ? '전주 비교불가' : `전주대비 ${r.growth_pct > 0 ? '+' : ''}${r.growth_pct}%`;
+    const streakBadge = r.weeks_in_top5 >= 2 ? `<span class="rank-badge streak">${r.weeks_in_top5}${streakLabel}</span>` : '';
     return `
       <div class="ranking-item">
         <span class="ranking-rank">${r.rank}</span>
         <div class="ranking-info">
           <div class="ranking-name">${escapeHtml(r.name)}</div>
-          <div class="ranking-bar-track"><div class="ranking-bar-fill" style="width:${pct}%"></div></div>
-          <div class="ranking-badges">${rankChangeBadge(r)}${streakBadge(r)}</div>
+          <div class="ranking-bar-track"><div class="ranking-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+          <div class="ranking-badges">${rankChangeBadge(r)}${streakBadge}</div>
         </div>
         <div class="ranking-figures">
-          <div class="ranking-amount">${fmtEok(r.net_buy)}</div>
+          <div class="ranking-amount ${amountCls}">${fmtEok(r.net_buy)}</div>
           <div class="ranking-growth ${growthCls}">${growthText}</div>
         </div>
       </div>
@@ -784,9 +784,16 @@ async function loadDashboard(isManualRefresh){
 
       <div class="section-label"><div class="bar"></div><h2>이번 주 매수세 랭킹</h2><span class="note">WEEKLY BUYING RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 상위 5종목</span></div>
       <div class="ranking-grid">
-        ${renderRankingCol('개인 순매수 TOP 5', data.ranking && data.ranking.individual)}
-        ${renderRankingCol('기관 순매수 TOP 5', data.ranking && data.ranking.institution)}
-        ${renderRankingCol('외국인 순매수 TOP 5', data.ranking && data.ranking.foreign)}
+        ${renderRankingCol('개인 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.individual, 'buy')}
+        ${renderRankingCol('기관 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.institution, 'buy')}
+        ${renderRankingCol('외국인 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.foreign, 'buy')}
+      </div>
+
+      <div class="section-label"><div class="bar"></div><h2>이번 주 매도세 랭킹</h2><span class="note">WEEKLY SELLING RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 순매도 상위 5종목</span></div>
+      <div class="ranking-grid">
+        ${renderRankingCol('개인 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.individual, 'sell')}
+        ${renderRankingCol('기관 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.institution, 'sell')}
+        ${renderRankingCol('외국인 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.foreign, 'sell')}
       </div>
 
       ${trendCards ? `

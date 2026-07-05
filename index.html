@@ -33,7 +33,6 @@
   .mono{ font-family:'IBM Plex Mono',monospace; }
   a{ color:inherit; }
 
-  /* ===== Masthead ===== */
   .top-accent{ height:2px; background:linear-gradient(90deg, var(--up), var(--line) 35%, var(--ai) 65%, var(--down)); opacity:.55; }
   .masthead{ padding:26px 32px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:14px; }
   .masthead-eyebrow{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--faint); margin-bottom:8px; text-transform:uppercase; }
@@ -55,7 +54,6 @@
   .btn .spin{ display:inline-block; animation:spin 1s linear infinite; }
   @keyframes spin{ to{ transform:rotate(360deg); } }
 
-  /* ===== Provenance legend ===== */
   .legend{ display:flex; gap:22px; flex-wrap:wrap; padding:14px 32px; background:var(--panel); border-bottom:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); }
   .legend span{ display:inline-flex; align-items:center; gap:7px; }
   .legend .swatch{ width:9px; height:9px; border-radius:2px; }
@@ -70,14 +68,11 @@
   .section-label h2{ font-family:'Source Serif 4',serif; font-size:16px; font-weight:600; }
   .section-label .note{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--faint); letter-spacing:.04em; }
 
-  /* ===== AI tag ===== */
   .ai-tag{ display:inline-flex; align-items:center; gap:4px; font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:.08em; color:var(--ai); background:var(--ai-dim); border:1px solid rgba(201,154,74,.3); padding:1.5px 5px 1.5px 4px; border-radius:3px; text-transform:uppercase; white-space:nowrap; }
   .ai-tag::before{ content:"◆"; font-size:6px; }
 
-  /* ===== Index cards ===== */
   .index-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
 
-  /* ===== 주요지수: 4열 그리드, KR 2개는 2칸씩(넓게), US 4개는 1칸씩 ===== */
   .index-grid-main{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
   .index-card-wide{ grid-column: span 2; }
   .index-card{ background:var(--panel); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
@@ -100,7 +95,6 @@
   .flow-out{ background:var(--down-dim); color:var(--down); }
   .flow-flat{ background:rgba(139,144,156,.12); color:var(--muted); }
 
-  /* ===== 미국 섹터: OBV 매수/매도세 뱃지 (강/약 4단계) ===== */
   .obv-badge{ font-family:'IBM Plex Mono',monospace; font-size:10px; padding:3px 9px; border-radius:3px; white-space:nowrap; display:inline-block; font-weight:500; }
   .obv-badge.strong-buy{ background:var(--up-dim); color:var(--up); }
   .obv-badge.weak-buy{ background:rgba(59,168,143,.05); color:var(--up); opacity:.75; border:1px dashed rgba(59,168,143,.4); }
@@ -110,7 +104,6 @@
 
   .index-summary{ font-size:12px; color:var(--muted); line-height:1.6; display:flex; align-items:flex-start; gap:8px; }
 
-  /* ===== Sector table ===== */
   .sector-table-wrap{ border:1px solid var(--line); overflow-x:auto; background:var(--panel); }
   table.sector{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:1180px; table-layout:fixed; }
   table.sector thead th{ background:var(--panel-2); text-align:left; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; letter-spacing:.05em; color:var(--muted); padding:11px 16px; border-bottom:1px solid var(--line); white-space:nowrap; }
@@ -139,7 +132,6 @@
 
   .news-cell{ max-width:280px; font-size:12px; color:var(--text); line-height:1.55; }
 
-  /* ===== Calendar ===== */
   .calendar{ display:flex; flex-direction:column; border:1px solid var(--line); background:var(--panel); }
   .cal-row{ display:grid; grid-template-columns:104px 76px 1fr; gap:18px; padding:13px 20px; align-items:flex-start; border-bottom:1px solid var(--line-soft); font-size:12.5px; }
   .cal-row:last-child{ border-bottom:none; }
@@ -151,11 +143,9 @@
   .cal-event{ color:var(--text); }
   .cal-meta{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); margin-top:5px; }
 
-  /* ===== Footer ===== */
   .footnote{ margin-top:30px; padding:18px 20px; border:1px solid var(--line); background:var(--panel); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); line-height:1.9; }
   .footnote strong{ color:var(--muted); }
 
-  /* ===== KOSPI investor flow (index card, always-visible detail) ===== */
   .flow-detail{ margin-top:2px; display:flex; flex-direction:column; gap:8px; }
   .flow-row{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
   .flow-row .label{ width:34px; color:var(--muted); flex-shrink:0; }
@@ -167,7 +157,6 @@
   .flow-row .val{ width:88px; text-align:right; flex-shrink:0; }
   .flow-trend{ font-size:11px; color:var(--muted); margin-top:6px; padding-top:8px; border-top:1px dashed var(--line-soft); }
 
-  /* ===== Megatrend cards ===== */
   .trend-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); }
   .trend-card{ background:var(--panel); padding:18px 20px; display:flex; flex-direction:column; gap:10px; }
   .trend-title{ font-family:'Source Serif 4',serif; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
@@ -177,7 +166,6 @@
   .trend-news-toggle{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ai); cursor:pointer; background:none; border:none; padding:0; text-align:left; margin-top:4px; }
   .trend-news-toggle:hover{ text-decoration:underline; }
 
-  /* ===== Clickable news summary + dropdown ===== */
   .news-trigger{ cursor:pointer; border-bottom:1px dotted var(--faint); text-decoration:none; }
   .news-trigger:hover{ border-bottom-color:var(--ai); color:var(--ai); }
   .news-more-toggle{
@@ -192,12 +180,6 @@
   .news-dropdown .news-item-plain:last-child{ border-bottom:none; }
   .news-dropdown .empty{ color:var(--faint); font-family:'IBM Plex Mono',monospace; font-size:10.5px; }
 
-  /* =========================================================
-     자금흐름 뱃지 + 커스텀 호버 툴팁 (개인/기관/외국인 상세)
-     - 뱃지에 investor_flow가 있으면(=한국 섹터), 마우스를 올렸을 때
-       개인/기관/외국인 순매수 금액과 트렌드 요약을 카드로 보여줌
-     - investor_flow가 없으면(=미국 섹터) 그냥 기존 뱃지만 표시, 툴팁 없음
-     ========================================================= */
   .flow-wrap{ position:relative; display:inline-flex; }
   .flow-wrap.has-tip{ cursor:help; }
   .flow-wrap.has-tip .flow-badge{ border-bottom:1px dotted currentColor; }
@@ -253,7 +235,6 @@
   .flow-tooltip .tip-row .amt.up{ color:var(--up); font-weight:600; }
   .flow-tooltip .tip-row .amt.down{ color:var(--down); font-weight:600; }
 
-  /* ===== 5일치 개인/기관/외국인 미니 바 차트 (툴팁 내부) ===== */
   .mini-chart{ display:flex; flex-direction:column; gap:6px; }
   .mini-chart-row{ display:flex; align-items:center; gap:8px; }
   .mini-chart-row .who-label{
@@ -283,7 +264,6 @@
     margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--faint);
   }
 
-  /* ===== 이번 주 매수세 랭킹 (개인/기관/외국인 Top5) ===== */
   .ranking-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
   .ranking-col{ background:var(--panel); padding:18px 20px; display:flex; flex-direction:column; gap:4px; }
   .ranking-col-title{
@@ -305,7 +285,7 @@
     font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--faint);
     width:16px; flex-shrink:0;
   }
-  .ranking-item:nth-child(2) .ranking-rank{ color:var(--ai); } /* 1위(타이틀 다음 첫 항목) 강조 */
+  .ranking-item:nth-child(2) .ranking-rank{ color:var(--ai); }
   .ranking-info{ flex:1; min-width:0; }
   .ranking-name{ font-family:'Source Serif 4',serif; font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ranking-bar-track{ height:3px; background:var(--line); border-radius:2px; margin-top:5px; overflow:hidden; }
@@ -313,6 +293,7 @@
   .ranking-bar-fill.sell{ background:var(--down); }
   .ranking-figures{ text-align:right; flex-shrink:0; }
   .ranking-amount{ font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; color:var(--up); }
+  .ranking-amount.down{ color:var(--down); }
   .ranking-growth{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; margin-top:2px; }
   .ranking-growth.up{ color:var(--up); }
   .ranking-growth.down{ color:var(--down); }
@@ -397,9 +378,6 @@ function cycleTag(cycle){
   return `<span class="cycle-empty">—</span>`;
 }
 
-/* =========================================================
-   미국 섹터 전용: OBV(거래량 누적) 기반 매수/매도세 뱃지
-   ========================================================= */
 function obvBadgeHtml(label){
   const map = {
     '매수세 강': 'strong-buy',
@@ -430,13 +408,6 @@ function momentumBar(m){
 
 function pctColorClass(v){ return v > 0 ? 'up' : v < 0 ? 'down' : 'flat'; }
 
-/* =========================================================
-   외부에서 들어오는 텍스트(뉴스 제목, AI 생성 텍스트 등)를
-   HTML에 삽입하기 전에 안전하게 이스케이프 처리.
-   - 뉴스 제목이나 AI 요약 안에 우연히 <, >, & 같은 문자가 섞여 있으면
-     브라우저가 이를 실제 HTML 태그로 오인해서, 그 이후의 표 구조
-     전체가 깨지는 문제가 있었음 (컬럼이 밀리거나 사라지는 버그의 원인)
-   ========================================================= */
 function escapeHtml(str){
   if(str == null) return '';
   return String(str)
@@ -448,7 +419,7 @@ function escapeHtml(str){
 }
 
 function fmtEok(val){
-  const eok = val / 100000000; // 원 -> 억원
+  const eok = val / 100000000;
   const sign = eok >= 0 ? '+' : '';
   return `${sign}${eok.toFixed(0)}억`;
 }
@@ -474,12 +445,6 @@ function renderInvestorFlow(flow){
   `;
 }
 
-/* =========================================================
-   자금흐름 뱃지 + 커스텀 호버 툴팁
-   - investor_flow가 있으면(한국 섹터): 뱃지 하나만 표시하고,
-     마우스를 올리면 개인/기관/외국인 금액 + 트렌드 요약 카드가 뜸
-   - investor_flow가 없으면(미국 섹터): 기존 뱃지만 표시 (툴팁 없음)
-   ========================================================= */
 function investorMiniChart(recent5Days){
   if(!recent5Days || !recent5Days.length) return '';
   const keys = [
@@ -496,8 +461,8 @@ function investorMiniChart(recent5Days){
   const rows = keys.map(k => {
     const bars = recent5Days.map((d, i) => {
       const val = d[k.key] || 0;
-      const fraction = Math.min(Math.abs(val) / maxAbs, 1); // 0~1
-      const heightPct = (fraction * 50).toFixed(1); // 중앙 기준선에서 위/아래로 최대 50%
+      const fraction = Math.min(Math.abs(val) / maxAbs, 1);
+      const heightPct = (fraction * 50).toFixed(1);
       const dir = val >= 0 ? 'up' : 'down';
       const todayCls = i === lastIdx ? ' today' : '';
       const title = `${d.date} · ${k.label} ${val >= 0 ? '순매수' : '순매도'} ${fmtEok(Math.abs(val))}`;
@@ -510,10 +475,6 @@ function investorMiniChart(recent5Days){
   return `<div class="mini-chart">${rows}<div class="mini-chart-range">${range} (최근일 진하게)</div></div>`;
 }
 
-/* =========================================================
-   개인/기관/외국인 5일 추세를 △▲▽▼ 화살표 3개로 압축 표시
-   예) 개인 ▲ · 기관 ▼ · 외인 ▼
-   ========================================================= */
 function buildFlowTriad(iv){
   const items = [
     { name: '개인', trend: iv.individual_trend },
@@ -536,7 +497,6 @@ function flowBadgeWithTooltip(item){
   const chart = iv.recent5_days && iv.recent5_days.length
     ? investorMiniChart(iv.recent5_days)
     : (() => {
-        // 구버전 데이터 호환: 일별 데이터가 없으면 최근 거래일 금액만 표시
         const tipRow = (label2, val) => {
           const dir = val >= 0 ? 'buy' : 'sell';
           const cls2 = val >= 0 ? 'up' : 'down';
@@ -566,10 +526,6 @@ function newsDropdown(headlines, uid){
   return `<div class="news-dropdown" id="${uid}">${items}</div>`;
 }
 
-/* =========================================================
-   뉴스요약 텍스트 클릭 시 드롭다운을 펼쳐서 관련 기사 목록을 보여줌
-   (그 안의 기사 제목을 클릭하면 해당 기사로 이동)
-   ========================================================= */
 function newsSummaryHtml(item, uid){
   const summary = escapeHtml(item.news_summary) || '분석 정보 없음';
   return `<span class="news-trigger" onclick="toggleNews('${uid}')">${summary} ▾</span>${newsDropdown(item.headlines, uid)}`;
@@ -633,12 +589,6 @@ function renderSectorRow(item){
   `;
 }
 
-/* =========================================================
-   미국 섹터 전용 행 — 자금흐름/차기싸이클/AI신뢰도 대신
-   OBV 매수·매도세 뱃지 + 5일/20일 모멘텀 + AI 뉴스요약으로 구성
-   (미국은 독립적인 수급 데이터가 없어 자금흐름·싸이클 판정 근거가
-    약했기 때문에, 거래량 기반 보조지표로 대체함)
-   ========================================================= */
 function renderUsSectorRow(item){
   const uid = nextUid();
   return `
@@ -653,16 +603,6 @@ function renderUsSectorRow(item){
   `;
 }
 
-/* =========================================================
-   이번 주 매수세 랭킹 (개인/기관/외국인 각 Top5)
-   - 한국 섹터 중 investor_flow.weekly_summary가 있는 종목만 대상
-   - 투자자 유형별로 최근 5거래일 순매수액 기준 내림차순 정렬
-   ========================================================= */
-/* =========================================================
-   이번 주 매수세 랭킹 (개인/기관/외국인 각 Top5)
-   - 순위 자체는 백엔드(fetch_and_analyze.py)가 히스토리 파일을 참고해서
-     이미 계산해서 넘겨줌 (지난주 순위, 신규진입 여부, 연속 TOP5 주차 포함)
-   ========================================================= */
 function rankChangeBadge(row){
   if(row.is_new_entry){
     return `<span class="rank-badge new">신규진입</span>`;
@@ -670,12 +610,11 @@ function rankChangeBadge(row){
   if(row.last_week_rank == null){
     return '';
   }
-  const diff = row.last_week_rank - row.rank; // 양수면 순위 상승
+  const diff = row.last_week_rank - row.rank;
   if(diff > 0) return `<span class="rank-badge up">▲${diff} <span class="rank-badge-sub">(전주 ${row.last_week_rank}위)</span></span>`;
   if(diff < 0) return `<span class="rank-badge down">▼${Math.abs(diff)} <span class="rank-badge-sub">(전주 ${row.last_week_rank}위)</span></span>`;
   return `<span class="rank-badge flat">– <span class="rank-badge-sub">(전주 동일)</span></span>`;
 }
-
 
 function rankingSubList(rows, mode){
   if(!rows || !rows.length){
@@ -692,6 +631,7 @@ function rankingSubList(rows, mode){
         <div class="ranking-info">
           <div class="ranking-name">${escapeHtml(r.name)}</div>
           <div class="ranking-bar-track"><div class="ranking-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+          <div class="ranking-badges">${rankChangeBadge(r)}</div>
         </div>
         <div class="ranking-figures">
           <div class="ranking-amount ${amountCls}">${fmtEok(r.net_buy)}</div>
@@ -701,18 +641,14 @@ function rankingSubList(rows, mode){
   }).join('');
 }
 
-/* =========================================================
-   매수 TOP3 + 매도 TOP3를 한 카드 안에 압축해서 표시
-   (예전엔 매수/매도가 완전히 분리된 두 개의 큰 섹션이라 세로 길이가 길었음)
-   ========================================================= */
 function renderRankingComboCol(title, buyRows, sellRows){
   return `
     <div class="ranking-col">
       <div class="ranking-col-title">${title}</div>
-      <div class="ranking-sub-label buy">▲ 매수 TOP 3</div>
-      ${rankingSubList((buyRows || []).slice(0, 3), 'buy')}
-      <div class="ranking-sub-label sell">▼ 매도 TOP 3</div>
-      ${rankingSubList((sellRows || []).slice(0, 3), 'sell')}
+      <div class="ranking-sub-label buy">▲ 매수 TOP 5</div>
+      ${rankingSubList((buyRows || []).slice(0, 5), 'buy')}
+      <div class="ranking-sub-label sell">▼ 매도 TOP 5</div>
+      ${rankingSubList((sellRows || []).slice(0, 5), 'sell')}
     </div>
   `;
 }
@@ -823,15 +759,15 @@ async function loadDashboard(isManualRefresh){
     const calRows = (data.calendar || []).map(renderCalendarRow).join('');
 
     container.innerHTML = `
-      <div class="section-label"><div class="bar"></div><h2>이번 주 매수·매도 랭킹</h2><span class="note">WEEKLY RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 매수/매도 상위 3종목</span></div>
+      <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
+      <div class="index-grid-main">${allIndexCards}</div>
+
+      <div class="section-label"><div class="bar"></div><h2>이번 주 매수·매도 랭킹</h2><span class="note">WEEKLY RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 매수/매도 상위 5종목</span></div>
       <div class="ranking-grid">
         ${renderRankingComboCol('개인', data.ranking && data.ranking.buy && data.ranking.buy.individual, data.ranking && data.ranking.sell && data.ranking.sell.individual)}
         ${renderRankingComboCol('기관', data.ranking && data.ranking.buy && data.ranking.buy.institution, data.ranking && data.ranking.sell && data.ranking.sell.institution)}
         ${renderRankingComboCol('외국인', data.ranking && data.ranking.buy && data.ranking.buy.foreign, data.ranking && data.ranking.sell && data.ranking.sell.foreign)}
       </div>
-
-      <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
-      <div class="index-grid-main">${allIndexCards}</div>
 
       ${trendCards ? `
       <div class="section-label"><div class="bar"></div><h2>메가트렌드 / 수급 뉴스</h2><span class="note">EMERGING TRENDS — AI 추정</span></div>
@@ -900,20 +836,12 @@ async function loadDashboard(isManualRefresh){
   }
 }
 
-// =========================================================
-// "재분석 실행하기" 버튼 — GitHub Actions 실행 페이지로 안전하게 이동
-// -----------------------------------------------------------
-// 페이지 소스코드에 API 키/토큰을 노출하지 않기 위해, 버튼을 누르면
-// GitHub의 Actions 실행 페이지로 이동합니다. 그 페이지에서
-// "Run workflow" 버튼을 한 번 더 누르면 재분석이 시작됩니다.
-// (현재 페이지 주소를 읽어서 정확한 저장소로 자동 연결됩니다)
-// =========================================================
 (function setupActionLink(){
   try {
-    const host = location.hostname; // 예: ncoolhoon84-create.github.io
+    const host = location.hostname;
     const username = host.split('.')[0];
     const pathParts = location.pathname.split('/').filter(Boolean);
-    const repo = pathParts[0]; // 예: market-rotation-desk
+    const repo = pathParts[0];
     if(username && repo){
       document.getElementById('runActionBtn').href =
         `https://github.com/${username}/${repo}/actions/workflows/update.yml`;

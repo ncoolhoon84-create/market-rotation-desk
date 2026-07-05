@@ -612,9 +612,14 @@ def analyze_megatrends(client: Anthropic) -> list:
     time.sleep(0.3)
 
     if isinstance(ai_result, list):
-        # 참고용 근거 뉴스(제목+링크)를 같이 붙여서 반환
+        # 트렌드별로 각자 제목 기준 뉴스를 따로 검색해서 붙임
+        # (예전엔 모든 트렌드에 통합검색 결과 상위 5개를 그대로 복붙해서
+        #  카드마다 뉴스가 전부 똑같이 보이는 버그가 있었음)
         for trend in ai_result:
-            trend["source_headlines"] = all_headlines[:5]
+            trend_query = (trend.get("trend") or "").strip()
+            trend_headlines = get_news_headlines(trend_query, 4) if trend_query else []
+            time.sleep(0.2)
+            trend["source_headlines"] = trend_headlines if trend_headlines else all_headlines[:3]
         return ai_result
 
     print(f"  [경고] 메가트렌드 분석 실패: {ai_result}")

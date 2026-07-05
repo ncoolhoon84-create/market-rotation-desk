@@ -77,10 +77,9 @@
   /* ===== Index cards ===== */
   .index-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
 
-  /* ===== 주요지수: KR(왼쪽 세로 스택) / US(오른쪽 2x2) 분리 레이아웃 ===== */
-  .index-section{ display:flex; gap:1px; background:var(--line); border:1px solid var(--line); align-items:stretch; }
-  .index-kr{ display:flex; flex-direction:column; gap:1px; flex:1 1 42%; min-width:260px; }
-  .index-us{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; flex:1 1 58%; }
+  /* ===== 주요지수: 4열 그리드, KR 2개는 2칸씩(넓게), US 4개는 1칸씩 ===== */
+  .index-grid-main{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .index-card-wide{ grid-column: span 2; }
   .index-card{ background:var(--panel); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
   .index-top{ display:flex; justify-content:space-between; align-items:flex-start; }
   .index-name{ font-family:'Source Serif 4',serif; font-size:17px; font-weight:600; }
@@ -296,6 +295,12 @@
     display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid var(--line-soft);
   }
   .ranking-item:last-child{ border-bottom:none; }
+  .ranking-item.compact{ padding:6px 0; }
+  .ranking-sub-label{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.05em; color:var(--faint);
+    text-transform:uppercase; margin:4px 0 2px;
+  }
+  .ranking-sub-label.sell{ margin-top:10px; padding-top:8px; border-top:1px dashed var(--line-soft); }
   .ranking-rank{
     font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; color:var(--faint);
     width:16px; flex-shrink:0;
@@ -331,8 +336,8 @@
 
   @media (max-width:1000px){
     .index-row{ grid-template-columns:1fr; }
-    .index-section{ flex-direction:column; }
-    .index-us{ grid-template-columns:1fr; }
+    .index-grid-main{ grid-template-columns:1fr; }
+    .index-card-wide{ grid-column: span 1; }
     .ranking-grid{ grid-template-columns:1fr; }
     .cal-row{ grid-template-columns:76px 62px 1fr; }
     .masthead{ padding:20px; } .container{ padding:20px 20px 50px; } .legend{ padding:12px 20px; }
@@ -575,12 +580,13 @@ function toggleNews(uid){
   if(el) el.classList.toggle('open');
 }
 
-function renderIndexCard(item){
+function renderIndexCard(item, wide){
   const chgClass = pctColorClass(item.pct_change ?? 0);
   const arrow = (item.change ?? 0) >= 0 ? '▲' : '▼';
   const uid = nextUid();
+  const wideCls = wide ? ' index-card-wide' : '';
   return `
-    <div class="index-card">
+    <div class="index-card${wideCls}">
       <div class="index-top">
         <div class="index-name">${item.name}</div>
         <div>
@@ -670,6 +676,46 @@ function rankChangeBadge(row){
   return `<span class="rank-badge flat">– <span class="rank-badge-sub">(전주 동일)</span></span>`;
 }
 
+
+function rankingSubList(rows, mode){
+  if(!rows || !rows.length){
+    return `<div class="ranking-empty">${mode === 'buy' ? '순매수 상위 없음' : '순매도 상위 없음'}</div>`;
+  }
+  const maxAbs = Math.max(...rows.map(r => Math.abs(r.net_buy)), 1);
+  const barCls = mode === 'sell' ? 'sell' : 'buy';
+  const amountCls = mode === 'sell' ? 'down' : 'up';
+  return rows.map(r => {
+    const pct = Math.min(Math.abs(r.net_buy) / maxAbs, 1) * 100;
+    return `
+      <div class="ranking-item compact">
+        <span class="ranking-rank">${r.rank}</span>
+        <div class="ranking-info">
+          <div class="ranking-name">${escapeHtml(r.name)}</div>
+          <div class="ranking-bar-track"><div class="ranking-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+        </div>
+        <div class="ranking-figures">
+          <div class="ranking-amount ${amountCls}">${fmtEok(r.net_buy)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* =========================================================
+   매수 TOP3 + 매도 TOP3를 한 카드 안에 압축해서 표시
+   (예전엔 매수/매도가 완전히 분리된 두 개의 큰 섹션이라 세로 길이가 길었음)
+   ========================================================= */
+function renderRankingComboCol(title, buyRows, sellRows){
+  return `
+    <div class="ranking-col">
+      <div class="ranking-col-title">${title}</div>
+      <div class="ranking-sub-label buy">▲ 매수 TOP 3</div>
+      ${rankingSubList((buyRows || []).slice(0, 3), 'buy')}
+      <div class="ranking-sub-label sell">▼ 매도 TOP 3</div>
+      ${rankingSubList((sellRows || []).slice(0, 3), 'sell')}
+    </div>
+  `;
+}
 
 function renderRankingCol(title, rows, mode){
   mode = mode || 'buy';
@@ -768,33 +814,24 @@ async function loadDashboard(isManualRefresh){
     document.getElementById('liveStatus').textContent = '데이터 연결됨';
     document.getElementById('updatedAt').textContent = '최근 갱신 · ' + new Date(data.updated_at).toLocaleString('ko-KR');
 
-    const krIndexCards = (data.indices || []).filter(i => i.investor_flow).map(renderIndexCard).join('');
-    const usIndexCards = (data.indices || []).filter(i => !i.investor_flow).map(renderIndexCard).join('');
+    const allIndexCards = (data.indices || [])
+      .map(item => renderIndexCard(item, !!item.investor_flow))
+      .join('');
     const trendCards = (data.megatrends || []).map(renderMegatrendCard).join('');
     const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');
     const usRows = (data.us_sectors || []).map(renderUsSectorRow).join('');
     const calRows = (data.calendar || []).map(renderCalendarRow).join('');
 
     container.innerHTML = `
+      <div class="section-label"><div class="bar"></div><h2>이번 주 매수·매도 랭킹</h2><span class="note">WEEKLY RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 매수/매도 상위 3종목</span></div>
+      <div class="ranking-grid">
+        ${renderRankingComboCol('개인', data.ranking && data.ranking.buy && data.ranking.buy.individual, data.ranking && data.ranking.sell && data.ranking.sell.individual)}
+        ${renderRankingComboCol('기관', data.ranking && data.ranking.buy && data.ranking.buy.institution, data.ranking && data.ranking.sell && data.ranking.sell.institution)}
+        ${renderRankingComboCol('외국인', data.ranking && data.ranking.buy && data.ranking.buy.foreign, data.ranking && data.ranking.sell && data.ranking.sell.foreign)}
+      </div>
+
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
-      <div class="index-section">
-        <div class="index-kr">${krIndexCards}</div>
-        <div class="index-us">${usIndexCards}</div>
-      </div>
-
-      <div class="section-label"><div class="bar"></div><h2>이번 주 매수세 랭킹</h2><span class="note">WEEKLY BUYING RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 상위 5종목</span></div>
-      <div class="ranking-grid">
-        ${renderRankingCol('개인 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.individual, 'buy')}
-        ${renderRankingCol('기관 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.institution, 'buy')}
-        ${renderRankingCol('외국인 순매수 TOP 5', data.ranking && data.ranking.buy && data.ranking.buy.foreign, 'buy')}
-      </div>
-
-      <div class="section-label"><div class="bar"></div><h2>이번 주 매도세 랭킹</h2><span class="note">WEEKLY SELLING RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 순매도 상위 5종목</span></div>
-      <div class="ranking-grid">
-        ${renderRankingCol('개인 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.individual, 'sell')}
-        ${renderRankingCol('기관 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.institution, 'sell')}
-        ${renderRankingCol('외국인 순매도 TOP 5', data.ranking && data.ranking.sell && data.ranking.sell.foreign, 'sell')}
-      </div>
+      <div class="index-grid-main">${allIndexCards}</div>
 
       ${trendCards ? `
       <div class="section-label"><div class="bar"></div><h2>메가트렌드 / 수급 뉴스</h2><span class="note">EMERGING TRENDS — AI 추정</span></div>

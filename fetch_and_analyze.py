@@ -146,8 +146,8 @@ CLAUDE_MODEL = "claude-sonnet-5"
 # 2. 가격/모멘텀 데이터 가져오기
 # =========================================================
 
-def fetch_price_info(ticker: str, retries: int = 2) -> dict:
-    """현재가, 전일대비, 등락률, 20일 모멘텀을 가져옴 (일시적 실패 시 재시도)"""
+def fetch_price_info(ticker: str, retries: int = 3) -> dict:
+    """현재가, 전일대비, 등락률, 20일 모멘텀을 가져옴 (일시적 실패 시 재시도, 점진적 백오프)"""
     for attempt in range(1, retries + 1):
         try:
             t = yf.Ticker(ticker)
@@ -155,7 +155,7 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
 
             if hist.empty or len(hist) < 2:
                 print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 데이터가 비어있음 (행 개수: {len(hist)})")
-                time.sleep(2)
+                time.sleep(attempt * 3)  # 점진적 백오프: 3초, 6초, 9초... (일시적 API 차단/속도제한 완화)
                 continue
 
             today_close = hist["Close"].iloc[-1]
@@ -212,7 +212,7 @@ def fetch_price_info(ticker: str, retries: int = 2) -> dict:
             }
         except Exception as e:
             print(f"  [오류] {ticker} 시도 {attempt}/{retries} 가격 조회 실패: {e}")
-            time.sleep(2)
+            time.sleep(attempt * 3)
 
     print(f"  [실패] {ticker}: {retries}번 재시도했지만 데이터를 가져오지 못했습니다.")
     return None
@@ -856,6 +856,7 @@ def main():
     print("\n[한국 섹터]")
     for name, ticker in KR_SECTORS.items():
         result["kr_sectors"].append(analyze_item(client, "한국 섹터", name, ticker))
+        time.sleep(0.7)  # yfinance 요청이 연속으로 몰려 일시적으로 차단되는 것을 완화
 
     print("\n[섹터별 대표종목 5개 수급 조회 - 매수세 랭킹용 (ETF 제외, 대표종목 5개만 반영)]")
     for item in result["kr_sectors"]:

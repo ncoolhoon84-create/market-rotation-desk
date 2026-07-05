@@ -695,21 +695,25 @@ def rep_stocks_only_weekly(rep_totals) -> dict:
     return {"net_buy": net_buy, "growth_pct": growth_pct}
 
 
-def compute_top10(kr_sectors: list, investor_key: str) -> list:
-    """섹터별 대표종목 5개 합산 수급(sector_wide_weekly) 기준으로 상위 10개 추출 (ETF 자체 수급은 제외)"""
+def compute_ranked_list(kr_sectors: list, investor_key: str, direction: str = "buy") -> list:
+    """direction='buy'면 순매수 상위, 'sell'이면 순매도 상위(가장 많이 판 순)를 반환"""
     rows = []
     for item in kr_sectors:
         iv = item.get("investor_flow")
         if not iv:
             continue
-        source = iv.get("sector_wide_weekly") or iv.get("weekly_summary")
+        source = iv.get("sector_wide_weekly")
         if not source:
             continue
         ws = source.get(investor_key)
-        if not ws or ws["net_buy"] <= 0:
+        if not ws:
+            continue
+        if direction == "buy" and ws["net_buy"] <= 0:
+            continue
+        if direction == "sell" and ws["net_buy"] >= 0:
             continue
         rows.append({"name": clean_sector_name(item["name"]), "net_buy": ws["net_buy"], "growth_pct": ws["growth_pct"]})
-    rows.sort(key=lambda r: r["net_buy"], reverse=True)
+    rows.sort(key=lambda r: r["net_buy"], reverse=(direction == "buy"))
     return rows[:10]
 
 
@@ -723,17 +727,17 @@ def find_snapshot_near(history_by_date: dict, target_date, tolerance_days: int =
     return None
 
 
-def lookup_rank(snapshot, investor_key: str, name: str):
+def lookup_rank(snapshot, field: str, investor_key: str, name: str):
     if not snapshot:
         return None
-    lst = snapshot.get("rankings", {}).get(investor_key, [])
+    lst = snapshot.get(field, {}).get(investor_key, [])
     for i, row in enumerate(lst):
         if row["name"] == name:
             return i + 1
     return None
 
 
-def compute_streak_weeks(history_by_date: dict, investor_key: str, name: str, today_date, max_weeks: int = 12) -> int:
+def compute_streak_weeks(history_by_date: dict, field: str, investor_key: str, name: str, today_date, max_weeks: int = 12) -> int:
     """오늘을 포함해서, 7일 간격으로 거슬러 올라가며 몇 주 연속 TOP5였는지 계산"""
     streak = 1  # 오늘 이미 TOP5에 있다는 전제 하에 호출됨
     check_date = today_date
@@ -742,7 +746,7 @@ def compute_streak_weeks(history_by_date: dict, investor_key: str, name: str, to
         snap = find_snapshot_near(history_by_date, check_date)
         if not snap:
             break
-        rank = lookup_rank(snap, investor_key, name)
+        rank = lookup_rank(snap, field, investor_key, name)
         if rank is not None and rank <= 5:
             streak += 1
         else:
@@ -751,34 +755,46 @@ def compute_streak_weeks(history_by_date: dict, investor_key: str, name: str, to
 
 
 def build_weekly_ranking(kr_sectors: list) -> dict:
-    """개인/기관/외국인별 TOP5 + 지난주 순위/신규진입/연속주차 메타데이터를 만들고,
-    오늘자 스냅샷을 히스토리 파일에 기록함"""
+    """개인/기관/외국인별 매수 TOP5 + 매도 TOP5, 그리고 각각의 지난주 순위/신규진입/연속주차를 계산하고
+    오늘자 스냅샷(매수·매도 모두)을 히스토리 파일에 기록함"""
     today_date = datetime.now().date()
     history = load_ranking_history()
     history_by_date = {h["date"]: h for h in history}
 
-    top10_by_type = {key: compute_top10(kr_sectors, key) for key in RANKING_INVESTOR_KEYS}
+    buy_top10 = {key: compute_ranked_list(kr_sectors, key, "buy") for key in RANKING_INVESTOR_KEYS}
+    sell_top10 = {key: compute_ranked_list(kr_sectors, key, "sell") for key in RANKING_INVESTOR_KEYS}
 
-    result = {}
-    for key in RANKING_INVESTOR_KEYS:
-        top5 = top10_by_type[key][:5]
-        enriched = []
-        for i, row in enumerate(top5):
-            prior_snap = find_snapshot_near(history_by_date, today_date - timedelta(days=7))
-            last_week_rank = lookup_rank(prior_snap, key, row["name"])
-            is_new_entry = last_week_rank is None
-            weeks_in_top5 = 1 if is_new_entry else compute_streak_weeks(history_by_date, key, row["name"], today_date)
-            enriched.append({
-                **row,
-                "rank": i + 1,
-                "last_week_rank": last_week_rank,
-                "is_new_entry": is_new_entry,
-                "weeks_in_top5": weeks_in_top5,
-            })
-        result[key] = enriched
+    def enrich(top10_by_type: dict, field: str) -> dict:
+        out = {}
+        for key in RANKING_INVESTOR_KEYS:
+            top5 = top10_by_type[key][:5]
+            enriched = []
+            for i, row in enumerate(top5):
+                prior_snap = find_snapshot_near(history_by_date, today_date - timedelta(days=7))
+                last_week_rank = lookup_rank(prior_snap, field, key, row["name"])
+                is_new_entry = last_week_rank is None
+                weeks_in_top5 = 1 if is_new_entry else compute_streak_weeks(history_by_date, field, key, row["name"], today_date)
+                enriched.append({
+                    **row,
+                    "rank": i + 1,
+                    "last_week_rank": last_week_rank,
+                    "is_new_entry": is_new_entry,
+                    "weeks_in_top5": weeks_in_top5,
+                })
+            out[key] = enriched
+        return out
 
-    # 오늘자 스냅샷 기록 (같은 날 여러 번 실행돼도 마지막 실행 값으로 덮어씀)
-    history_by_date[today_date.isoformat()] = {"date": today_date.isoformat(), "rankings": top10_by_type}
+    result = {
+        "buy": enrich(buy_top10, "rankings"),
+        "sell": enrich(sell_top10, "sell_rankings"),
+    }
+
+    # 오늘자 스냅샷 기록 (매수/매도 둘 다, 같은 날 여러 번 실행돼도 마지막 실행 값으로 덮어씀)
+    history_by_date[today_date.isoformat()] = {
+        "date": today_date.isoformat(),
+        "rankings": buy_top10,
+        "sell_rankings": sell_top10,
+    }
     cutoff = (today_date - timedelta(days=90)).isoformat()
     new_history = sorted(
         [h for h in history_by_date.values() if h["date"] >= cutoff],

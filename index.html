@@ -491,7 +491,10 @@ function buildFlowTriad(iv){
 
 function flowBadgeWithTooltip(item){
   const iv = item.investor_flow;
-  if(!iv) return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
+  // trend_summary는 fetch_investor_flow()가 완전히 성공했을 때만 채워지는 필드.
+  // 이게 없으면(예: 예전 버전 data.json이 남아있는 경우) 반쪽짜리 객체로 보고
+  // 툴팁 없이 기본 배지만 표시함 (NaN억 표시 방지)
+  if(!iv || !iv.trend_summary) return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
 
   const triad = buildFlowTriad(iv);
   const chart = iv.recent5_days && iv.recent5_days.length

@@ -820,7 +820,7 @@ async function loadDashboard(isManualRefresh){
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
       <div class="index-grid-main">${allIndexCards}</div>
 
-      <div class="section-label"><div class="bar"></div><h2>이번 주 매수·매도 랭킹</h2><span class="note">WEEKLY RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 최근 5거래일 · 투자자 유형별 매수/매도 상위 5종목</span></div>
+      <div class="section-label"><div class="bar"></div><h2>최근 5영업일 섹터 대표주 매수·매도 랭킹</h2><span class="note">5-DAY SECTOR FLOW RANKING · 한국 섹터별 대표주 5개 기준 (ETF 수급 제외) · 투자자 유형별 매수/매도 상위 5종목</span></div>
       <div class="ranking-grid">
         ${renderRankingComboCol('개인', data.ranking && data.ranking.buy && data.ranking.buy.individual, data.ranking && data.ranking.sell && data.ranking.sell.individual)}
         ${renderRankingComboCol('기관', data.ranking && data.ranking.buy && data.ranking.buy.institution, data.ranking && data.ranking.sell && data.ranking.sell.institution)}

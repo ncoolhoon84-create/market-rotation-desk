@@ -141,7 +141,7 @@
   .tag-caution{ background:var(--down-dim); color:var(--down); }
   .tag-neutral{ background:rgba(139,144,156,.12); color:var(--muted); }
   .cal-event{ color:var(--text); }
-  .cal-meta{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--muted); margin-top:5px; }
+  .cal-meta{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--muted); margin-top:5px; }
 
   .footnote{ margin-top:30px; padding:18px 20px; border:1px solid var(--line); background:var(--panel); border-radius:4px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--faint); line-height:1.9; }
   .footnote strong{ color:var(--muted); }
@@ -162,7 +162,7 @@
   .trend-title{ font-family:'Source Serif 4',serif; font-size:15px; font-weight:600; display:flex; align-items:center; gap:8px; }
   .trend-title::before{ content:"▲"; color:var(--ai); font-size:10px; }
   .trend-desc{ font-size:12.5px; color:var(--text); line-height:1.6; }
-  .trend-sectors{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--muted); }
+  .trend-sectors{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); }
   .trend-news-toggle{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ai); cursor:pointer; background:none; border:none; padding:0; text-align:left; margin-top:4px; }
   .trend-news-toggle:hover{ text-decoration:underline; }
 
@@ -577,12 +577,12 @@ function renderIndexCard(item, wide){
   const wideCls = wide ? ' index-card-wide' : '';
   const summary = escapeHtml(item.news_summary) || '분석 정보 없음';
   return `
-    <div class="index-card${wideCls}">
+    <div class="index-card${wideCls}" data-index-name="${escapeHtml(item.name)}">
       <div class="index-top">
         <div class="index-name">${item.name}</div>
         <div>
-          <div class="index-price">${item.price != null ? item.price.toLocaleString() : '-'}</div>
-          <div class="index-chg ${chgClass}">${arrow} ${Math.abs(item.change ?? 0).toFixed(2)} (${(item.pct_change ?? 0) >= 0 ? '+' : ''}${item.pct_change ?? 0}%)</div>
+          <div class="index-price" data-live-price>${item.price != null ? item.price.toLocaleString() : '-'}</div>
+          <div class="index-chg ${chgClass}" data-live-chg>${arrow} ${Math.abs(item.change ?? 0).toFixed(2)} (${(item.pct_change ?? 0) >= 0 ? '+' : ''}${item.pct_change ?? 0}%)</div>
         </div>
       </div>
       ${item.investor_flow ? renderInvestorFlow(item.investor_flow) : ''}
@@ -882,6 +882,8 @@ async function loadDashboard(isManualRefresh){
         투자 자문이 아닌 리서치 참고 자료입니다. 매일 한국시간 08:00, 12:00, 16:00, 20:00에 자동 갱신됩니다.
       </div>
     `;
+
+    startLiveIndicesPolling(); // 주요지수 가격은 이후 90초마다 별도로 계속 갱신
   } catch (err) {
     pill.classList.remove('ok'); pill.classList.add('err');
     document.getElementById('liveStatus').textContent = '연결 실패';
@@ -906,6 +908,51 @@ async function loadDashboard(isManualRefresh){
     }
   } catch(e) { /* 주소 형식이 다르면 링크를 건드리지 않음 */ }
 })();
+
+// =========================================================
+// 주요지수 실시간(5분 간격 백엔드 + 90초 간격 프론트) 가격 갱신
+// -----------------------------------------------------------
+// data.json(하루 4번 갱신, 뉴스/수급/AI분석 포함)과 별도로,
+// indices_live.json(5분마다 갱신, 가격만)을 90초마다 조용히 다시
+// 불러와서 이미 그려진 카드의 가격/등락률 부분만 갈아끼움.
+// 전체를 다시 그리지 않기 때문에 열려있던 뉴스 드롭다운이나
+// 스크롤 위치가 흐트러지지 않음.
+// =========================================================
+async function updateLiveIndices(){
+  try {
+    const res = await fetch('indices_live.json?t=' + Date.now(), { cache: 'no-store' });
+    if(!res.ok) return; // 아직 파일이 없거나 실패해도 조용히 넘어감 (기존 값 유지)
+    const live = await res.json();
+    const indices = live.indices || {};
+
+    document.querySelectorAll('.index-card[data-index-name]').forEach(card => {
+      const name = card.getAttribute('data-index-name');
+      const info = indices[name];
+      if(!info) return;
+
+      const priceEl = card.querySelector('[data-live-price]');
+      const chgEl = card.querySelector('[data-live-chg]');
+      if(priceEl && info.price != null){
+        priceEl.textContent = info.price.toLocaleString();
+      }
+      if(chgEl && info.pct_change != null){
+        const cls = pctColorClass(info.pct_change);
+        const arrow = (info.change ?? 0) >= 0 ? '▲' : '▼';
+        chgEl.className = 'index-chg ' + cls;
+        chgEl.textContent = `${arrow} ${Math.abs(info.change ?? 0).toFixed(2)} (${info.pct_change >= 0 ? '+' : ''}${info.pct_change}%)`;
+      }
+    });
+  } catch(e) {
+    // 네트워크 일시 오류 등은 조용히 무시하고 다음 주기(90초 뒤)에 재시도
+  }
+}
+
+let liveIndicesTimer = null;
+function startLiveIndicesPolling(){
+  if(liveIndicesTimer) return; // 이미 폴링 중이면 중복 시작 방지 (수동 새로고침 시 등)
+  updateLiveIndices(); // 최초 1회 즉시 실행
+  liveIndicesTimer = setInterval(updateLiveIndices, 90000); // 이후 90초마다
+}
 
 loadDashboard();
 </script>

@@ -563,10 +563,19 @@ function toggleNews(uid){
 }
 
 function renderIndexCard(item, wide){
+  if(item.error){
+    return `
+      <div class="index-card${wide ? ' index-card-wide' : ''}">
+        <div class="index-top"><div class="index-name">${item.name}</div></div>
+        <div class="index-summary" style="color:var(--faint);">⚠ 이번 실행에서 가격 데이터를 가져오지 못했습니다 (일시적 오류) · 다음 자동 갱신 때 재시도됩니다</div>
+      </div>
+    `;
+  }
   const chgClass = pctColorClass(item.pct_change ?? 0);
   const arrow = (item.change ?? 0) >= 0 ? '▲' : '▼';
   const uid = nextUid();
   const wideCls = wide ? ' index-card-wide' : '';
+  const summary = escapeHtml(item.news_summary) || '분석 정보 없음';
   return `
     <div class="index-card${wideCls}">
       <div class="index-top">
@@ -586,13 +595,24 @@ function renderIndexCard(item, wide){
       </div>
       <div class="index-summary">
         <span class="ai-tag">AI</span>
-        ${newsSummaryHtml(item, uid)}
+        <span class="news-trigger" onclick="toggleNews('${uid}')">${summary} ▾</span>
       </div>
+      ${newsDropdown(item.headlines, uid)}
     </div>
   `;
 }
 
 function renderSectorRow(item){
+  if(item.error){
+    return `
+      <tr>
+        <td class="sector-name">${item.name}</td>
+        <td colspan="5" class="news-cell" style="color:var(--faint);">
+          ⚠ 이번 실행에서 가격·수급 데이터를 가져오지 못했습니다 (일시적 오류) · 다음 자동 갱신 때 재시도됩니다
+        </td>
+      </tr>
+    `;
+  }
   const label = item.momentum_20d != null
     ? (item.momentum_20d > 2 ? '강세' : item.momentum_20d < -2 ? '약세' : '중립')
     : '중립';
@@ -616,6 +636,16 @@ function renderSectorRow(item){
 }
 
 function renderUsSectorRow(item){
+  if(item.error){
+    return `
+      <tr>
+        <td class="sector-name">${item.name}</td>
+        <td colspan="3" class="news-cell" style="color:var(--faint);">
+          ⚠ 이번 실행에서 가격 데이터를 가져오지 못했습니다 (일시적 오류) · 다음 자동 갱신 때 재시도됩니다
+        </td>
+      </tr>
+    `;
+  }
   const uid = nextUid();
   return `
     <tr>

@@ -287,7 +287,11 @@
   }
   .ranking-item:nth-child(2) .ranking-rank{ color:var(--ai); }
   .ranking-info{ flex:1; min-width:0; }
-  .ranking-name{ font-family:'Source Serif 4',serif; font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ranking-name-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+  .ranking-name{ font-family:'Source Serif 4',serif; font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:110px; }
+  /* 매수/매도 서브리스트가 항목 개수와 무관하게 항상 같은 세로 공간을 차지하도록 최소 높이 고정
+     (예: 매도 상위가 1개뿐이어도 매수 5개짜리 칸과 시각적 비율이 어긋나지 않게) */
+  .ranking-sublist{ min-height:212px; }
   .ranking-bar-track{ height:3px; background:var(--line); border-radius:2px; margin-top:5px; overflow:hidden; }
   .ranking-bar-fill{ height:100%; background:var(--up); border-radius:2px; }
   .ranking-bar-fill.sell{ background:var(--down); }
@@ -492,33 +496,52 @@ function buildFlowTriad(iv){
 function flowBadgeWithTooltip(item){
   const iv = item.investor_flow;
   // trend_summary는 fetch_investor_flow()가 완전히 성공했을 때만 채워지는 필드.
-  // 이게 없으면(예: 예전 버전 data.json이 남아있는 경우) 반쪽짜리 객체로 보고
-  // 툴팁 없이 기본 배지만 표시함 (NaN억 표시 방지)
-  if(!iv || !iv.trend_summary) return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
+  // 이게 있으면(=진짜 데이터 기반 판정, 그 결과가 "중립"이더라도) 아래에서
+  // 실제 개인/기관/외국인 수치를 보여주는 정상 툴팁을 그린다.
+  if(iv && iv.trend_summary){
+    const triad = buildFlowTriad(iv);
+    const chart = iv.recent5_days && iv.recent5_days.length
+      ? investorMiniChart(iv.recent5_days)
+      : (() => {
+          const tipRow = (label2, val) => {
+            const dir = val >= 0 ? 'buy' : 'sell';
+            const cls2 = val >= 0 ? 'up' : 'down';
+            return `<div class="tip-row ${dir}"><span class="who">${label2}</span><span class="amt ${cls2}">${fmtEok(val)}</span></div>`;
+          };
+          return tipRow('개인', iv.individual) + tipRow('기관', iv.institution) + tipRow('외국인', iv.foreign);
+        })();
 
-  const triad = buildFlowTriad(iv);
-  const chart = iv.recent5_days && iv.recent5_days.length
-    ? investorMiniChart(iv.recent5_days)
-    : (() => {
-        const tipRow = (label2, val) => {
-          const dir = val >= 0 ? 'buy' : 'sell';
-          const cls2 = val >= 0 ? 'up' : 'down';
-          return `<div class="tip-row ${dir}"><span class="who">${label2}</span><span class="amt ${cls2}">${fmtEok(val)}</span></div>`;
-        };
-        return tipRow('개인', iv.individual) + tipRow('기관', iv.institution) + tipRow('외국인', iv.foreign);
-      })();
-
-  return `
-    <span class="flow-wrap has-tip">
-      ${triad}
-      <span class="flow-tooltip">
-        <div class="tip-header">최근 5거래일 순매수/순매도</div>
-        ${chart}
-        <div class="tip-summary">${escapeHtml(iv.trend_summary)}</div>
-        <div class="tip-date">${iv.date || ''} 기준</div>
+    return `
+      <span class="flow-wrap has-tip">
+        ${triad}
+        <span class="flow-tooltip">
+          <div class="tip-header">최근 5거래일 순매수/순매도</div>
+          ${chart}
+          <div class="tip-summary">${escapeHtml(iv.trend_summary)}</div>
+          <div class="tip-date">${iv.date || ''} 기준</div>
+        </span>
       </span>
-    </span>
-  `;
+    `;
+  }
+
+  // 여기 도달했다는 건 investor_flow가 아예 없다는 뜻.
+  // 한국 섹터인데(flow_basis가 가격 모멘텀 기반으로 대체됐다는 건 KRX 수급 조회
+  // 자체가 이번 실행에서 실패했다는 신호) "중립"이라고 뭉뚱그리면 마치 실제 수급이
+  // 중립이라고 판정된 것처럼 오해될 수 있어서, 데이터 없음을 명확히 구분해서 표시.
+  const isKrSectorFetchFail = item.group === '한국 섹터' && item.flow_basis && item.flow_basis.indexOf('모멘텀') !== -1;
+  if(isKrSectorFetchFail){
+    return `
+      <span class="flow-wrap has-tip">
+        <span class="flow-badge flow-flat" style="border-bottom:1px dotted currentColor;">수급 조회 실패</span>
+        <span class="flow-tooltip">
+          <div class="tip-header">데이터 안내</div>
+          <div class="tip-summary">이번 실행에서 KRX 수급 데이터를 가져오지 못했습니다(일시적 오류). 실제 자금흐름이 중립이라는 뜻이 아니며, 하루 4회 자동 갱신 중 다음 실행 때 다시 시도됩니다.</div>
+        </span>
+      </span>
+    `;
+  }
+
+  return `<span class="flow-wrap">${flowBadgeHtml(item.flow)}</span>`;
 }
 
 function newsDropdown(headlines, uid){
@@ -632,9 +655,11 @@ function rankingSubList(rows, mode){
       <div class="ranking-item compact">
         <span class="ranking-rank">${r.rank}</span>
         <div class="ranking-info">
-          <div class="ranking-name">${escapeHtml(r.name)}</div>
+          <div class="ranking-name-row">
+            <span class="ranking-name">${escapeHtml(r.name)}</span>
+            ${rankChangeBadge(r)}
+          </div>
           <div class="ranking-bar-track"><div class="ranking-bar-fill ${barCls}" style="width:${pct}%"></div></div>
-          <div class="ranking-badges">${rankChangeBadge(r)}</div>
         </div>
         <div class="ranking-figures">
           <div class="ranking-amount ${amountCls}">${fmtEok(r.net_buy)}</div>
@@ -649,9 +674,9 @@ function renderRankingComboCol(title, buyRows, sellRows){
     <div class="ranking-col">
       <div class="ranking-col-title">${title}</div>
       <div class="ranking-sub-label buy">▲ 매수 TOP 5</div>
-      ${rankingSubList((buyRows || []).slice(0, 5), 'buy')}
+      <div class="ranking-sublist">${rankingSubList((buyRows || []).slice(0, 5), 'buy')}</div>
       <div class="ranking-sub-label sell">▼ 매도 TOP 5</div>
-      ${rankingSubList((sellRows || []).slice(0, 5), 'sell')}
+      <div class="ranking-sublist">${rankingSubList((sellRows || []).slice(0, 5), 'sell')}</div>
     </div>
   `;
 }

@@ -6,7 +6,7 @@ name: 지수 실시간 갱신
 
 on:
   schedule:
-    - cron: '*/0 * * * *'   # 1시간마다 (GitHub Actions cron 최소 단위)
+    - cron: '0 * * * *'   # 1시간마다 (GitHub Actions cron 최소 단위)
   workflow_dispatch:         # Actions 탭에서 수동 실행 버튼도 사용 가능
 
 permissions:

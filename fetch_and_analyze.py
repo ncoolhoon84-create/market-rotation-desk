@@ -78,8 +78,6 @@ import re
 import statistics
 import time
 import xml.etree.ElementTree as ET
-import io
-import pandas as pdㄴ
 from datetime import datetime, timedelta, timezone
 from urllib.parse import quote
 
@@ -87,6 +85,8 @@ import requests
 import yfinance as yf
 from anthropic import Anthropic
 from pykrx import stock as krx
+import io
+import pandas as pd
 
 try:
     from curl_cffi import requests as cffi_requests
@@ -924,6 +924,126 @@ def build_weekly_ranking(kr_sectors: list) -> dict:
 
 
 # =========================================================
+# 8. 테마별 대표 종목 (VanEck 테마 ETF holdings 스냅샷)
+# -----------------------------------------------------------
+# "ARK 스마트머니 동향"과는 성격이 완전히 다름 — ARK는 액티브 운용
+# 펀드라 매일의 매수/매도가 애널리스트의 실제 확신(conviction)을
+# 반영하지만, 여기 추가하는 VanEck IBOT/WARP는 지수를 그대로 추종하는
+# "패시브" 상품이라 반기(6월/12월 등)에만 리밸런싱됨. 그래서 "연속
+# 매수" 같은 신호 로직은 적용하지 않고, 그냥 "이 테마의 현재 대표
+# 종목이 뭔지" 보여주는 정적 참고 리스트로만 사용함.
+#
+# VanEck는 각 펀드 페이지에서 최신 holdings를 XLSX로 무료 제공함
+# (예: vaneck.com/us/en/investments/{fund-slug}/downloads/holdings/).
+# 파일 구조(정확한 헤더 행 위치, 컬럼명)는 공식 문서화가 안 되어 있어서,
+# 흔히 쓰이는 컬럼명 후보들을 여러 개 시도하고, 못 찾으면 실제 컬럼명을
+# 로그로 남겨서 다음에 바로 고칠 수 있게 함.
+# =========================================================
+
+THEMATIC_ETFS = {
+    "로보틱스 (VanEck IBOT)": "https://www.vaneck.com/us/en/investments/robotics-etf-ibot/downloads/holdings/",
+    "우주경제 (VanEck WARP)": "https://www.vaneck.com/us/en/investments/space-etf-warp/downloads/holdings/",
+}
+
+# 실제 파일마다 컬럼명이 조금씩 다를 수 있어서(예: "Ticker" vs "Symbol"),
+# 후보 이름들을 순서대로 시도함 (대소문자 무시, 부분 일치 허용)
+_TICKER_COL_CANDIDATES = ["ticker", "symbol"]
+_NAME_COL_CANDIDATES = ["holding", "name", "security", "company"]
+_WEIGHT_COL_CANDIDATES = ["weight", "weighting", "% of net assets", "market value weight"]
+
+
+def _find_column(columns, candidates) -> str:
+    """대소문자 무시하고 candidates 중 하나라도 포함된 컬럼명을 찾아서 반환. 못 찾으면 None."""
+    for col in columns:
+        col_lower = str(col).strip().lower()
+        for cand in candidates:
+            if cand in col_lower:
+                return col
+    return None
+
+
+def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list:
+    """VanEck 펀드 페이지에서 holdings XLSX를 받아 상위 top_n개 종목만 추출.
+    반환: [{"ticker": ..., "name": ..., "weight_pct": ...}, ...] (실패 시 빈 리스트)"""
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+        )
+    }
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(url, headers=headers, timeout=15)
+            if resp.status_code != 200:
+                print(f"  [경고] 테마 ETF holdings 조회 실패 ({url}) 시도 {attempt}/{retries}: "
+                      f"HTTP 상태코드 {resp.status_code}")
+                time.sleep(2)
+                continue
+
+            # 파일 앞부분에 제목/안내 문구가 몇 줄 섞여 있는 경우가 흔해서,
+            # header 행 위치를 0~10행 사이에서 자동으로 찾아봄.
+            excel_bytes = io.BytesIO(resp.content)
+            df = None
+            for header_row in range(0, 11):
+                try:
+                    candidate = pd.read_excel(excel_bytes, header=header_row, engine="openpyxl")
+                    excel_bytes.seek(0)
+                    ticker_col = _find_column(candidate.columns, _TICKER_COL_CANDIDATES)
+                    name_col = _find_column(candidate.columns, _NAME_COL_CANDIDATES)
+                    weight_col = _find_column(candidate.columns, _WEIGHT_COL_CANDIDATES)
+                    if ticker_col and name_col and weight_col:
+                        df = candidate
+                        break
+                except Exception:
+                    excel_bytes.seek(0)
+                    continue
+
+            if df is None:
+                print(f"  [경고] {url}: 필요한 컬럼(Ticker/Name/Weight)을 찾지 못함. "
+                      f"실제 파일 구조 확인 필요.")
+                time.sleep(2)
+                continue
+
+            ticker_col = _find_column(df.columns, _TICKER_COL_CANDIDATES)
+            name_col = _find_column(df.columns, _NAME_COL_CANDIDATES)
+            weight_col = _find_column(df.columns, _WEIGHT_COL_CANDIDATES)
+
+            df = df.dropna(subset=[ticker_col, weight_col])
+            df[weight_col] = pd.to_numeric(df[weight_col], errors="coerce")
+            df = df.dropna(subset=[weight_col])
+            df = df.sort_values(by=weight_col, ascending=False).head(top_n)
+
+            results = []
+            for _, row in df.iterrows():
+                results.append({
+                    "ticker": str(row[ticker_col]).strip(),
+                    "name": str(row[name_col]).strip(),
+                    "weight_pct": round(float(row[weight_col]), 2),
+                })
+            return results
+
+        except Exception as e:
+            print(f"  [경고] 테마 ETF holdings 조회 실패 ({url}) 시도 {attempt}/{retries}: {e}")
+            time.sleep(2)
+
+    print(f"  [실패] {url}: {retries}번 재시도했지만 holdings를 가져오지 못했습니다.")
+    return []
+
+
+def build_thematic_holdings() -> dict:
+    """THEMATIC_ETFS에 정의된 모든 테마 ETF의 상위 종목을 조회"""
+    print("\n[테마별 대표 종목 (VanEck)] 조회 중...")
+    result = {}
+    for label, url in THEMATIC_ETFS.items():
+        print(f"  조회 중: {label}")
+        holdings = fetch_thematic_holdings(url)
+        result[label] = holdings
+        time.sleep(1)
+    return result
+
+
+# =========================================================
 # 7. 메인 실행
 # =========================================================
 
@@ -998,6 +1118,7 @@ def main():
         result["calendar"].append(analyze_calendar_event(client, item["date"], item["event"]))
 
     result["megatrends"] = analyze_megatrends(client)
+    result["thematic_holdings"] = build_thematic_holdings()
 
     cleaned_result = clean_for_json(result)
     with open("data.json", "w", encoding="utf-8") as f:

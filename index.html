@@ -1430,12 +1430,21 @@ function formatEokCompact(v){
   return Math.round(v).toLocaleString() + '억';
 }
 
+function yearLabel(title){
+  const m = String(title).match(/(\d{4})/);
+  return m ? m[1] + '년' : String(title);
+}
+
 function renderFinanceChart(financeSeries){
   // 매출/순이익을 각각 자기 계열 안에서의 최댓값 기준으로 정규화해서
   // 막대 높이를 계산함 (두 계열의 절대 규모 차이가 커도 각자의 추세는
   // 잘 보이게 하기 위함 — 매출과 순이익을 같은 축으로 비교하려는 게 아님)
-  const MAX_BAR_PX = 50; // 공간을 아끼기 위해 축소
-  const LABEL_SPACE = 14; // 막대 위 수치 라벨이 들어갈 여유 공간
+  //
+  // [수정] 숫자를 막대 위에 개별로 절대배치했더니 좁은 막대 폭 때문에
+  // 옆 막대 라벨과 겹치는 문제가 있었음. 각 연도 그룹 전체(매출+순이익
+  // 막대 한 쌍) 위에 두 줄짜리 라벨 블록을 문서 흐름대로(절대배치 없이)
+  // 얹는 방식으로 바꿔서 겹침 없이 항상 안정적으로 보이게 함.
+  const MAX_BAR_PX = 46;
   const revenues = financeSeries.map(s => s.revenue).filter(v => v != null);
   const profits = financeSeries.map(s => s.profit).filter(v => v != null);
   const revenueMax = Math.max(...revenues, 1);
@@ -1449,27 +1458,25 @@ function renderFinanceChart(financeSeries){
     const opacity = s.isForecast ? '0.55' : '1';
     const revTitle = `${s.title} 매출: ${s.revenue != null ? s.revenue.toLocaleString()+'억' : '데이터 없음'}`;
     const profitTitle = `${s.title} 순이익: ${s.profit != null ? s.profit.toLocaleString()+'억' : '데이터 없음'}`;
-    const wrapH = MAX_BAR_PX + LABEL_SPACE;
+    const forecastTag = s.isForecast ? `<span style="font-weight:400; color:var(--muted);">(컨센서스)</span>` : '';
 
     return `
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:0;">
-        <div style="display:flex; align-items:flex-end; gap:4px; height:${wrapH}px;">
-          <div style="position:relative; width:15px; height:${wrapH}px;">
-            <span class="mono" style="position:absolute; bottom:${revH + 2}px; left:50%; transform:translateX(-50%); font-size:8.5px; font-weight:600; color:var(--up); white-space:nowrap;">${formatEokCompact(s.revenue)}</span>
-            <div title="${escapeHtml(revTitle)}" style="position:absolute; bottom:0; left:2px; width:11px; background:var(--up); opacity:${opacity}; height:${revH}px; border-radius:2px 2px 0 0;"></div>
-          </div>
-          <div style="position:relative; width:15px; height:${wrapH}px;">
-            <span class="mono" style="position:absolute; bottom:${profitH + 2}px; left:50%; transform:translateX(-50%); font-size:8.5px; font-weight:600; color:${profitColor}; white-space:nowrap;">${formatEokCompact(s.profit)}</span>
-            <div title="${escapeHtml(profitTitle)}" style="position:absolute; bottom:0; left:2px; width:11px; background:${profitColor}; opacity:${opacity}; height:${profitH}px; border-radius:2px 2px 0 0;"></div>
-          </div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; min-width:0;">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.3;">
+          <span class="mono" style="font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">${formatEokCompact(s.revenue)}</span>
+          <span class="mono" style="font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">${formatEokCompact(s.profit)}</span>
         </div>
-        <div class="mono" style="font-size:11px; font-weight:600; color:var(--text); text-align:center; line-height:1.3; white-space:nowrap;">${escapeHtml(s.title.replace('.', ''))}${s.isForecast ? '<br><span style="font-weight:400; color:var(--muted); font-size:9px;">(컨센서스)</span>' : ''}</div>
+        <div style="display:flex; align-items:flex-end; gap:4px; height:${MAX_BAR_PX}px; margin-top:3px;">
+          <div title="${escapeHtml(revTitle)}" style="width:13px; background:var(--up); opacity:${opacity}; height:${revH}px; border-radius:2px 2px 0 0;"></div>
+          <div title="${escapeHtml(profitTitle)}" style="width:13px; background:${profitColor}; opacity:${opacity}; height:${profitH}px; border-radius:2px 2px 0 0;"></div>
+        </div>
+        <div class="mono" style="font-size:11px; font-weight:600; color:var(--text); text-align:center; margin-top:3px; white-space:nowrap;">${yearLabel(s.title)}${forecastTag}</div>
       </div>
     `;
   }).join('');
 
   return `
-    <div style="display:flex; align-items:flex-end; gap:10px; margin:6px 0 6px; padding:0 2px;">
+    <div style="display:flex; align-items:flex-end; gap:14px; margin:6px 0 6px; padding:0 2px;">
       ${bars}
     </div>
     <div style="display:flex; gap:14px; margin-bottom:2px;">

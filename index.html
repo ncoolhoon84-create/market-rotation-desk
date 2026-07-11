@@ -1439,18 +1439,13 @@ function renderFinanceChart(financeSeries){
   // 매출/순이익을 각각 자기 계열 안에서의 최댓값 기준으로 정규화해서
   // 막대 높이를 계산함 (두 계열의 절대 규모 차이가 커도 각자의 추세는
   // 잘 보이게 하기 위함 — 매출과 순이익을 같은 축으로 비교하려는 게 아님)
-  //
-  // [수정] 숫자를 막대 위에 개별로 절대배치했더니 좁은 막대 폭 때문에
-  // 옆 막대 라벨과 겹치는 문제가 있었음. 각 연도 그룹 전체(매출+순이익
-  // 막대 한 쌍) 위에 두 줄짜리 라벨 블록을 문서 흐름대로(절대배치 없이)
-  // 얹는 방식으로 바꿔서 겹침 없이 항상 안정적으로 보이게 함.
   const MAX_BAR_PX = 46;
   const revenues = financeSeries.map(s => s.revenue).filter(v => v != null);
   const profits = financeSeries.map(s => s.profit).filter(v => v != null);
   const revenueMax = Math.max(...revenues, 1);
   const profitMax = Math.max(...profits.map(v => Math.abs(v)), 1);
 
-  const bars = financeSeries.map((s, i) => {
+  const bars = financeSeries.map((s) => {
     const revH = s.revenue != null ? Math.max(3, Math.round((s.revenue / revenueMax) * MAX_BAR_PX)) : 0;
     const profitAbs = s.profit != null ? Math.abs(s.profit) : 0;
     const profitH = s.profit != null ? Math.max(3, Math.round((profitAbs / profitMax) * MAX_BAR_PX)) : 0;
@@ -1459,24 +1454,12 @@ function renderFinanceChart(financeSeries){
     const revTitle = `${s.title} 매출: ${s.revenue != null ? s.revenue.toLocaleString()+'억' : '데이터 없음'}`;
     const profitTitle = `${s.title} 순이익: ${s.profit != null ? s.profit.toLocaleString()+'억' : '데이터 없음'}`;
     const forecastTag = s.isForecast ? `<span style="font-weight:400; color:var(--muted);">(컨센서스)</span>` : '';
-    // 첫 번째(가장 왼쪽) 연도에만 "매출"/"순이익" 항목명을 붙임. 라벨을 숫자와
-    // 한 덩어리로 합쳐서 가운데 정렬하면 숫자 위치가 다른 연도와 어긋나므로,
-    // 라벨은 숫자 왼쪽에 절대배치해서 숫자 자체는 다른 연도와 동일하게
-    // 중앙 정렬된 상태를 유지하게 함.
-    const revValue = `<span class="mono" style="font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">${formatEokCompact(s.revenue)}</span>`;
-    const profitValue = `<span class="mono" style="font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">${formatEokCompact(s.profit)}</span>`;
-    const revLine = i === 0
-      ? `<div style="position:relative; display:inline-block;"><span class="mono" style="position:absolute; top:50%; right:100%; transform:translateY(-50%); margin-right:4px; font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">매출</span>${revValue}</div>`
-      : revValue;
-    const profitLine = i === 0
-      ? `<div style="position:relative; display:inline-block;"><span class="mono" style="position:absolute; top:50%; right:100%; transform:translateY(-50%); margin-right:4px; font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">순이익</span>${profitValue}</div>`
-      : profitValue;
 
     return `
       <div style="display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; min-width:0;">
         <div style="display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.3;">
-          ${revLine}
-          ${profitLine}
+          <span class="mono" style="font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">${formatEokCompact(s.revenue)}</span>
+          <span class="mono" style="font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">${formatEokCompact(s.profit)}</span>
         </div>
         <div style="display:flex; align-items:flex-end; gap:4px; height:${MAX_BAR_PX}px; margin-top:3px;">
           <div title="${escapeHtml(revTitle)}" style="width:13px; background:var(--up); opacity:${opacity}; height:${revH}px; border-radius:2px 2px 0 0;"></div>
@@ -1488,7 +1471,11 @@ function renderFinanceChart(financeSeries){
   }).join('');
 
   return `
-    <div style="display:flex; align-items:flex-end; gap:14px; margin:6px 0 6px; padding:0 2px 0 34px;">
+    <div style="display:flex; gap:12px; margin-bottom:6px;">
+      <span class="mono" style="font-size:10.5px; font-weight:700; color:var(--up);">■ 매출</span>
+      <span class="mono" style="font-size:10.5px; font-weight:700; color:var(--ai);">■ 순이익</span>
+    </div>
+    <div style="display:flex; align-items:flex-end; gap:14px; margin:0 0 6px; padding:0 2px;">
       ${bars}
     </div>
   `;

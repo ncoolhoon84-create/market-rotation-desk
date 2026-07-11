@@ -289,8 +289,6 @@
   .ranking-info{ flex:1; min-width:0; }
   .ranking-name-row{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
   .ranking-name{ font-family:'Source Serif 4',serif; font-size:12.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:110px; }
-  /* 매수/매도 서브리스트가 항목 개수와 무관하게 항상 같은 세로 공간을 차지하도록 최소 높이 고정
-     (예: 매도 상위가 1개뿐이어도 매수 5개짜리 칸과 시각적 비율이 어긋나지 않게) */
   .ranking-sublist{ min-height:212px; }
   .ranking-bar-track{ height:3px; background:var(--line); border-radius:2px; margin-top:5px; overflow:hidden; }
   .ranking-bar-fill{ height:100%; background:var(--up); border-radius:2px; }
@@ -495,9 +493,6 @@ function buildFlowTriad(iv){
 
 function flowBadgeWithTooltip(item){
   const iv = item.investor_flow;
-  // trend_summary는 fetch_investor_flow()가 완전히 성공했을 때만 채워지는 필드.
-  // 이게 있으면(=진짜 데이터 기반 판정, 그 결과가 "중립"이더라도) 아래에서
-  // 실제 개인/기관/외국인 수치를 보여주는 정상 툴팁을 그린다.
   if(iv && iv.trend_summary){
     const triad = buildFlowTriad(iv);
     const chart = iv.recent5_days && iv.recent5_days.length
@@ -524,10 +519,6 @@ function flowBadgeWithTooltip(item){
     `;
   }
 
-  // 여기 도달했다는 건 investor_flow가 아예 없다는 뜻.
-  // 한국 섹터인데(flow_basis가 가격 모멘텀 기반으로 대체됐다는 건 KRX 수급 조회
-  // 자체가 이번 실행에서 실패했다는 신호) "중립"이라고 뭉뚱그리면 마치 실제 수급이
-  // 중립이라고 판정된 것처럼 오해될 수 있어서, 데이터 없음을 명확히 구분해서 표시.
   const isKrSectorFetchFail = item.group === '한국 섹터' && item.flow_basis && item.flow_basis.indexOf('모멘텀') !== -1;
   if(isKrSectorFetchFail){
     return `
@@ -766,6 +757,37 @@ function renderMegatrendCard(trend){
   `;
 }
 
+function renderThematicCard(label, holdings){
+  if(!holdings || !holdings.length){
+    return `<div class="ranking-col"><div class="ranking-col-title">${escapeHtml(label)}</div><div class="ranking-empty">데이터 없음</div></div>`;
+  }
+  const maxWeight = Math.max(...holdings.map(h => h.weight_pct), 1);
+  const items = holdings.map((h, i) => {
+    const pct = (h.weight_pct / maxWeight) * 100;
+    return `
+      <div class="ranking-item compact">
+        <span class="ranking-rank">${i+1}</span>
+        <div class="ranking-info">
+          <div class="ranking-name-row">
+            <span class="ranking-name" style="max-width:160px;">${escapeHtml(h.name)}</span>
+            <span class="mono" style="font-size:10px;color:var(--faint);">${escapeHtml(h.ticker)}</span>
+          </div>
+          <div class="ranking-bar-track"><div class="ranking-bar-fill" style="width:${pct}%; background:var(--ai);"></div></div>
+        </div>
+        <div class="ranking-figures">
+          <div class="ranking-amount" style="color:var(--ai);">${h.weight_pct}%</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  return `
+    <div class="ranking-col">
+      <div class="ranking-col-title">${escapeHtml(label)}</div>
+      ${items}
+    </div>
+  `;
+}
+
 function renderCalendarRow(item){
   const tagClass = item.impact === '호재' ? 'tag-favor' : item.impact === '악재' ? 'tag-caution' : 'tag-neutral';
   const uid = nextUid();
@@ -815,6 +837,8 @@ async function loadDashboard(isManualRefresh){
     const krRows = (data.kr_sectors || []).map(renderSectorRow).join('');
     const usRows = (data.us_sectors || []).map(renderUsSectorRow).join('');
     const calRows = (data.calendar || []).map(renderCalendarRow).join('');
+    const thematicCards = Object.entries(data.thematic_holdings || {})
+      .map(([label, holdings]) => renderThematicCard(label, holdings)).join('');
 
     container.innerHTML = `
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
@@ -860,6 +884,9 @@ async function loadDashboard(isManualRefresh){
         </table>
       </div>
 
+      <div class="section-label"><div class="bar"></div><h2>테마별 대표 종목</h2><span class="note">THEMATIC LEADERS · VanEck 테마 ETF 상위 10종목 · 반기 리밸런싱 · 참고용 (AI 분석·매매신호 아님)</span></div>
+      <div class="ranking-grid" style="grid-template-columns:repeat(2,1fr);">${thematicCards}</div>
+
       <div class="section-label"><div class="bar"></div><h2>이달 주요일정</h2><span class="note">EVENT CALENDAR</span></div>
       <div class="calendar">${calRows}</div>
 
@@ -872,7 +899,10 @@ async function loadDashboard(isManualRefresh){
         미국 섹터는 KRX 같은 독립적인 수급 데이터가 없어 자금흐름·싸이클 판정을 제공하지 않으며,
         대신 OBV(On-Balance Volume, 상승일 거래량은 더하고 하락일엔 빼는 누적 지표)로
         가격 움직임에 거래량이 실제로 뒷받침되는지("강")와 그렇지 않은지("약")만 참고용으로 표시합니다.
-        OBV 역시 가격·거래량에서 파생된 지표라 한국 섹터의 실제 수급 데이터만큼의 독립적 근거는 아닙니다.<br>
+        OBV 역시 가격·거래량에서 파생된 지표라 한국 섹터의 실제 수급 데이터만큼의 독립적 근거는 아닙니다.
+        <strong>테마별 대표 종목</strong>은 VanEck의 로보틱스(IBOT)·우주경제(WARP) ETF가 공개하는 최신 보유종목 비중 상위 10개를
+        그대로 보여주는 정적 참고 자료입니다. 이 두 ETF는 지수를 그대로 추종하는 패시브 상품으로 반기(6월/12월 등)에만
+        리밸런싱되며, "스마트머니 동향"과 달리 매수/매도 신호나 AI 분석이 적용되지 않습니다.<br>
         <strong>차기싸이클 예측 판정 기준 (한국 섹터만 해당, 규칙 기반, AI 아님).</strong>
         <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 자금흐름도 유입인 경우 (가격·수급이 이미 함께 상승) ·
         <u>차기 싸이클 가능성</u> = 자금흐름은 유입인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·

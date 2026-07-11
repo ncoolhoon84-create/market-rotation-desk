@@ -1271,10 +1271,16 @@ function sma(values, window){
   });
 }
 
+// 본인 소유 Vercel 서버리스 함수 주소 (AI 종목 의견 전용)
+// [2026-07-11 수정] 원래 Cloudflare Worker(mode=opinion)로 만들었는데,
+// Anthropic API가 Cloudflare Worker의 발신 IP를 차단하는 것으로 보이는
+// 문제(403 forbidden, "Request not allowed")가 있어서 Vercel로 이전함.
+// 네이버 프록시(MY_WORKER_PROXY)는 Cloudflare에서 문제없이 잘 되어서
+// 그대로 두고, AI 의견 기능만 분리함.
+const MY_OPINION_API = 'https://stock-opinion-api.vercel.app';
+
 async function fetchStockOpinion(nameOrCode){
-  // Worker의 mode=opinion 경로 호출 — 구글 뉴스 검색 + Claude 요약을
-  // Worker 안에서 처리하고 결과만 받아옴 (API 키는 Worker 안에만 있음)
-  const res = await fetch(`${MY_WORKER_PROXY}/?mode=opinion&name=${encodeURIComponent(nameOrCode)}`, { cache: 'no-store' });
+  const res = await fetch(`${MY_OPINION_API}/api/opinion?name=${encodeURIComponent(nameOrCode)}`, { cache: 'no-store' });
   console.log('[opinion 응답 상태]', res.status);
   if(!res.ok){
     const text = await res.text().catch(() => '');

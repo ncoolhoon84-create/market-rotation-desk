@@ -770,6 +770,80 @@ function renderNewEtfCard(launch){
   `;
 }
 
+// =========================================================
+// M3: 떠오르는 신호 워치리스트
+// -----------------------------------------------------------
+// M1(기존 테마 ETF의 신규 편입 종목)과 M2(신규 테마 ETF 출시)는
+// 성격이 다른 신호라 하나의 점수로 합치지 않고, 각자 근거를 그대로
+// 보여주는 두 블록으로 나란히 배치함. 새 데이터를 만들지 않고
+// data.thematic_holdings / data.new_etf_launches를 그대로 재사용함.
+// =========================================================
+function collectNewEntries(thematicHoldings){
+  const entries = [];
+  Object.entries(thematicHoldings || {}).forEach(([fundLabel, holdings]) => {
+    (holdings || []).forEach(h => {
+      if(h.is_new_entry){
+        entries.push({ ...h, fundLabel });
+      }
+    });
+  });
+  return entries;
+}
+
+function renderEmergingSignalsSection(data){
+  const newEntries = collectNewEntries(data.thematic_holdings);
+  const launches = data.new_etf_launches || [];
+
+  if(!newEntries.length && !launches.length) return ''; // 감지된 신호가 없으면 섹션 자체를 숨김
+
+  const entryItems = newEntries.length
+    ? newEntries.map(e => `
+        <div class="ranking-item compact">
+          <span class="rank-badge new" style="flex-shrink:0;">NEW</span>
+          <div class="ranking-info">
+            <div class="ranking-name-row">
+              <span class="ranking-name" style="max-width:180px;">${escapeHtml(e.name)}</span>
+              <span class="mono" style="font-size:10px;color:var(--faint);">${escapeHtml(e.ticker)}</span>
+            </div>
+            <div class="trend-sectors" style="margin-top:2px;">${escapeHtml(e.fundLabel)}</div>
+          </div>
+          <div class="ranking-figures">
+            <div class="ranking-amount" style="color:var(--ai);">${e.weight_pct}%</div>
+          </div>
+        </div>
+      `).join('')
+    : `<div class="ranking-empty">이번 실행에서 감지된 신규 편입 종목 없음</div>`;
+
+  const launchItems = launches.length
+    ? launches.slice(0, 6).map(l => `
+        <div class="ranking-item compact">
+          <span class="rank-badge streak" style="flex-shrink:0;">NEW ETF</span>
+          <div class="ranking-info">
+            <div class="ranking-name-row">
+              <span class="ranking-name" style="max-width:220px;">${escapeHtml(l.etf_name)}</span>
+              ${l.ticker ? `<span class="mono" style="font-size:10px;color:var(--faint);">${escapeHtml(l.ticker)}</span>` : ''}
+            </div>
+            <div class="trend-sectors" style="margin-top:2px;">${escapeHtml(l.issuer) || '-'} · ${escapeHtml(l.theme) || '-'}</div>
+          </div>
+        </div>
+      `).join('')
+    : `<div class="ranking-empty">이번 실행에서 감지된 신규 ETF 출시 없음</div>`;
+
+  return `
+    <div class="section-label"><div class="bar"></div><h2>떠오르는 신호 워치리스트</h2><span class="note">EMERGING SIGNALS · 두 가지 서로 다른 신호를 그대로 병렬 제시 · 투자 추천 아님</span></div>
+    <div class="ranking-grid" style="grid-template-columns:repeat(2,1fr);">
+      <div class="ranking-col">
+        <div class="ranking-col-title">기존 테마 ETF 신규 편입 종목</div>
+        ${entryItems}
+      </div>
+      <div class="ranking-col">
+        <div class="ranking-col-title">신규 출시된 테마 ETF</div>
+        ${launchItems}
+      </div>
+    </div>
+  `;
+}
+
 function renderThematicCard(label, holdings){
   if(!holdings || !holdings.length){
     return `<div class="ranking-col"><div class="ranking-col-title">${escapeHtml(label)}</div><div class="ranking-empty">데이터 없음</div></div>`;
@@ -872,6 +946,8 @@ async function loadDashboard(isManualRefresh){
       <div class="trend-grid">${trendCards}</div>
       ` : ''}
 
+      ${renderEmergingSignalsSection(data)}
+
       <div class="section-label"><div class="bar"></div><h2>한국 섹터</h2><span class="note">KR SECTOR FLOW · ${(data.kr_sectors||[]).length}개 종목 · 자금흐름 기준: 외국인 수급(선행지표) · 뱃지에 마우스오버 시 상세</span></div>
       <div class="sector-table-wrap">
         <table class="sector">
@@ -925,7 +1001,11 @@ async function loadDashboard(isManualRefresh){
         그대로 보여주는 정적 참고 자료입니다. 이 두 ETF는 지수를 그대로 추종하는 패시브 상품으로 반기(6월/12월 등)에만
         리밸런싱되며, "스마트머니 동향"과 달리 매수/매도 신호나 AI 분석이 적용되지 않습니다.
         <strong>신규 테마 ETF 출시 동향</strong>은 미국 자산운용사들의 새 ETF 출시/신청 뉴스를 모아 Claude가
-        ETF명·운용사·테마를 구조화해 정리한 것입니다. 실제 신규 출시가 없으면 이 섹션 자체가 표시되지 않습니다.<br>
+        ETF명·운용사·테마를 구조화해 정리한 것입니다. 실제 신규 출시가 없으면 이 섹션 자체가 표시되지 않습니다.
+        <strong>떠오르는 신호 워치리스트</strong>는 위 두 섹션(테마별 대표 종목의 신규 편입, 신규 테마 ETF 출시)의
+        결과를 그대로 한곳에 모아 보여주는 요약 창일 뿐, 별도의 계산이나 점수화를 하지 않습니다.
+        두 신호는 서로 다른 성격(패시브 지수 편입 vs. 운용사의 신규 상품 출시)이라 하나로 합치지 않고 병렬로 제시하며,
+        둘 다 감지된 게 없으면 이 섹션도 표시되지 않습니다.<br>
         <strong>차기싸이클 예측 판정 기준 (한국 섹터만 해당, 규칙 기반, AI 아님).</strong>
         <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 자금흐름도 유입인 경우 (가격·수급이 이미 함께 상승) ·
         <u>차기 싸이클 가능성</u> = 자금흐름은 유입인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·

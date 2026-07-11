@@ -962,9 +962,25 @@ def _find_column(columns, candidates) -> str:
     return None
 
 
+def _parse_weight_value(v):
+    """비중 값이 '5.21%' 같은 문자열이어도 숫자로 변환. 안 되면 NaN."""
+    if isinstance(v, str):
+        v = v.replace("%", "").strip()
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return float("nan")
+
+
 def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list:
     """VanEck 펀드 페이지에서 holdings XLSX를 받아 상위 top_n개 종목만 추출.
-    반환: [{"ticker": ..., "name": ..., "weight_pct": ...}, ...] (실패 시 빈 리스트)"""
+    반환: [{"ticker": ..., "name": ..., "weight_pct": ...}, ...] (실패 시 빈 리스트)
+
+    [2026-07-11 진단 로그 강화] 이전 버전은 컬럼은 찾았는데 비중 값이 "5.21%"
+    같은 문자열이라 pd.to_numeric이 전부 실패 -> dropna로 모든 행이 사라져서
+    빈 리스트가 조용히 반환되는 경우, 아무 경고도 안 남기는 문제가 있었음.
+    -> % 기호를 직접 벗겨내는 파서 추가 + 각 단계(응답 상태, 찾은 헤더 행/컬럼명,
+       필터링 전후 행 개수, 원본 비중값 샘플)를 전부 로그로 남기도록 변경."""
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -975,8 +991,12 @@ def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list
     for attempt in range(1, retries + 1):
         try:
             resp = requests.get(url, headers=headers, timeout=15)
+            print(f"  [진단] {url} 시도 {attempt}/{retries}: HTTP {resp.status_code}, "
+                  f"content-type={resp.headers.get('Content-Type')}, "
+                  f"응답 크기={len(resp.content)}바이트")
+
             if resp.status_code != 200:
-                print(f"  [경고] 테마 ETF holdings 조회 실패 ({url}) 시도 {attempt}/{retries}: "
+                print(f"  [경고] 테마 ETF holdings 조회 실패 시도 {attempt}/{retries}: "
                       f"HTTP 상태코드 {resp.status_code}")
                 time.sleep(2)
                 continue
@@ -985,6 +1005,7 @@ def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list
             # header 행 위치를 0~10행 사이에서 자동으로 찾아봄.
             excel_bytes = io.BytesIO(resp.content)
             df = None
+            matched_header_row = None
             for header_row in range(0, 11):
                 try:
                     candidate = pd.read_excel(excel_bytes, header=header_row, engine="openpyxl")
@@ -994,6 +1015,7 @@ def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list
                     weight_col = _find_column(candidate.columns, _WEIGHT_COL_CANDIDATES)
                     if ticker_col and name_col and weight_col:
                         df = candidate
+                        matched_header_row = header_row
                         break
                 except Exception:
                     excel_bytes.seek(0)
@@ -1008,10 +1030,23 @@ def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list
             ticker_col = _find_column(df.columns, _TICKER_COL_CANDIDATES)
             name_col = _find_column(df.columns, _NAME_COL_CANDIDATES)
             weight_col = _find_column(df.columns, _WEIGHT_COL_CANDIDATES)
+            print(f"  [진단] header_row={matched_header_row}에서 컬럼 매칭됨: "
+                  f"ticker='{ticker_col}', name='{name_col}', weight='{weight_col}' "
+                  f"(전체 컬럼: {list(df.columns)})")
+            print(f"  [진단] 원본 행 개수: {len(df)}, weight 원본값 샘플: "
+                  f"{df[weight_col].head(3).tolist()}")
 
             df = df.dropna(subset=[ticker_col, weight_col])
-            df[weight_col] = pd.to_numeric(df[weight_col], errors="coerce")
+            df[weight_col] = df[weight_col].apply(_parse_weight_value)
             df = df.dropna(subset=[weight_col])
+            print(f"  [진단] 정제 후 유효 행 개수: {len(df)}")
+
+            if df.empty:
+                print(f"  [경고] {url}: 컬럼은 찾았지만 정제 후 유효한 행이 0개임. "
+                      f"weight 컬럼 형식을 재확인 필요.")
+                time.sleep(2)
+                continue
+
             df = df.sort_values(by=weight_col, ascending=False).head(top_n)
 
             results = []

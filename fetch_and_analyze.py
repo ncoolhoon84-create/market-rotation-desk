@@ -546,7 +546,8 @@ def get_news_headlines(query: str, max_count: int = 3, retries: int = 2,
 # 4. Claude API 호출 (JSON 응답 요청)
 # =========================================================
 
-def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, retries: int = 2) -> dict:
+def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, retries: int = 2,
+                      max_tokens: int = 500) -> dict:
     """Claude에게 JSON 응답을 요청. 파싱 실패 시 '고쳐서 다시 보내라'고 재요청.
 
     [2026-07-11 수정] Claude가 완전히 빈 문자열을 응답하는 경우
@@ -555,7 +556,13 @@ def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, re
     다음 시도도 같이 꼬이는 문제가 있었음.
     -> 빈 응답은 별도로 감지해서 로그를 남기고, 대화 히스토리를 오염시키지 않도록
        messages를 처음부터 새로 구성해서(빈 assistant 턴을 남기지 않고) 재시도함.
-       그 외의 "형식은 있지만 유효하지 않은 JSON" 실패는 기존처럼 수정 요청 턴을 붙임."""
+       그 외의 "형식은 있지만 유효하지 않은 JSON" 실패는 기존처럼 수정 요청 턴을 붙임.
+
+    [2026-07-11 추가] 실제로는 stop_reason=max_tokens로 응답이 중간에 잘려서
+    "완전히 빈 응답"처럼 보이거나 JSON이 미완성으로 끝나는 경우가 있었음
+    (여러 항목을 한꺼번에 구조화해야 하는 호출부일수록 500 토큰이 부족했음).
+    -> max_tokens를 호출부에서 필요에 따라 늘릴 수 있도록 파라미터로 노출함
+       (기본값 500은 기존 호출부와 동일하게 유지, 영향 없음)."""
     base_messages = [{"role": "user", "content": user_prompt}]
     messages = list(base_messages)
 
@@ -563,7 +570,7 @@ def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, re
         try:
             message = client.messages.create(
                 model=CLAUDE_MODEL,
-                max_tokens=500,
+                max_tokens=max_tokens,
                 system=system_prompt,
                 messages=messages,
             )
@@ -585,8 +592,9 @@ def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, re
             try:
                 return json.loads(cleaned)
             except json.JSONDecodeError as parse_err:
+                stop_reason = getattr(message, "stop_reason", None)
                 print(f"  [경고] JSON 파싱 실패 (시도 {attempt}/{retries}): {parse_err} "
-                      f"— 원본 응답 앞부분: {raw_text[:200]!r}")
+                      f"(stop_reason={stop_reason}) — 원본 응답 앞부분: {raw_text[:200]!r}")
                 if attempt < retries:
                     messages.append({"role": "assistant", "content": raw_text})
                     messages.append({
@@ -822,7 +830,7 @@ def analyze_new_etf_launches(client: Anthropic) -> list:
     )
     user_prompt = "Recent headlines:\n" + headline_text
 
-    ai_result = call_claude_json(client, system_prompt, user_prompt)
+    ai_result = call_claude_json(client, system_prompt, user_prompt, max_tokens=1500)
     time.sleep(0.3)
 
     if isinstance(ai_result, list):

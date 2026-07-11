@@ -757,6 +757,19 @@ function renderMegatrendCard(trend){
   `;
 }
 
+function renderNewEtfCard(launch){
+  const uid = nextUid();
+  return `
+    <div class="trend-card">
+      <div class="trend-title">${escapeHtml(launch.etf_name) || 'ETF'}${launch.ticker ? ` <span class="mono" style="font-size:11px;color:var(--faint);">(${escapeHtml(launch.ticker)})</span>` : ''}</div>
+      <div class="trend-desc">${escapeHtml(launch.summary)}</div>
+      <div class="trend-sectors">운용사: ${escapeHtml(launch.issuer) || '-'} · 테마: ${escapeHtml(launch.theme) || '-'}</div>
+      <button class="trend-news-toggle" onclick="toggleNews('${uid}')">근거 뉴스 보기 ▾</button>
+      ${newsDropdown(launch.source_headlines, uid)}
+    </div>
+  `;
+}
+
 function renderThematicCard(label, holdings){
   if(!holdings || !holdings.length){
     return `<div class="ranking-col"><div class="ranking-col-title">${escapeHtml(label)}</div><div class="ranking-empty">데이터 없음</div></div>`;
@@ -841,6 +854,7 @@ async function loadDashboard(isManualRefresh){
     const calRows = (data.calendar || []).map(renderCalendarRow).join('');
     const thematicCards = Object.entries(data.thematic_holdings || {})
       .map(([label, holdings]) => renderThematicCard(label, holdings)).join('');
+    const newEtfCards = (data.new_etf_launches || []).map(renderNewEtfCard).join('');
 
     container.innerHTML = `
       <div class="section-label"><div class="bar"></div><h2>주요지수</h2><span class="note">MAJOR INDICES</span></div>
@@ -889,6 +903,11 @@ async function loadDashboard(isManualRefresh){
       <div class="section-label"><div class="bar"></div><h2>테마별 대표 종목</h2><span class="note">THEMATIC LEADERS · VanEck 테마 ETF 상위 10종목 · 반기 리밸런싱 · 참고용 (AI 분석·매매신호 아님)</span></div>
       <div class="ranking-grid" style="grid-template-columns:repeat(2,1fr);">${thematicCards}</div>
 
+      ${newEtfCards ? `
+      <div class="section-label"><div class="bar"></div><h2>신규 테마 ETF 출시 동향</h2><span class="note">NEW ETF LAUNCHES · 미국 자산운용사 신규 테마 ETF 출시/신청 소식 · AI 추정</span></div>
+      <div class="trend-grid">${newEtfCards}</div>
+      ` : ''}
+
       <div class="section-label"><div class="bar"></div><h2>이달 주요일정</h2><span class="note">EVENT CALENDAR</span></div>
       <div class="calendar">${calRows}</div>
 
@@ -904,7 +923,9 @@ async function loadDashboard(isManualRefresh){
         OBV 역시 가격·거래량에서 파생된 지표라 한국 섹터의 실제 수급 데이터만큼의 독립적 근거는 아닙니다.
         <strong>테마별 대표 종목</strong>은 VanEck의 로보틱스(IBOT)·우주경제(WARP) ETF가 공개하는 최신 보유종목 비중 상위 10개를
         그대로 보여주는 정적 참고 자료입니다. 이 두 ETF는 지수를 그대로 추종하는 패시브 상품으로 반기(6월/12월 등)에만
-        리밸런싱되며, "스마트머니 동향"과 달리 매수/매도 신호나 AI 분석이 적용되지 않습니다.<br>
+        리밸런싱되며, "스마트머니 동향"과 달리 매수/매도 신호나 AI 분석이 적용되지 않습니다.
+        <strong>신규 테마 ETF 출시 동향</strong>은 미국 자산운용사들의 새 ETF 출시/신청 뉴스를 모아 Claude가
+        ETF명·운용사·테마를 구조화해 정리한 것입니다. 실제 신규 출시가 없으면 이 섹션 자체가 표시되지 않습니다.<br>
         <strong>차기싸이클 예측 판정 기준 (한국 섹터만 해당, 규칙 기반, AI 아님).</strong>
         <u>현재 싸이클</u> = 20일 모멘텀 +5%↑ 이고 자금흐름도 유입인 경우 (가격·수급이 이미 함께 상승) ·
         <u>차기 싸이클 가능성</u> = 자금흐름은 유입인데 20일 모멘텀은 아직 +2% 미만인 경우 (자금 유입이 가격에 아직 반영 전) ·

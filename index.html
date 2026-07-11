@@ -1116,20 +1116,40 @@ function startLiveIndicesPolling(){
 // =========================================================
 
 async function corsGet(targetUrl){
-  const proxyBuilders = [
-    (u) => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-    (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-  ];
-  let lastErr = null;
-  for(const build of proxyBuilders){
-    try {
-      const res = await fetch(build(targetUrl), { cache: 'no-store' });
-      if(!res.ok) throw new Error('HTTP ' + res.status);
+  // [2026-07-11 수정] corsproxy.io는 403으로 아예 막혀있었고,
+  // allorigins.win/raw는 CORS 헤더 자체를 안 보내줘서 브라우저가
+  // 응답을 읽지도 못하고 차단하는 문제가 있었음(콘솔에서 확인됨).
+  // -> allorigins.win의 /get 방식(응답을 JSON으로 감싸서 CORS 헤더를
+  //    제대로 보내주는 버전)을 1순위로, codetabs 프록시를 2순위로,
+  //    corsproxy.io는 혹시 나중에 풀릴 수도 있으니 마지막 순위로 유지.
+  const attempts = [
+    async () => {
+      const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
+      if(!res.ok) throw new Error('allorigins/get HTTP ' + res.status);
+      const wrapper = await res.json();
+      if(!wrapper || typeof wrapper.contents !== 'string') throw new Error('allorigins/get 응답 형식이 예상과 다름');
+      return JSON.parse(wrapper.contents);
+    },
+    async () => {
+      const res = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
+      if(!res.ok) throw new Error('codetabs HTTP ' + res.status);
       const text = await res.text();
       return JSON.parse(text);
+    },
+    async () => {
+      const res = await fetch(`https://corsproxy.io/?url=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
+      if(!res.ok) throw new Error('corsproxy.io HTTP ' + res.status);
+      const text = await res.text();
+      return JSON.parse(text);
+    },
+  ];
+  let lastErr = null;
+  for(const attempt of attempts){
+    try {
+      return await attempt();
     } catch(e){
       lastErr = e;
-      console.warn('[corsGet] 프록시 실패, 다음 프록시 시도:', build(targetUrl), e);
+      console.warn('[corsGet] 프록시 실패, 다음 프록시 시도:', targetUrl, e);
     }
   }
   throw lastErr || new Error('알 수 없는 오류');

@@ -1279,7 +1279,7 @@ async function runStockCheck(){
   await sleep(500);
   const financeSeries = await fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; });
   await sleep(500);
-  const dailyPrices = await fetchDailyPrices(code, 250).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
+  const dailyPrices = await fetchDailyPrices(code, 100).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
 
   resultEl.innerHTML = renderStockCheckResult(code, integration, financeSeries, dailyPrices);
   btn.disabled = false;

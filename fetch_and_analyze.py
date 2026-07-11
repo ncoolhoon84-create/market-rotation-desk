@@ -478,26 +478,60 @@ def fetch_investor_flow(krx_ticker: str, is_etf: bool = False, retries: int = 2)
 # 3. 구글 뉴스 RSS (무료, 키 불필요)
 # =========================================================
 
-def get_news_headlines(query: str, max_count: int = 3) -> list:
-    """뉴스 헤드라인과 링크를 함께 가져옴. 반환값: [{"title": ..., "link": ...}, ...]"""
-    try:
-        url = f"https://news.google.com/rss/search?q={quote(query)}&hl=ko&gl=KR&ceid=KR:ko"
-        resp = requests.get(url, timeout=10)
-        root = ET.fromstring(resp.content)
-        items = root.findall(".//item")[:max_count]
-        results = []
-        for item in items:
-            title_el = item.find("title")
-            link_el = item.find("link")
-            if title_el is not None:
-                results.append({
-                    "title": title_el.text,
-                    "link": link_el.text if link_el is not None else None,
-                })
-        return results
-    except Exception as e:
-        print(f"  [경고] 뉴스 조회 실패 ({query}): {e}")
-        return []
+_NEWS_HEADERS = {
+    # 구글 뉴스가 기본 requests UA(python-requests/x.x)를 봇으로 차단하고
+    # RSS 대신 차단/에러 안내 페이지(HTML)를 돌려주는 경우가 있어서, 실제
+    # 크롬 브라우저처럼 보이는 User-Agent를 지정함. (yfinance의 curl_cffi
+    # 우회와 같은 이유의 문제 — Yahoo Finance가 아니라 Google News RSS 쪽.)
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+    ),
+}
+
+
+def get_news_headlines(query: str, max_count: int = 3, retries: int = 2) -> list:
+    """뉴스 헤드라인과 링크를 함께 가져옴. 반환값: [{"title": ..., "link": ...}, ...]
+
+    [2026-07-11 수정] 모든 검색어에서 XML 파싱이 똑같은 위치에서 실패하는 현상 발견
+    (구글이 RSS 대신 차단/안내용 HTML 페이지를 돌려주고 있었던 것으로 추정).
+    User-Agent 헤더 추가 + 응답 상태코드 확인 + 실패 시 재시도 + 그래도 실패하면
+    받은 응답의 앞부분을 로그로 남겨서 다음에 또 막히면 바로 원인 파악이 되도록 함."""
+    url = f"https://news.google.com/rss/search?q={quote(query)}&hl=ko&gl=KR&ceid=KR:ko"
+
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(url, headers=_NEWS_HEADERS, timeout=10)
+
+            if resp.status_code != 200:
+                print(f"  [경고] 뉴스 조회 실패 ({query}) 시도 {attempt}/{retries}: "
+                      f"HTTP 상태코드 {resp.status_code}")
+                time.sleep(attempt * 2)
+                continue
+
+            root = ET.fromstring(resp.content)
+            items = root.findall(".//item")[:max_count]
+            results = []
+            for item in items:
+                title_el = item.find("title")
+                link_el = item.find("link")
+                if title_el is not None:
+                    results.append({
+                        "title": title_el.text,
+                        "link": link_el.text if link_el is not None else None,
+                    })
+            return results
+
+        except ET.ParseError as e:
+            snippet = resp.text[:200].replace("\n", " ")
+            print(f"  [경고] 뉴스 조회 실패 ({query}) 시도 {attempt}/{retries}: XML 파싱 실패 ({e}) "
+                  f"— 받은 응답 앞부분: {snippet}")
+            time.sleep(attempt * 2)
+        except Exception as e:
+            print(f"  [경고] 뉴스 조회 실패 ({query}) 시도 {attempt}/{retries}: {e}")
+            time.sleep(attempt * 2)
+
+    return []
 
 
 # =========================================================

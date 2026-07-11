@@ -1116,13 +1116,21 @@ function startLiveIndicesPolling(){
 // =========================================================
 
 async function corsGet(targetUrl){
-  // [2026-07-11 수정] corsproxy.io는 403으로 아예 막혀있었고,
-  // allorigins.win/raw는 CORS 헤더 자체를 안 보내줘서 브라우저가
-  // 응답을 읽지도 못하고 차단하는 문제가 있었음(콘솔에서 확인됨).
-  // -> allorigins.win의 /get 방식(응답을 JSON으로 감싸서 CORS 헤더를
-  //    제대로 보내주는 버전)을 1순위로, codetabs 프록시를 2순위로,
-  //    corsproxy.io는 혹시 나중에 풀릴 수도 있으니 마지막 순위로 유지.
+  // [2026-07-11 수정] 무료 공개 CORS 프록시(corsproxy.io, allorigins.win,
+  // codetabs.com)는 트래픽이 몰리면 자주 막히거나 CORS 헤더를 누락하는
+  // 문제가 반복됐음(403/408/CORS 헤더 없음 등, 콘솔에서 여러 번 확인됨).
+  // -> 본인 소유 Cloudflare Worker(무료, 네이버 금융 도메인만 허용하는
+  //    전용 프록시)를 1순위로 사용. 무료 공개 프록시들은 만약을 위해
+  //    후순위 폴백으로만 남겨둠.
+  const MY_WORKER_PROXY = 'https://naver-proxy.ncoolhoon.workers.dev';
+
   const attempts = [
+    async () => {
+      const res = await fetch(`${MY_WORKER_PROXY}/?url=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
+      if(!res.ok) throw new Error('내 Worker 프록시 HTTP ' + res.status);
+      const text = await res.text();
+      return JSON.parse(text);
+    },
     async () => {
       const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
       if(!res.ok) throw new Error('allorigins/get HTTP ' + res.status);
@@ -1271,7 +1279,7 @@ async function runStockCheck(){
   await sleep(500);
   const financeSeries = await fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; });
   await sleep(500);
-  const dailyPrices = await fetchDailyPrices(code, 140).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
+  const dailyPrices = await fetchDailyPrices(code, 250).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
 
   resultEl.innerHTML = renderStockCheckResult(code, integration, financeSeries, dailyPrices);
   btn.disabled = false;

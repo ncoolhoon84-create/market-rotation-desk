@@ -1459,16 +1459,24 @@ function renderFinanceChart(financeSeries){
     const revTitle = `${s.title} 매출: ${s.revenue != null ? s.revenue.toLocaleString()+'억' : '데이터 없음'}`;
     const profitTitle = `${s.title} 순이익: ${s.profit != null ? s.profit.toLocaleString()+'억' : '데이터 없음'}`;
     const forecastTag = s.isForecast ? `<span style="font-weight:400; color:var(--muted);">(컨센서스)</span>` : '';
-    // 첫 번째(가장 왼쪽) 연도에만 "매출"/"순이익" 항목명을 붙여서, 별도 범례 없이도
-    // 무엇을 나타내는 색인지 바로 알 수 있게 함
-    const revLabel = (i === 0 ? '매출 ' : '') + formatEokCompact(s.revenue);
-    const profitLabel = (i === 0 ? '순이익 ' : '') + formatEokCompact(s.profit);
+    // 첫 번째(가장 왼쪽) 연도에만 "매출"/"순이익" 항목명을 붙임. 라벨을 숫자와
+    // 한 덩어리로 합쳐서 가운데 정렬하면 숫자 위치가 다른 연도와 어긋나므로,
+    // 라벨은 숫자 왼쪽에 절대배치해서 숫자 자체는 다른 연도와 동일하게
+    // 중앙 정렬된 상태를 유지하게 함.
+    const revValue = `<span class="mono" style="font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">${formatEokCompact(s.revenue)}</span>`;
+    const profitValue = `<span class="mono" style="font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">${formatEokCompact(s.profit)}</span>`;
+    const revLine = i === 0
+      ? `<div style="position:relative; display:inline-block;"><span class="mono" style="position:absolute; right:100%; margin-right:4px; font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">매출</span>${revValue}</div>`
+      : revValue;
+    const profitLine = i === 0
+      ? `<div style="position:relative; display:inline-block;"><span class="mono" style="position:absolute; right:100%; margin-right:4px; font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">순이익</span>${profitValue}</div>`
+      : profitValue;
 
     return `
       <div style="display:flex; flex-direction:column; align-items:center; gap:2px; flex:1; min-width:0;">
         <div style="display:flex; flex-direction:column; align-items:center; gap:1px; line-height:1.3;">
-          <span class="mono" style="font-size:11px; font-weight:700; color:var(--up); white-space:nowrap;">${revLabel}</span>
-          <span class="mono" style="font-size:11px; font-weight:700; color:${profitColor}; white-space:nowrap;">${profitLabel}</span>
+          ${revLine}
+          ${profitLine}
         </div>
         <div style="display:flex; align-items:flex-end; gap:4px; height:${MAX_BAR_PX}px; margin-top:3px;">
           <div title="${escapeHtml(revTitle)}" style="width:13px; background:var(--up); opacity:${opacity}; height:${revH}px; border-radius:2px 2px 0 0;"></div>
@@ -1480,7 +1488,7 @@ function renderFinanceChart(financeSeries){
   }).join('');
 
   return `
-    <div style="display:flex; align-items:flex-end; gap:14px; margin:6px 0 6px; padding:0 2px;">
+    <div style="display:flex; align-items:flex-end; gap:14px; margin:6px 0 6px; padding:0 2px 0 34px;">
       ${bars}
     </div>
   `;

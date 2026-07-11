@@ -1420,6 +1420,46 @@ function checkRow(badgeCls, badgeText, title, desc, extraHtml){
   `;
 }
 
+function renderFinanceChart(financeSeries){
+  // 매출/순이익을 각각 자기 계열 안에서의 최댓값 기준으로 정규화해서
+  // 막대 높이를 계산함 (두 계열의 절대 규모 차이가 커도 각자의 추세는
+  // 잘 보이게 하기 위함 — 매출과 순이익을 같은 축으로 비교하려는 게 아님)
+  const MAX_BAR_PX = 70;
+  const revenues = financeSeries.map(s => s.revenue).filter(v => v != null);
+  const profits = financeSeries.map(s => s.profit).filter(v => v != null);
+  const revenueMax = Math.max(...revenues, 1);
+  const profitMax = Math.max(...profits.map(v => Math.abs(v)), 1);
+
+  const bars = financeSeries.map(s => {
+    const revH = s.revenue != null ? Math.max(3, Math.round((s.revenue / revenueMax) * MAX_BAR_PX)) : 0;
+    const profitAbs = s.profit != null ? Math.abs(s.profit) : 0;
+    const profitH = s.profit != null ? Math.max(3, Math.round((profitAbs / profitMax) * MAX_BAR_PX)) : 0;
+    const profitColor = (s.profit != null && s.profit < 0) ? 'var(--down)' : 'var(--ai)';
+    const opacity = s.isForecast ? '0.55' : '1';
+    const revTitle = `${s.title} 매출: ${s.revenue != null ? s.revenue.toLocaleString()+'억' : '데이터 없음'}`;
+    const profitTitle = `${s.title} 순이익: ${s.profit != null ? s.profit.toLocaleString()+'억' : '데이터 없음'}`;
+    return `
+      <div style="display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:0;">
+        <div style="display:flex; align-items:flex-end; gap:3px; height:${MAX_BAR_PX}px;">
+          <div title="${escapeHtml(revTitle)}" style="width:11px; background:var(--up); opacity:${opacity}; height:${revH}px; border-radius:2px 2px 0 0;"></div>
+          <div title="${escapeHtml(profitTitle)}" style="width:11px; background:${profitColor}; opacity:${opacity}; height:${profitH}px; border-radius:2px 2px 0 0;"></div>
+        </div>
+        <div class="mono" style="font-size:9px; color:var(--faint); text-align:center; line-height:1.3; white-space:nowrap;">${escapeHtml(s.title.replace('.', ''))}${s.isForecast ? '<br>(컨센서스)' : ''}</div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div style="display:flex; align-items:flex-end; gap:12px; margin:8px 0 2px; padding:0 2px;">
+      ${bars}
+    </div>
+    <div style="display:flex; gap:14px; margin-bottom:8px;">
+      <span class="mono" style="font-size:9.5px; color:var(--muted);"><span style="display:inline-block;width:8px;height:8px;background:var(--up);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>매출</span>
+      <span class="mono" style="font-size:9.5px; color:var(--muted);"><span style="display:inline-block;width:8px;height:8px;background:var(--ai);border-radius:1px;margin-right:4px;vertical-align:middle;"></span>순이익</span>
+    </div>
+  `;
+}
+
 function renderStockCheckResult(code, integration, financeSeries, dailyPrices, opinion){
   const rows = [];
 
@@ -1469,6 +1509,7 @@ function renderStockCheckResult(code, integration, financeSeries, dailyPrices, o
       const profitUp = actual.every((s, i) => i === 0 || s.profit >= actual[i-1].profit);
       increasing = revUp && profitUp;
     }
+    const chartHtml = renderFinanceChart(financeSeries);
     const detailRows = financeSeries.map(s => `
       <div class="flow-row" style="justify-content:space-between; gap:10px;">
         <span class="label" style="width:auto; flex-shrink:0;">${escapeHtml(s.title)}${s.isForecast ? ' (컨센서스)' : ''}</span>
@@ -1478,8 +1519,8 @@ function renderStockCheckResult(code, integration, financeSeries, dailyPrices, o
       increasing === true ? 'up' : increasing === false ? 'down' : 'flat',
       increasing === true ? '충족' : increasing === false ? '미달' : '판단보류',
       '③ 매출·순이익 추이',
-      '최근 실적이 연속으로 증가했는지 여부 (컨센서스는 참고용, 판정에 미반영)',
-      detailRows
+      '최근 실적이 연속으로 증가했는지 여부 (컨센서스는 참고용, 판정에 미반영) · 매출·순이익은 각자 계열 안에서만 크기를 비교한 막대이며, 서로 다른 축입니다',
+      chartHtml + detailRows
     ));
   } else {
     rows.push(checkRow('flat', '확인불가', '③ 매출·순이익 추이',

@@ -195,49 +195,61 @@ def _is_valid_number(x) -> bool:
 
 def fetch_price_info(ticker: str, retries: int = 3) -> dict:
     """현재가, 전일대비, 등락률, 20일 모멘텀을 가져옴 (일시적 실패 시 재시도, 점진적 백오프).
-    행은 있어도 그 안의 종가(Close) 값 자체가 NaN인 경우도 실패로 간주하고 재시도함."""
+
+    [2026-07-11 추가 수정] 장 시작 직후(예: 코스피 개장 09:00 KST 직후) 실행되면,
+    yfinance가 만들어두는 "오늘" 행의 종가(Close)가 아직 확정되지 않아 NaN인 채로
+    돌아오는 경우가 있음. 이건 몇 초 간격으로 재시도해도 절대 채워지지 않는 값이라서
+    (실제로 3번 재시도 모두 today=nan, prev=동일값으로 완전히 똑같이 실패하는 로그로
+    확인됨), NaN이 뜨면 재시도하는 대신 애초에 hist에서 종가가 NaN인 행 자체를
+    걸러내고, 그중 가장 최근의 "유효하게 확정된" 종가 2개(오늘/전일)를 사용하도록
+    변경함. 장중에는 자연스럽게 직전 확정 종가 기준으로 동작하고, 장마감 후
+    갱신에서는 그날 종가가 정상적으로 채워짐."""
     for attempt in range(1, retries + 1):
         try:
             t = yf.Ticker(ticker, session=_YF_SESSION) if _YF_SESSION else yf.Ticker(ticker)
             hist = t.history(period="2mo")  # 20영업일 모멘텀 계산을 위해 넉넉히 2개월치
 
-            if hist.empty or len(hist) < 2:
-                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 데이터가 비어있음 (행 개수: {len(hist)})")
+            if hist.empty:
+                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 데이터가 비어있음")
                 time.sleep(attempt * 3)  # 점진적 백오프: 3초, 6초, 9초... (일시적 API 차단/속도제한 완화)
                 continue
 
-            today_close = hist["Close"].iloc[-1]
-            prev_close = hist["Close"].iloc[-2]
+            # 종가(Close)가 NaN인 행(장 진행 중이라 아직 확정 안 된 "오늘" 행 등)은
+            # 애초에 계산 대상에서 제외. 재시도로는 해결되지 않는 종류의 결측이기 때문.
+            valid_hist = hist[hist["Close"].apply(_is_valid_number)]
 
-            # 행은 있어도 그 안의 값 자체가 NaN/유효하지 않은 경우를 반드시 걸러냄
-            if not _is_valid_number(today_close) or not _is_valid_number(prev_close):
-                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 종가가 NaN/유효하지 않음 "
-                      f"(today={today_close}, prev={prev_close})")
+            if len(valid_hist) < 2:
+                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 유효한 종가 행이 부족함 "
+                      f"(전체 {len(hist)}행 중 유효 {len(valid_hist)}행)")
                 time.sleep(attempt * 3)
                 continue
+
+            today_close = valid_hist["Close"].iloc[-1]
+            prev_close = valid_hist["Close"].iloc[-2]
 
             change = today_close - prev_close
             pct_change = (change / prev_close) * 100
 
-            # 20영업일 전 종가 (모멘텀 계산용) — 보조 지표라 NaN이면 그냥 None 처리(재시도 대상 아님)
+            # 20영업일 전 종가 (모멘텀 계산용) — valid_hist 기준(오늘 행이 NaN으로 제외됐을 때
+            # hist와 valid_hist 사이 인덱스가 하나씩 밀리는 것을 방지). 보조 지표라 부족하면 None 처리.
             momentum = None
-            if len(hist) >= 21:
-                close_20d_ago = hist["Close"].iloc[-21]
+            if len(valid_hist) >= 21:
+                close_20d_ago = valid_hist["Close"].iloc[-21]
                 if _is_valid_number(close_20d_ago):
                     momentum = (today_close - close_20d_ago) / close_20d_ago * 100
 
             # 5영업일 전 종가 (단기 모멘텀, US 섹터 OBV 판정용으로도 사용)
             momentum_5d = None
-            if len(hist) >= 6:
-                close_5d_ago = hist["Close"].iloc[-6]
+            if len(valid_hist) >= 6:
+                close_5d_ago = valid_hist["Close"].iloc[-6]
                 if _is_valid_number(close_5d_ago):
                     momentum_5d = (today_close - close_5d_ago) / close_5d_ago * 100
 
-            # OBV(On-Balance Volume) 기반 매수/매도세 판정
+            # OBV(On-Balance Volume) 기반 매수/매도세 판정 — 마찬가지로 valid_hist 사용
             obv_signal = None
-            if len(hist) >= 6:
-                closes = hist["Close"].tolist()
-                volumes = hist["Volume"].tolist()
+            if len(valid_hist) >= 6:
+                closes = valid_hist["Close"].tolist()
+                volumes = valid_hist["Volume"].tolist()
                 obv_series = [0]
                 for i in range(1, len(closes)):
                     if closes[i] > closes[i - 1]:
@@ -256,7 +268,7 @@ def fetch_price_info(ticker: str, retries: int = 3) -> dict:
                     else:
                         obv_signal = "중립"
 
-            volume = int(hist["Volume"].iloc[-1]) if "Volume" in hist else None
+            volume = int(valid_hist["Volume"].iloc[-1]) if "Volume" in valid_hist else None
 
             result = {
                 "price": round(float(today_close), 2),

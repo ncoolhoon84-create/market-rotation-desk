@@ -353,6 +353,20 @@
   <span><span class="swatch ai"></span>싸이클 · 신뢰도 · 뉴스요약 — Claude AI 추정 (참고용)</span>
 </div>
 
+<div style="max-width:1440px; margin:0 auto; padding:0 32px;">
+  <div class="section-label" style="margin:24px 0 14px;"><div class="bar"></div><h2>내 종목 우량주 체크</h2><span class="note">STOCK CHECKLIST · 시총·재무·이동평균 자동 체크 (업종은 참고용) · 투자 추천 아님 · 브라우저에서 네이버 금융 직접 조회</span></div>
+  <div style="border:1px solid var(--line); background:var(--panel); padding:20px;">
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <input id="stockCodeInput" type="text" placeholder="종목코드 6자리 (예: 005930)" maxlength="6"
+        style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:8px 12px; border-radius:4px; border:1px solid var(--line); background:var(--panel-2); color:var(--text); width:180px;"
+        onkeydown="if(event.key==='Enter') runStockCheck();">
+      <button class="btn primary" id="stockCheckBtn" onclick="runStockCheck()">조회</button>
+      <span class="mono" style="font-size:10.5px; color:var(--faint);">데이터 출처: 네이버 금융 (비공식 공개 API) · 첫 조회는 오류가 날 수 있어요, 그럴 땐 F12로 콘솔 로그를 확인해주세요</span>
+    </div>
+    <div id="stockCheckResult" style="margin-top:16px;"></div>
+  </div>
+</div>
+
 <div class="container" id="container">
   <div class="loading">data.json 불러오는 중...</div>
 </div>
@@ -1085,6 +1099,255 @@ function startLiveIndicesPolling(){
   if(liveIndicesTimer) return; // 이미 폴링 중이면 중복 시작 방지 (수동 새로고침 시 등)
   updateLiveIndices(); // 최초 1회 즉시 실행
   liveIndicesTimer = setInterval(updateLiveIndices, 90000); // 이후 90초마다
+}
+
+// =========================================================
+// 내 종목 우량주 체크 (종목코드 입력 → 브라우저에서 네이버 금융 직접 조회)
+// -----------------------------------------------------------
+// 이 대시보드는 정적 사이트라 "아무 종목이나 즉석 조회"를 서버가
+// 대신 해줄 수 없음. 그래서 GitHub Actions 갱신 파이프라인과는
+// 완전히 별개로, 브라우저가 CORS 프록시를 통해 네이버 금융의
+// 비공식 공개 JSON API를 직접 호출하는 방식으로 구현함.
+// (기존 대시보드 데이터 파이프라인에는 전혀 영향 없음.)
+//
+// 참고: 이 API들은 네이버가 공식 문서화한 게 아니라서 응답 구조가
+// 예고 없이 바뀌거나 CORS 프록시가 막힐 수 있음. 실패 시 콘솔에
+// 원본 응답을 로그로 남겨서 디버깅이 가능하게 해둠.
+// =========================================================
+
+async function corsGet(targetUrl){
+  const proxyBuilders = [
+    (u) => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+    (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  ];
+  let lastErr = null;
+  for(const build of proxyBuilders){
+    try {
+      const res = await fetch(build(targetUrl), { cache: 'no-store' });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      return JSON.parse(text);
+    } catch(e){
+      lastErr = e;
+      console.warn('[corsGet] 프록시 실패, 다음 프록시 시도:', build(targetUrl), e);
+    }
+  }
+  throw lastErr || new Error('알 수 없는 오류');
+}
+
+function parseNum(str){
+  if(str == null) return null;
+  const cleaned = String(str).replace(/,/g, '').replace(/[^\d.\-]/g, '');
+  if(cleaned === '' || cleaned === '-') return null;
+  const n = parseFloat(cleaned);
+  return isNaN(n) ? null : n;
+}
+
+function parseKoreanWon(str){
+  if(!str) return null;
+  const s = String(str);
+  const joMatch = s.match(/([\d,]+)\s*조/);
+  const eokMatch = s.match(/([\d,]+)\s*억/);
+  if(!joMatch && !eokMatch) return parseNum(s);
+  const jo = joMatch ? (parseNum(joMatch[1]) || 0) : 0;
+  const eok = eokMatch ? (parseNum(eokMatch[1]) || 0) : 0;
+  return jo * 1e12 + eok * 1e8; // 원 단위
+}
+
+async function fetchIntegration(code){
+  const data = await corsGet(`https://m.stock.naver.com/api/stock/${code}/integration`);
+  console.log('[integration raw]', data);
+  const list = data.totalInfos || data.total_infos || [];
+  const findVal = (keyword) => {
+    const row = list.find(r => {
+      const k = ((r && (r.code || r.key)) || '').toString().toLowerCase();
+      return k.includes(keyword.toLowerCase());
+    });
+    return row ? row.value : null;
+  };
+  return {
+    name: data.stockName || data.name || null,
+    marketValueRaw: findVal('marketvalue') || findVal('market_cap'),
+  };
+}
+
+async function fetchFinanceAnnual(code){
+  const data = await corsGet(`https://m.stock.naver.com/api/stock/${code}/finance/annual`);
+  console.log('[finance/annual raw]', data);
+  const financeInfo = data.financeInfo || data;
+  const periods = financeInfo.trTitleList || financeInfo.periods || [];
+  const rows = financeInfo.rowList || financeInfo.rows || [];
+  const findRow = (titleKeyword) => rows.find(r => (r.title || '').includes(titleKeyword));
+  const revenueRow = findRow('매출액');
+  const profitRow = findRow('당기순이익') || findRow('순이익');
+
+  const getVal = (row, key) => {
+    if(!row) return null;
+    const col = (row.columns || row.values || {})[key];
+    if(col == null) return null;
+    return parseNum(typeof col === 'object' ? col.value : col);
+  };
+
+  return periods.map(p => {
+    const key = p.key || p.title;
+    return {
+      title: p.title,
+      isForecast: p.isConsensus === 'Y' || p.is_forecast === true,
+      revenue: getVal(revenueRow, key),
+      profit: getVal(profitRow, key),
+    };
+  });
+}
+
+async function fetchDailyPrices(code, pageSize){
+  const data = await corsGet(`https://m.stock.naver.com/api/stock/${code}/price?pageSize=${pageSize}&page=1`);
+  console.log('[price raw]', Array.isArray(data) ? `array(${data.length})` : data);
+  const list = Array.isArray(data) ? data : (data.items || data.result || []);
+  return list
+    .map(d => ({ date: d.localTradedAt || d.date, close: parseNum(d.closePrice ?? d.close) }))
+    .filter(d => d.date && d.close != null)
+    .reverse(); // 과거 → 최신 순으로 정렬
+}
+
+function computeMonthlyCloses(dailyAsc){
+  const byMonth = {};
+  dailyAsc.forEach(d => {
+    const ym = String(d.date).slice(0, 7); // YYYY-MM
+    byMonth[ym] = d.close; // 그 달의 마지막 거래일 종가로 계속 덮어씀
+  });
+  return Object.keys(byMonth).sort().map(ym => ({ ym, close: byMonth[ym] }));
+}
+
+function sma(values, window){
+  return values.map((_, i) => {
+    if(i < window - 1) return null;
+    const slice = values.slice(i - window + 1, i + 1);
+    return slice.reduce((a, b) => a + b, 0) / window;
+  });
+}
+
+async function runStockCheck(){
+  const code = (document.getElementById('stockCodeInput').value || '').trim();
+  const resultEl = document.getElementById('stockCheckResult');
+  const btn = document.getElementById('stockCheckBtn');
+
+  if(!/^\d{6}$/.test(code)){
+    resultEl.innerHTML = `<div style="padding:14px; color:var(--down); font-family:'IBM Plex Mono',monospace; font-size:12px;">종목코드는 6자리 숫자로 입력해주세요 (예: 005930).</div>`;
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '조회 중...';
+  resultEl.innerHTML = `<div class="loading" style="padding:14px; text-align:left;">네이버 금융에서 데이터를 가져오는 중...</div>`;
+
+  const [integration, financeSeries, dailyPrices] = await Promise.all([
+    fetchIntegration(code).catch(e => { console.error('[integration 실패]', e); return { __error: e.message }; }),
+    fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; }),
+    fetchDailyPrices(code, 200).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; }),
+  ]);
+
+  resultEl.innerHTML = renderStockCheckResult(code, integration, financeSeries, dailyPrices);
+  btn.disabled = false;
+  btn.textContent = '조회';
+}
+
+function checkRow(badgeCls, badgeText, title, desc, extraHtml){
+  return `
+    <div class="ranking-item" style="align-items:flex-start;">
+      <span class="rank-badge ${badgeCls}" style="flex-shrink:0;">${badgeText}</span>
+      <div class="ranking-info">
+        <div class="ranking-name">${title}</div>
+        <div class="trend-sectors" style="margin-bottom:${extraHtml ? '6px' : '0'};">${desc}</div>
+        ${extraHtml || ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderStockCheckResult(code, integration, financeSeries, dailyPrices){
+  const rows = [];
+
+  // ① 시가총액
+  if(integration && !integration.__error && integration.marketValueRaw){
+    const capWon = parseKoreanWon(integration.marketValueRaw);
+    const capJo = capWon != null ? capWon / 1e12 : null;
+    const pass = capJo != null && capJo >= 5;
+    rows.push(checkRow(
+      pass ? 'up' : 'down', pass ? '충족' : '미달',
+      '① 시가총액',
+      `${escapeHtml(integration.marketValueRaw)} (기준: 5조원 이상)`
+    ));
+  } else {
+    rows.push(checkRow('flat', '확인불가', '① 시가총액',
+      `데이터를 가져오지 못했습니다${integration && integration.__error ? ' — ' + escapeHtml(integration.__error) : ''} (콘솔 로그 참고)`));
+  }
+
+  // ② 업종 — 자동 판정 대상 아님
+  rows.push(checkRow('flat', '참고용', '② 업종 미래 전망',
+    '자동 판정이 불가능한 영역이에요. 이 회사가 속한 산업이 구조적으로 성장하는 업종인지는 직접 뉴스로 확인해보세요.'));
+
+  // ③ 매출/순이익 추이
+  if(Array.isArray(financeSeries) && financeSeries.length){
+    const actual = financeSeries.filter(s => !s.isForecast && s.revenue != null && s.profit != null);
+    let increasing = null;
+    if(actual.length >= 2){
+      const revUp = actual.every((s, i) => i === 0 || s.revenue >= actual[i-1].revenue);
+      const profitUp = actual.every((s, i) => i === 0 || s.profit >= actual[i-1].profit);
+      increasing = revUp && profitUp;
+    }
+    const detailRows = financeSeries.map(s => `
+      <div class="flow-row" style="justify-content:space-between; gap:10px;">
+        <span class="label" style="width:auto; flex-shrink:0;">${escapeHtml(s.title)}${s.isForecast ? ' (컨센서스)' : ''}</span>
+        <span class="mono" style="font-size:11px; text-align:right;">매출 ${s.revenue != null ? s.revenue.toLocaleString()+'억' : '-'} · 순이익 ${s.profit != null ? s.profit.toLocaleString()+'억' : '-'}</span>
+      </div>`).join('');
+    rows.push(checkRow(
+      increasing === true ? 'up' : increasing === false ? 'down' : 'flat',
+      increasing === true ? '충족' : increasing === false ? '미달' : '판단보류',
+      '③ 매출·순이익 추이',
+      '최근 실적이 연속으로 증가했는지 여부 (컨센서스는 참고용, 판정에 미반영)',
+      detailRows
+    ));
+  } else {
+    rows.push(checkRow('flat', '확인불가', '③ 매출·순이익 추이',
+      `데이터를 가져오지 못했습니다${financeSeries && financeSeries.__error ? ' — ' + escapeHtml(financeSeries.__error) : ''} (콘솔 로그 참고)`));
+  }
+
+  // ④ 5개월 이동평균선
+  if(Array.isArray(dailyPrices) && dailyPrices.length > 30){
+    const monthly = computeMonthlyCloses(dailyPrices);
+    const closes = monthly.map(m => m.close);
+    const ma5 = sma(closes, 5);
+    let monthsAbove = 0;
+    for(let i = closes.length - 1; i >= 0; i--){
+      if(ma5[i] == null) break;
+      if(closes[i] > ma5[i]) monthsAbove++;
+      else break;
+    }
+    const pass = monthsAbove >= 3;
+    const lastClose = closes[closes.length - 1];
+    const lastMa5 = ma5[ma5.length - 1];
+    rows.push(checkRow(
+      pass ? 'up' : 'down', pass ? '충족' : '미달',
+      '④ 5개월 이동평균선',
+      `현재가 ${lastClose ? Math.round(lastClose).toLocaleString()+'원' : '-'} · 5개월선 ${lastMa5 ? Math.round(lastMa5).toLocaleString()+'원' : '-'} · 이평선 위에서 ${monthsAbove}개월 연속 유지 (기준: 3개월 이상)`
+    ));
+  } else {
+    rows.push(checkRow('flat', '확인불가', '④ 5개월 이동평균선',
+      `데이터를 가져오지 못했습니다${dailyPrices && dailyPrices.__error ? ' — ' + escapeHtml(dailyPrices.__error) : ''} (콘솔 로그 참고)`));
+  }
+
+  return `
+    <div class="ranking-col" style="padding:0;">
+      <div class="ranking-col-title" style="border-bottom:none;">${escapeHtml(code)}${integration && integration.name ? ' · ' + escapeHtml(integration.name) : ''} 체크 결과</div>
+      ${rows.join('')}
+    </div>
+    <div class="footnote" style="margin-top:14px;">
+      이 체크는 특정 투자 강의 영상에서 소개된 4가지 기준(시총·업종·재무·이동평균)을 참고해 만든 <strong>휴리스틱 참고 도구</strong>이며
+      투자 자문이 아닙니다. ②(업종 전망)는 자동 판정이 불가능해 참고용으로만 표시하고, ④(이동평균선)는 기술적 분석 특유의
+      불확실성(속임수 돌파 등)이 있다는 점을 감안해주세요. 데이터는 네이버 금융의 비공식 공개 API를 브라우저에서 직접
+      조회한 것으로, 사전 고지 없이 형식이 바뀌면 일부 항목이 "확인불가"로 표시될 수 있습니다.
+    </div>
+  `;
 }
 
 loadDashboard();

@@ -1260,11 +1260,18 @@ async function runStockCheck(){
   btn.textContent = '조회 중...';
   resultEl.innerHTML = `<div class="loading" style="padding:14px; text-align:left;">네이버 금융에서 데이터를 가져오는 중...</div>`;
 
-  const [integration, financeSeries, dailyPrices] = await Promise.all([
-    fetchIntegration(code).catch(e => { console.error('[integration 실패]', e); return { __error: e.message }; }),
-    fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; }),
-    fetchDailyPrices(code, 200).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; }),
-  ]);
+  // [2026-07-11 수정] 3개 요청을 Promise.all로 동시에 보냈더니 무료 CORS
+  // 프록시가 동시 요청 부하 때문인지 일부 요청에서 CORS 헤더를 누락하는
+  // 현상이 있었음(콘솔에서 확인: 시총 요청 1개만 성공, 나머지 2개는 3개
+  // 프록시 전부 실패). -> 동시 호출 대신 하나씩 순서대로, 사이에 짧은
+  // 텀을 두고 요청하도록 변경해서 프록시 쪽 부하를 줄임.
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+  const integration = await fetchIntegration(code).catch(e => { console.error('[integration 실패]', e); return { __error: e.message }; });
+  await sleep(500);
+  const financeSeries = await fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; });
+  await sleep(500);
+  const dailyPrices = await fetchDailyPrices(code, 200).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
 
   resultEl.innerHTML = renderStockCheckResult(code, integration, financeSeries, dailyPrices);
   btn.disabled = false;

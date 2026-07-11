@@ -547,8 +547,17 @@ def get_news_headlines(query: str, max_count: int = 3, retries: int = 2,
 # =========================================================
 
 def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, retries: int = 2) -> dict:
-    """Claude에게 JSON 응답을 요청. 파싱 실패 시 '고쳐서 다시 보내라'고 재요청."""
-    messages = [{"role": "user", "content": user_prompt}]
+    """Claude에게 JSON 응답을 요청. 파싱 실패 시 '고쳐서 다시 보내라'고 재요청.
+
+    [2026-07-11 수정] Claude가 완전히 빈 문자열을 응답하는 경우
+    (json.loads가 "Expecting value: line 1 column 1 (char 0)"로 실패)가 있었는데,
+    기존 로직은 이 빈 응답을 그대로 assistant 턴으로 대화에 남긴 채 재시도해서
+    다음 시도도 같이 꼬이는 문제가 있었음.
+    -> 빈 응답은 별도로 감지해서 로그를 남기고, 대화 히스토리를 오염시키지 않도록
+       messages를 처음부터 새로 구성해서(빈 assistant 턴을 남기지 않고) 재시도함.
+       그 외의 "형식은 있지만 유효하지 않은 JSON" 실패는 기존처럼 수정 요청 턴을 붙임."""
+    base_messages = [{"role": "user", "content": user_prompt}]
+    messages = list(base_messages)
 
     for attempt in range(1, retries + 1):
         try:
@@ -561,12 +570,23 @@ def call_claude_json(client: Anthropic, system_prompt: str, user_prompt: str, re
             raw_text = "".join(
                 block.text for block in message.content if hasattr(block, "text")
             ).strip()
+
+            if not raw_text:
+                print(f"  [경고] Claude 응답이 완전히 비어있음 (시도 {attempt}/{retries}), "
+                      f"stop_reason={getattr(message, 'stop_reason', None)}")
+                if attempt < retries:
+                    messages = list(base_messages)  # 빈 응답을 대화에 남기지 않고 깨끗하게 재시도
+                    time.sleep(1)
+                    continue
+                return {"__error": "Claude 응답이 비어있음"}
+
             cleaned = re.sub(r"```json|```", "", raw_text).strip()
 
             try:
                 return json.loads(cleaned)
             except json.JSONDecodeError as parse_err:
-                print(f"  [경고] JSON 파싱 실패 (시도 {attempt}/{retries}): {parse_err}")
+                print(f"  [경고] JSON 파싱 실패 (시도 {attempt}/{retries}): {parse_err} "
+                      f"— 원본 응답 앞부분: {raw_text[:200]!r}")
                 if attempt < retries:
                     messages.append({"role": "assistant", "content": raw_text})
                     messages.append({

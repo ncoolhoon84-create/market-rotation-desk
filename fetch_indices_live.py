@@ -71,26 +71,31 @@ def _is_valid_number(x) -> bool:
 
 def fetch_price_only(ticker: str, retries: int = 3):
     """현재가/전일대비/등락률만 가볍게 조회 (모멘텀 계산 없음, 5일치면 충분).
-    Close 값 자체가 NaN인 '불완전한 데이터'도 실패로 간주하고 재시도함."""
+
+    [2026-07-11 수정] 장 시작 직후 실행되면 yfinance가 만들어두는 "오늘" 행의
+    종가(Close)가 아직 확정되지 않아 NaN인 채로 올 수 있음. 이건 몇 초 간격
+    재시도로는 절대 채워지지 않는 값이라(fetch_and_analyze.py에서 동일 증상을
+    로그로 확인함), 애초에 종가가 NaN인 행을 걸러내고 그중 가장 최근의
+    유효한 종가 2개(오늘/전일)를 사용하도록 처리."""
     for attempt in range(1, retries + 1):
         try:
             t = yf.Ticker(ticker, session=_YF_SESSION) if _YF_SESSION else yf.Ticker(ticker)
             hist = t.history(period="5d")
 
-            if hist.empty or len(hist) < 2:
+            if hist.empty:
                 print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 데이터가 비어있음")
                 time.sleep(attempt * 2)
                 continue
 
-            today_close = hist["Close"].iloc[-1]
-            prev_close = hist["Close"].iloc[-2]
-
-            # 행은 있어도 그 안의 값 자체가 NaN인 경우(장 시간대/데이터 지연 등)를 반드시 걸러냄
-            if not _is_valid_number(today_close) or not _is_valid_number(prev_close):
-                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 종가가 NaN/유효하지 않음 "
-                      f"(today={today_close}, prev={prev_close})")
+            valid_hist = hist[hist["Close"].apply(_is_valid_number)]
+            if len(valid_hist) < 2:
+                print(f"  [경고] {ticker} 시도 {attempt}/{retries}: 유효한 종가 행이 부족함 "
+                      f"(전체 {len(hist)}행 중 유효 {len(valid_hist)}행)")
                 time.sleep(attempt * 2)
                 continue
+
+            today_close = valid_hist["Close"].iloc[-1]
+            prev_close = valid_hist["Close"].iloc[-2]
 
             change = today_close - prev_close
             pct_change = (change / prev_close) * 100

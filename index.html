@@ -1227,11 +1227,27 @@ async function fetchFinanceAnnual(code){
   });
 }
 
-async function fetchDailyPrices(code, pageSize){
-  const data = await corsGet(`https://m.stock.naver.com/api/stock/${code}/price?pageSize=${pageSize}&page=1`);
-  console.log('[price raw]', Array.isArray(data) ? `array(${data.length})` : data);
-  const list = Array.isArray(data) ? data : (data.items || data.result || []);
-  return list
+async function fetchDailyPrices(code, totalDesired){
+  // [2026-07-11 수정] 네이버 price API가 pageSize 60은 성공, 80은 400
+  // 에러를 내는 걸 실측으로 확인함(정확한 상한선은 60~79 사이). 5개월
+  // 이동평균선 계산엔 60개(약 3개월치)로는 부족해서, 60개씩 여러 페이지를
+  // 나눠 요청해서 이어붙이는 방식으로 변경함.
+  const PAGE_CHUNK = 60;
+  let page = 1;
+  let all = [];
+
+  while(all.length < totalDesired){
+    const data = await corsGet(`https://m.stock.naver.com/api/stock/${code}/price?pageSize=${PAGE_CHUNK}&page=${page}`);
+    console.log(`[price raw page ${page}]`, Array.isArray(data) ? `array(${data.length})` : data);
+    const list = Array.isArray(data) ? data : (data.items || data.result || []);
+    if(!list.length) break; // 더 가져올 데이터가 없음
+    all = all.concat(list);
+    if(list.length < PAGE_CHUNK) break; // 마지막 페이지까지 다 가져옴
+    page += 1;
+    await new Promise(r => setTimeout(r, 300)); // 페이지 사이 살짝 텀
+  }
+
+  return all
     .map(d => ({ date: d.localTradedAt || d.date, close: parseNum(d.closePrice ?? d.close) }))
     .filter(d => d.date && d.close != null)
     .reverse(); // 과거 → 최신 순으로 정렬
@@ -1279,7 +1295,9 @@ async function runStockCheck(){
   await sleep(500);
   const financeSeries = await fetchFinanceAnnual(code).catch(e => { console.error('[finance/annual 실패]', e); return { __error: e.message }; });
   await sleep(500);
-  const dailyPrices = await fetchDailyPrices(code, 100).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
+  // 네이버 price API의 pageSize 상한선을 60~79 사이로 실측 확인함(60 성공, 80 실패)
+  // -> fetchDailyPrices가 내부적으로 60개씩 나눠서 페이지네이션하며 이어붙임
+  const dailyPrices = await fetchDailyPrices(code, 150).catch(e => { console.error('[price 실패]', e); return { __error: e.message }; });
 
   resultEl.innerHTML = renderStockCheckResult(code, integration, financeSeries, dailyPrices);
   btn.disabled = false;

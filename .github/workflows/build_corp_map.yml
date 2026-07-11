@@ -1,0 +1,30 @@
+name: Build DART corp code map (manual, one-off)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build corp_code_map.json
+        env:
+          DART_API_KEY: ${{ secrets.DART_API_KEY }}
+        run: python build_corp_code_map.py
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add corp_code_map.json
+          git diff --staged --quiet || git commit -m "Build DART corp_code_map.json"
+          git push

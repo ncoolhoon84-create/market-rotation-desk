@@ -78,6 +78,8 @@ import re
 import statistics
 import time
 import xml.etree.ElementTree as ET
+import io
+import pandas as pdㄴ
 from datetime import datetime, timedelta, timezone
 from urllib.parse import quote
 

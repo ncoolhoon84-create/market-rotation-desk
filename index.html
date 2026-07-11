@@ -357,6 +357,13 @@
   <div class="section-label" style="margin:24px 0 14px;"><div class="bar"></div><h2>내 종목 우량주 체크</h2><span class="note">STOCK CHECKLIST · 시총·재무·이동평균 자동 체크 + AI 뉴스요약(업종) · 투자 추천 아님 · 브라우저에서 네이버 금융 직접 조회</span></div>
   <div style="border:1px solid var(--line); background:var(--panel); padding:20px;">
     <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+      <div style="position:relative;">
+        <input id="stockNameInput" type="text" placeholder="회사명으로 찾기 (예: 삼성)" autocomplete="off"
+          style="font-family:'IBM Plex Sans',sans-serif; font-size:13px; padding:8px 12px; border-radius:4px; border:1px solid var(--line); background:var(--panel-2); color:var(--text); width:180px;"
+          oninput="onStockNameInput()" onblur="setTimeout(hideStockNameResults, 150)">
+        <div id="stockNameResults" style="display:none; position:absolute; top:calc(100% + 4px); left:0; min-width:260px; max-height:280px; overflow-y:auto; background:var(--panel-2); border:1px solid var(--line); border-radius:4px; z-index:50; box-shadow:0 10px 28px rgba(0,0,0,.45);"></div>
+      </div>
+      <span class="mono" style="font-size:14px; color:var(--faint);">→</span>
       <input id="stockCodeInput" type="text" placeholder="종목코드 6자리 (예: 005930)" maxlength="6"
         style="font-family:'IBM Plex Mono',monospace; font-size:13px; padding:8px 12px; border-radius:4px; border:1px solid var(--line); background:var(--panel-2); color:var(--text); width:180px;"
         onkeydown="if(event.key==='Enter') runStockCheck();">
@@ -1181,6 +1188,77 @@ function parseKoreanWon(str){
   const jo = joMatch ? (parseNum(joMatch[1]) || 0) : 0;
   const eok = eokMatch ? (parseNum(eokMatch[1]) || 0) : 0;
   return jo * 1e12 + eok * 1e8; // 원 단위
+}
+
+// =========================================================
+// 회사명으로 종목코드 찾기 (자동완성)
+// -----------------------------------------------------------
+// 네이버의 검색 자동완성 API(m.stock.naver.com)를 그대로 재사용함.
+// 이미 잘 작동 중인 corsGet()/Worker 프록시를 그대로 쓰면 되니
+// 새로 배포할 게 없음.
+// =========================================================
+let stockNameSearchTimer = null;
+
+function onStockNameInput(){
+  clearTimeout(stockNameSearchTimer);
+  const query = document.getElementById('stockNameInput').value.trim();
+  if(!query){
+    hideStockNameResults();
+    return;
+  }
+  // 타이핑 중 매 글자마다 요청하지 않도록 300ms 정도 대기(디바운스)
+  stockNameSearchTimer = setTimeout(() => searchStockByName(query), 300);
+}
+
+async function searchStockByName(query){
+  const resultsEl = document.getElementById('stockNameResults');
+  try {
+    const url = `https://m.stock.naver.com/front-api/search/autoComplete?query=${encodeURIComponent(query)}&target=stock`;
+    const data = await corsGet(url);
+    console.log('[종목명 검색 raw]', data);
+    const items = (data && data.result && data.result.items) || data.items || [];
+    renderStockNameResults(items);
+  } catch(e){
+    console.error('[종목명 검색 실패]', e);
+    resultsEl.innerHTML = `<div style="padding:10px 12px; font-size:11.5px; color:var(--down);">검색 실패 (콘솔 로그 참고)</div>`;
+    resultsEl.style.display = 'block';
+  }
+}
+
+function renderStockNameResults(items){
+  const resultsEl = document.getElementById('stockNameResults');
+  if(!items || !items.length){
+    resultsEl.innerHTML = `<div style="padding:10px 12px; font-size:11.5px; color:var(--faint);">일치하는 종목이 없습니다.</div>`;
+    resultsEl.style.display = 'block';
+    return;
+  }
+  resultsEl.innerHTML = items.slice(0, 10).map(item => {
+    const code = escapeHtml(item.code || '');
+    const name = escapeHtml(item.name || '');
+    const market = escapeHtml(item.typeName || '');
+    return `
+      <div onclick="selectStockFromSearch('${code}', '${name.replace(/'/g, "\\'")}')"
+           style="padding:9px 12px; cursor:pointer; border-bottom:1px solid var(--line-soft); display:flex; justify-content:space-between; align-items:center; gap:10px;"
+           onmouseover="this.style.background='var(--panel)'" onmouseout="this.style.background='transparent'">
+        <span style="font-size:12.5px;">${name} <span class="mono" style="font-size:10px; color:var(--faint);">${market}</span></span>
+        <span class="mono" style="font-size:11px; color:var(--ai);">${code}</span>
+      </div>
+    `;
+  }).join('');
+  resultsEl.style.display = 'block';
+}
+
+function hideStockNameResults(){
+  const resultsEl = document.getElementById('stockNameResults');
+  if(resultsEl){
+    resultsEl.style.display = 'none';
+  }
+}
+
+function selectStockFromSearch(code, name){
+  document.getElementById('stockNameInput').value = name;
+  document.getElementById('stockCodeInput').value = code;
+  hideStockNameResults();
 }
 
 async function fetchIntegration(code){

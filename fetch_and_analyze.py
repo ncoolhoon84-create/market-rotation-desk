@@ -492,14 +492,20 @@ _NEWS_HEADERS = {
 }
 
 
-def get_news_headlines(query: str, max_count: int = 3, retries: int = 2) -> list:
+def get_news_headlines(query: str, max_count: int = 3, retries: int = 2,
+                        hl: str = "ko", gl: str = "KR", ceid: str = "KR:ko") -> list:
     """뉴스 헤드라인과 링크를 함께 가져옴. 반환값: [{"title": ..., "link": ...}, ...]
 
     [2026-07-11 수정] 모든 검색어에서 XML 파싱이 똑같은 위치에서 실패하는 현상 발견
     (구글이 RSS 대신 차단/안내용 HTML 페이지를 돌려주고 있었던 것으로 추정).
     User-Agent 헤더 추가 + 응답 상태코드 확인 + 실패 시 재시도 + 그래도 실패하면
-    받은 응답의 앞부분을 로그로 남겨서 다음에 또 막히면 바로 원인 파악이 되도록 함."""
-    url = f"https://news.google.com/rss/search?q={quote(query)}&hl=ko&gl=KR&ceid=KR:ko"
+    받은 응답의 앞부분을 로그로 남겨서 다음에 또 막히면 바로 원인 파악이 되도록 함.
+
+    [2026-07-11 추가] hl/gl/ceid(언어/국가/지역) 파라미터를 외부에서 지정할 수 있게 함.
+    기본값은 기존과 동일한 한국어(ko/KR)라 기존 호출부는 전혀 영향 없음. 미국 자산운용사의
+    신규 ETF 출시 뉴스처럼 영어권 뉴스가 압도적으로 많은 검색어는 hl="en", gl="US",
+    ceid="US:en"으로 호출해서 검색 품질을 높임."""
+    url = f"https://news.google.com/rss/search?q={quote(query)}&hl={hl}&gl={gl}&ceid={ceid}"
 
     for attempt in range(1, retries + 1):
         try:
@@ -740,6 +746,74 @@ def analyze_megatrends(client: Anthropic) -> list:
         return ai_result
 
     print(f"  [경고] 메가트렌드 분석 실패: {ai_result}")
+    return []
+
+
+# =========================================================
+# 5-2. 신규 테마 ETF 출시 동향 (M2)
+# -----------------------------------------------------------
+# "이 운용사가 새 테마 ETF를 만든다"는 것 자체가 기관이 그 테마에
+# 앞으로 자금이 몰릴 거라고 베팅한다는 신호. 구글 뉴스(영어권, 미국
+# 자산운용사 발표가 압도적으로 많으므로 hl=en/gl=US로 검색)에서
+# 관련 헤드라인을 모아 Claude에게 구조화된 정보(ETF명/티커/운용사/
+# 테마/한줄요약)로 정리시킴. 실제 신규 출시 발표가 아닌 것(기존 ETF
+# 실적 기사 등)은 Claude가 걸러내도록 프롬프트에서 명시함.
+# =========================================================
+NEW_ETF_LAUNCH_QUERIES = [
+    "launches new ETF",
+    "unveils new ETF",
+    "files for new ETF",
+    "debuts new thematic ETF",
+]
+
+
+def analyze_new_etf_launches(client: Anthropic) -> list:
+    print("\n[신규 테마 ETF 출시 동향] 분석 중...")
+
+    all_headlines = []
+    for q in NEW_ETF_LAUNCH_QUERIES:
+        all_headlines += get_news_headlines(q, 5, hl="en", gl="US", ceid="US:en")
+        time.sleep(0.2)
+
+    if not all_headlines:
+        return []
+
+    # 같은 뉴스가 여러 검색어에 중복으로 잡히는 경우가 많아서 제목 기준으로 중복 제거
+    seen_titles = set()
+    unique_headlines = []
+    for h in all_headlines:
+        if h["title"] not in seen_titles:
+            seen_titles.add(h["title"])
+            unique_headlines.append(h)
+
+    headline_text = "\n".join(f"- {h['title']}" for h in unique_headlines)
+
+    system_prompt = (
+        "You are an analyst tracking newly launched or newly filed thematic ETFs in the US market. "
+        "From the news headlines below, extract ONLY genuine new ETF launch/filing announcements "
+        "(ignore earnings news, price movement news, or anything not about a NEW fund being created). "
+        "Respond ONLY in the following JSON array format, with no other text:\n"
+        '[{"etf_name": "펀드 정식 명칭 (영문 그대로)", '
+        '"ticker": "티커 (뉴스에 없으면 null)", '
+        '"issuer": "운용사명 (예: VanEck, ARK Invest, Invesco 등)", '
+        '"theme": "이 ETF가 겨냥하는 테마/산업 (한국어로, 15자 이내)", '
+        '"summary": "한국어 한 줄 요약 (40자 이내, 어떤 테마에 왜 베팅하는지)"}]\n'
+        "If no headline is a genuine new ETF launch/filing, respond with an empty JSON array: []"
+    )
+    user_prompt = "Recent headlines:\n" + headline_text
+
+    ai_result = call_claude_json(client, system_prompt, user_prompt)
+    time.sleep(0.3)
+
+    if isinstance(ai_result, list):
+        for launch in ai_result:
+            # 관련 뉴스 원문 링크를 찾아 붙여줌 (완전 일치가 아니어도 부분 포함되면 매칭)
+            etf_name = (launch.get("etf_name") or "").lower()
+            matched = [h for h in unique_headlines if etf_name and etf_name.split()[0].lower() in h["title"].lower()]
+            launch["source_headlines"] = matched[:2] if matched else unique_headlines[:2]
+        return ai_result
+
+    print(f"  [경고] 신규 ETF 출시 분석 실패: {ai_result}")
     return []
 
 
@@ -1223,6 +1297,7 @@ def main():
 
     result["megatrends"] = analyze_megatrends(client)
     result["thematic_holdings"] = build_thematic_holdings()
+    result["new_etf_launches"] = analyze_new_etf_launches(client)
 
     cleaned_result = clean_for_json(result)
     with open("data.json", "w", encoding="utf-8") as f:

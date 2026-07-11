@@ -1066,15 +1066,84 @@ def fetch_thematic_holdings(url: str, top_n: int = 10, retries: int = 2) -> list
     return []
 
 
+# =========================================================
+# 8-1. 테마 ETF holdings 히스토리 저장 + 신규 편입 종목 감지
+# -----------------------------------------------------------
+# VanEck IBOT/WARP는 패시브(지수추종) ETF라서 "비중이 늘었다"는
+# 대부분 그냥 주가가 올라서 생긴 결과일 뿐, 매수 확신 신호가 아님.
+# 하지만 "지난 실행엔 없었던 종목이 이번엔 top10에 등장했다"는 건
+# 다른 얘기 — 그 종목이 이 테마의 대표주로 새로 인정받기 시작했다는
+# 뜻이라, 앞으로 패시브 자금이 계속 따라 들어올 근거가 될 수 있음.
+# 이 신호만 별도로 추적함 (이번 주 매수세 랭킹의 ranking_history.json과
+# 완전히 동일한 패턴: 실행마다 스냅샷 저장 → 직전 스냅샷과 비교).
+# =========================================================
+THEMATIC_HISTORY_FILE = "thematic_holdings_history.json"
+THEMATIC_HISTORY_RETENTION_DAYS = 400  # 반기(6개월) 리밸런싱을 최소 1번은 비교할 수 있도록 넉넉히 보관
+
+
+def load_thematic_history() -> list:
+    if not os.path.exists(THEMATIC_HISTORY_FILE):
+        return []
+    try:
+        with open(THEMATIC_HISTORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"  [경고] {THEMATIC_HISTORY_FILE} 읽기 실패: {e}")
+        return []
+
+
+def save_thematic_history(history: list):
+    with open(THEMATIC_HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(clean_for_json(history), f, ensure_ascii=False, indent=2, allow_nan=False)
+
+
+def find_previous_tickers(history: list, fund_label: str, before_date: str) -> set:
+    """이 펀드의 가장 최근(오늘 이전) 스냅샷에 있던 티커 집합을 반환. 없으면 빈 집합."""
+    candidates = [
+        h for h in history
+        if h.get("fund_label") == fund_label and h.get("date") < before_date
+    ]
+    if not candidates:
+        return set()
+    latest = max(candidates, key=lambda h: h["date"])
+    return {row["ticker"] for row in latest.get("holdings", [])}
+
+
 def build_thematic_holdings() -> dict:
-    """THEMATIC_ETFS에 정의된 모든 테마 ETF의 상위 종목을 조회"""
+    """THEMATIC_ETFS에 정의된 모든 테마 ETF의 상위 종목을 조회하고,
+    직전 스냅샷과 비교해 신규 편입 종목(is_new_entry)을 표시함."""
     print("\n[테마별 대표 종목 (VanEck)] 조회 중...")
+    today_date = datetime.now().strftime("%Y-%m-%d")
+    history = load_thematic_history()
+
     result = {}
+    new_snapshots = []
     for label, url in THEMATIC_ETFS.items():
         print(f"  조회 중: {label}")
         holdings = fetch_thematic_holdings(url)
+
+        prev_tickers = find_previous_tickers(history, label, today_date)
+        for h in holdings:
+            h["is_new_entry"] = bool(prev_tickers) and (h["ticker"] not in prev_tickers)
+            # prev_tickers가 비어있다는 건 "히스토리가 아직 없다"는 뜻이라(첫 실행 등),
+            # 전부 신규로 잘못 표시되는 걸 막기 위해 prev_tickers가 있을 때만 판정함.
+
         result[label] = holdings
+        if holdings:
+            new_snapshots.append({
+                "date": today_date,
+                "fund_label": label,
+                "holdings": [{"ticker": h["ticker"], "name": h["name"], "weight_pct": h["weight_pct"]} for h in holdings],
+            })
         time.sleep(1)
+
+    # 오늘자 스냅샷을 히스토리에 추가(같은 날 재실행 시 기존 오늘자 기록은 덮어씀) 후 보관기간 지난 것 정리
+    history = [h for h in history if h.get("date") != today_date]
+    history.extend(new_snapshots)
+    cutoff = (datetime.now() - timedelta(days=THEMATIC_HISTORY_RETENTION_DAYS)).strftime("%Y-%m-%d")
+    history = [h for h in history if h.get("date", "") >= cutoff]
+    save_thematic_history(history)
+
     return result
 
 

@@ -764,6 +764,7 @@ function renderThematicCard(label, holdings){
   const maxWeight = Math.max(...holdings.map(h => h.weight_pct), 1);
   const items = holdings.map((h, i) => {
     const pct = (h.weight_pct / maxWeight) * 100;
+    const newBadge = h.is_new_entry ? `<span class="rank-badge new">신규편입</span>` : '';
     return `
       <div class="ranking-item compact">
         <span class="ranking-rank">${i+1}</span>
@@ -771,6 +772,7 @@ function renderThematicCard(label, holdings){
           <div class="ranking-name-row">
             <span class="ranking-name" style="max-width:160px;">${escapeHtml(h.name)}</span>
             <span class="mono" style="font-size:10px;color:var(--faint);">${escapeHtml(h.ticker)}</span>
+            ${newBadge}
           </div>
           <div class="ranking-bar-track"><div class="ranking-bar-fill" style="width:${pct}%; background:var(--ai);"></div></div>
         </div>

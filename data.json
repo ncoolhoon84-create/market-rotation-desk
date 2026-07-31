@@ -1,32 +1,26 @@
 {
-  "updated_at": "2026-07-30T16:54:24.483418+00:00",
+  "updated_at": "2026-07-31T09:35:40.511227+00:00",
   "indices": [
     {
       "group": "주요지수",
       "name": "KOSPI",
       "ticker": "^KS11",
-      "price": 5663.24,
-      "prev_close": 6023.66,
-      "change": -360.42,
-      "pct_change": -5.98,
-      "volume": 457400,
-      "momentum_20d": -33.19,
-      "momentum_5d": -16.69,
+      "price": 6595.45,
+      "prev_close": 5593.56,
+      "change": 1001.89,
+      "pct_change": 17.91,
+      "volume": 434445,
+      "momentum_20d": -13.76,
+      "momentum_5d": -1.42,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유출",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -1430884319848,
-        "institution": 80522818815,
-        "foreign": 1328009849612,
+        "date": "2026-07-31",
+        "individual": -8283997766512,
+        "institution": 1150288377561,
+        "foreign": 7240983259815,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 5178227576349,
-            "institution": -1951440805082,
-            "foreign": -3268336059869
-          },
           {
             "date": "2026-07-27",
             "individual": 1978839287911,
@@ -50,48 +44,54 @@
             "individual": -1430884319848,
             "institution": 80522818815,
             "foreign": 1328009849612
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -8283997766512,
+            "institution": 1150288377561,
+            "foreign": 7240983259815
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 8071281627563,
-            "growth_pct": 866.0,
-            "prior5_sum": -1053692142344
+            "net_buy": -5390943715298,
+            "growth_pct": -1272.3,
+            "prior5_sum": 459863150658
           },
           "institution": {
-            "net_buy": 2348593866293,
-            "growth_pct": 172.7,
-            "prior5_sum": -3230901941646
+            "net_buy": 5450323048936,
+            "growth_pct": 294.7,
+            "prior5_sum": -2799241306116
           },
           "foreign": {
-            "net_buy": -10572531337379,
-            "growth_pct": -351.4,
-            "prior5_sum": 4205439632474
+            "net_buy": -63212017695,
+            "growth_pct": -102.7,
+            "prior5_sum": 2303616900168
           }
         },
-        "foreign_recent5_sum": -10572531337379,
-        "foreign_streak_days": 1,
-        "foreign_zscore": -0.26,
-        "individual_trend": "순매수 우위",
+        "foreign_recent5_sum": -63212017695,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.44,
+        "individual_trend": "순매도 우위",
         "institution_trend": "순매수 우위",
         "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.26)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 0.44)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbHJPTucVhqRtDZJXZM'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZudgfpWWmGNwUZJogCz'}",
       "headlines": [
         {
-          "title": "하이닉스 '사상 최대실적'에도 코스피 하락...이유는? [뉴스나우] - YTN",
-          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE4yY1RUWk9aUmpEVHpaSVlKVG8zbjZZTGg3alRrWVNXN0V4bVNGQXo0SG1lX2pKOWo3ZGVueHcyd2JjM3plUE5vaDlvMGxESmwybXVHcV9YVEZzb2FOWlE?oc=5"
+          "title": "“290만→132만 원”…지금 코스피가 바닥인지 확인하는 3가지 신호 [잇슈 머니] - news.kbs.co.kr",
+          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5TR1NFbUUweEY0ZVdfSWQ1bkFWZWc1UjVBdWlxRUszSGJXdTNlMzBudFNCTDA5Q3RRMzA1NlFyZFRCZUZ2US1xb1FDOUg2cTdzdjZaMXFSckxycGc?oc=5"
+        },
+        {
+          "title": "“SK하이닉스 470만원 간다”던 노무라…“코스피 급락, 진짜 이유는 따로 있다” - 서울경제",
+          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5kaG15OHJPQ1lvMkZCSEtrLXJnM3RxUjk2UXAxcXkteUFGU2RGY3Bhc3RCQ2FySWY2NGVsSUhiQ2V6N0lieWNJd25ISW5rNHN5eEHSAVNBVV95cUxQVGFZM1NvWmVHX0RWLWdTVXRqbnJ0ZjlxS2ZDVjdEMG9ocXh0X01DR3RGdXRjamtVOHM1X3JCa2pwNE9sbDZMQWtUYXFZam9EbXd3UQ?oc=5"
         },
         {
           "title": "“1만5000 간다”던 코스피, 한 달 만에 5000선까지 추락···“지금이 바닥 아니다” 의심 팽배 - 경향신문",
           "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9tcHNabXdQZWZpQThVWGdpWW1MY04zOENqcHRKNjVzbWlWWmhxVnprb1hCRmU4TGZ5bWdORngwRy04N0p2WlNnWXJ3dlpvdGlDcXpNdjZzblAzd9IBX0FVX3lxTE00OEJjTmdLMWk2TGFHYTZlRENEVjF1d2dKYlpNSE9ERWNlMlVzdXAzc0pFdm9GdDM4NGVvRllXc1NwOVRfVDhwOXRKb0tKTVdXaFJyaDlHa3B5ZkI4N1o0?oc=5"
-        },
-        {
-          "title": "[속보] 코스피, 0.33% 오른 5681.77 개장, SK하이닉스 주가 '폭락' - gukjenews.com",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9DdmEzY21zNGxyLXlQOE1YQ3NBaGZZMUM4Uktyc0pLYm1RcTYxOVNBODBGS1pYMS1mWDR6QW5ESGh5dGNzMkp0UEE3U080ZVNhYmI5UU1MQmpDVnlqYWRHN3lERWtyX01vcUs0TkFR?oc=5"
         }
       ]
     },
@@ -99,28 +99,22 @@
       "group": "주요지수",
       "name": "코스닥",
       "ticker": "^KQ11",
-      "price": 662.68,
-      "prev_close": 705.85,
-      "change": -43.17,
-      "pct_change": -6.12,
-      "volume": 638200,
-      "momentum_20d": -27.67,
-      "momentum_5d": -11.77,
+      "price": 719.76,
+      "prev_close": 644.78,
+      "change": 74.98,
+      "pct_change": 11.63,
+      "volume": 445906,
+      "momentum_20d": -16.96,
+      "momentum_5d": -3.8,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -110783155896,
-        "institution": -143548001276,
-        "foreign": 248338833308,
+        "date": "2026-07-31",
+        "individual": -471516517595,
+        "institution": 298508796728,
+        "foreign": 169667197108,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 488134494186,
-            "institution": -358044134298,
-            "foreign": -131497442887
-          },
           {
             "date": "2026-07-27",
             "individual": -154989078193,
@@ -144,48 +138,54 @@
             "individual": -110783155896,
             "institution": -143548001276,
             "foreign": 248338833308
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -471516517595,
+            "institution": 298508796728,
+            "foreign": 169667197108
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -187541836575,
-            "growth_pct": -124.0,
-            "prior5_sum": 782867286846
+            "net_buy": -1147192848356,
+            "growth_pct": -234.6,
+            "prior5_sum": 852562979719
           },
           "institution": {
-            "net_buy": -215596307850,
-            "growth_pct": 49.7,
-            "prior5_sum": -428209508077
+            "net_buy": 440956623176,
+            "growth_pct": 169.9,
+            "prior5_sum": -630971826603
           },
           "foreign": {
-            "net_buy": 368826856947,
-            "growth_pct": 193.7,
-            "prior5_sum": -393702330755
+            "net_buy": 669991496942,
+            "growth_pct": 387.2,
+            "prior5_sum": -233312961023
           }
         },
-        "foreign_recent5_sum": 368826856947,
-        "foreign_streak_days": 3,
-        "foreign_zscore": 0.18,
+        "foreign_recent5_sum": 669991496942,
+        "foreign_streak_days": 4,
+        "foreign_zscore": 0.4,
         "individual_trend": "순매도 우위",
-        "institution_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (3일 연속, 평소 대비 강도 0.18)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매수 우위 (4일 연속, 평소 대비 강도 0.4)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbHTXPMcdopmnTQW2mc'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZudqPwFazxGdG6hqmWM'}",
       "headlines": [
         {
-          "title": "코스피 강보합…외국인·기관 사고 개인은 1조 내던져 - 아시아경제",
-          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE42dEVEdkF5MVpIbl82U3NJMlhldWxkd3lPQi1MbjZoWkVRVE9XQnRKb3FnQ0liLUV6aXRVd0YxTl9ZUjFHbUZZZVBNdGhuUVpLYUdYR3BwOGFhM3ZLb0JsaEtn?oc=5"
+          "title": "[급등락주 짚어보기] 반도체주 강세에 코스피·코스닥 39개 상한가...SK하이닉스 외인 2.6조 순매수 - v.daum.net",
+          "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE1ZY1B2N2R0ZXNtQlFYT0Y3cktrdkV4ZWNVT3dhc3daWThvLXJucmpVRlNRaW9JZ0xpMVJQT3hzVmtNMFM2S2ZrbXZrSkY4VkE?oc=5"
         },
         {
-          "title": "코스피·코스닥 8%대 ‘급락’…이틀 연속 동반 서킷브레이커 - 한겨레",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBNZm9xTXh2LThUSG1EaUV4cEdUNVUzNzJwQmhzYzFqX2g1NGdobVZMYnlWVkh6MW9XUXp6dkxoM2FQa1RMWHVvMEdZV1lBOUdidGF0S243REdtQ1lpRzMyVWRqWDZyX2htSkI3NjNtNWFIZw?oc=5"
-        },
-        {
-          "title": "\"단기 주가 부진으로 퇴출 안돼…코스닥 '질적 심사' 정밀화해야\" [시총 200억 데드라인 역설-④] - 이투데이",
+          "title": "\"단기 주가 부진으로 퇴출 안돼…코스닥 '질적 심사' 정밀화해야\" [시총 200억 데드라인의 덫-④] - 이투데이",
           "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5QNTZIZUJSX0o3bFhWNmNSSWZJZWpvcmc0M21DMjN5c0E0dWx1UVlDci1GZkRDeGJBT05abkxyVXRhWHU5OVRvbXYyRUhwZXE4a3BCcw?oc=5"
+        },
+        {
+          "title": "하닉 장중 ‘상한가’ 근접…코스피 17%·코스닥 8% ‘초급등’ - 마켓인",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE12ZTRGR2tIWG1nQlZnc1hBcUU5MEUxNnFEbk1SYU03NGJEMmdfeFNWbTZGN2JHaFpwcTBxYUFUVlduc3doNmd1WDctSXptYndxckpleWRlMTBfX1VocVJLbG52NUlUbWJQRC1MMXdXdTJIVlE?oc=5"
         }
       ]
     },
@@ -193,32 +193,32 @@
       "group": "주요지수",
       "name": "나스닥",
       "ticker": "^IXIC",
-      "price": 25029.59,
+      "price": 25122.18,
       "prev_close": 24442.94,
-      "change": 586.65,
-      "pct_change": 2.4,
-      "volume": 4438571000,
-      "momentum_20d": -3.88,
-      "momentum_5d": -0.43,
+      "change": 679.24,
+      "pct_change": 2.78,
+      "volume": 9048570000,
+      "momentum_20d": -3.52,
+      "momentum_5d": -0.06,
       "obv_signal": "매도세 강",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbHdWAZBEbjo7i6UmyN'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZudzFFGUb2EgJ6gQoSR'}",
       "headlines": [
         {
-          "title": "샌디스크 주가, 오늘 급등한 이유는? - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBXY2NmR2N0RUZfdG5lZXZXVk1acFhzWFltQ3ZxUG1IUWg3ZWJpWHYyUVR0eWhuNnI1RzJndDBkRV9UTG5LSEY5S1ZXZFR2TTB6eTBud1gyeDE5UFhlcjg1c2xQVURjUnlYaG1RMWRmdDRLM0dWalU4?oc=5"
+          "title": "​[초점] 나스닥 상장·48억 매수·상한가…‘SK 주가 흔들기’에 최태원이 던진 강력한 메시지 '화제' - 뉴시안",
+          "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1IQ1lYdFJKWE9wbFFPTTR4WV9VTlpPSzA2TDdLMTcxX280ZC01NldPVDA3UVlwb0trV3pTVk5VU3BDb2tnRlMxRXQ0aXRFRmJNc3ZhcXBBVjJvWjNYQ3h4MmpuUFlORENlcWfSAW5BVV95cUxQbmtackV5LUdPRFB3VjRXYXh5SGppS0pESTFPR3VmT0daazhRZ0Nia1hHX3EtVW45QkdGYmJPdlpNVGVhMmMtU04tSTN1SGFlbkdnN19zSlk5bTNIVnRVcnJHXzQ5aE1SVjVXcVlodw?oc=5"
         },
         {
-          "title": "셀룰러리티, 나스닥서 상장폐지 경고 통지 수령…\"주가 1달러 미만 유지\" - 데이터투자",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5SVHcyRVZSZ0xNVUNlRHV6Wm9MOURqYlF5NEp1eFVuTU4xVE12R0NHNjBObXNEcTFpMXVqd3R4QmM3M01CampEU3JLQ21LRmhEZ2pIQy1kdTJQZmtDbDlWblgydXJqeFVBSUhyQzBDWENfNzQ?oc=5"
+          "title": "뉴욕증시, MS 호실적·반도체주 급반등…나스닥 2.78% 상승 - 산경투데이",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1tV1ZiNmlhaFBZNGhYMzVjSkZOY1NKM2xaMS1YWE5SOUFBWkZ5bXZxYmhLNUxFSWxrZG5vbGIzajU0X0cwblphSFFRdjdKS2tSdXcxSGtuOVBoUFJiRkJ2aFlzNnpXdk1hZ1kzbzZldk3SAXRBVV95cUxQVzVnN2FzaC1pdGF3MTkyOWMxV1RaT2xiTWZoVzVrQWNQUldwTWgtQjZBb0h5RTJVVDk4UVM3SmkwVUJMeUptckktY1R6QzdkOXBUeHgtUkgzeC1tNUV6Zng5Sy1EVzJ0ekRjT2R4V0tMVnZCTg?oc=5"
         },
         {
-          "title": "나스닥(NDAQ) 주가, 2분기 호실적에 힘입어 10% 과대평가되었을 가능성 - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPbmk2cDlxVDh0QnFaOWp1NzE2QkRfcjF0RGxzVlU5WXRuNmJsY0FVV241M1dzWURYOWE0MXBESnlXY0RtMFd5WEoyTEJLVjFqcU1IOVlEcWVkamRDZ1R4SHlCTV9MLV9PSWdMaXhCV2I5YmJYWjJHbkdscHA1S3FWdmlUOXFoM0Fvb25ZeUtiRU9STEJlcXI5X2VsRnE0X3JkX0dtX9IBpAFBVV95cUxPbmk2cDlxVDh0QnFaOWp1NzE2QkRfcjF0RGxzVlU5WXRuNmJsY0FVV241M1dzWURYOWE0MXBESnlXY0RtMFd5WEoyTEJLVjFqcU1IOVlEcWVkamRDZ1R4SHlCTV9MLV9PSWdMaXhCV2I5YmJYWjJHbkdscHA1S3FWdmlUOXFoM0Fvb25ZeUtiRU9STEJlcXI5X2VsRnE0X3JkX0dtXw?oc=5"
+          "title": "미국증시 나스닥100 '껑충'..AI & 반도체주 '폭등', ALNY·SW주 '추락' - 초이스경제",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9mOEhEOFBfWU1uN0t1X2Z3bk1VLU9GbGNEN2M2anJHSzd3U1BYbmZCMEpmOFdGZVZ1dXF1b2JFRUljT1ZGZXpJS2ZhSVpJRzJPaXJhUk45YXB0c2hOdVRwSlhpc3NNSnFRLXQtU3EzUXV6RFHSAXNBVV95cUxPZjhIRDhQX1lNbjdLdV9md25NVS1PRmxjRDdjNmpyR0s3d1NQWG5mQjBKZjhXRmVWdXVxdW9iRUVJY09WRmV6SUtmYUlaSUcyT2lyYVJOOWFwdHNoTnVUcEpYaXNzTUpxUS10LVNxM1F1ekRR?oc=5"
         }
       ]
     },
@@ -226,20 +226,20 @@
       "group": "주요지수",
       "name": "나스닥 선물",
       "ticker": "NQ=F",
-      "price": 28066.0,
-      "prev_close": 27342.0,
-      "change": 724.0,
-      "pct_change": 2.65,
-      "volume": 513797,
-      "momentum_20d": -6.74,
-      "momentum_5d": -1.94,
-      "obv_signal": "매도세 강",
+      "price": 28607.5,
+      "prev_close": 28237.75,
+      "change": 369.75,
+      "pct_change": 1.31,
+      "volume": 94143,
+      "momentum_20d": -3.21,
+      "momentum_5d": 1.15,
+      "obv_signal": "매수세 약",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbHo4PVh4QNECoLBmLo'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZue8WLJToUgjze5t5ib'}",
       "headlines": [
         {
           "title": "[뉴스프레소] 美 반도체 급락 후 나스닥 선물↑… CXMT 중국 상장, 수급 블랙홀? - v.daum.net",
@@ -259,32 +259,32 @@
       "group": "주요지수",
       "name": "S&P 500",
       "ticker": "^GSPC",
-      "price": 7414.18,
+      "price": 7437.63,
       "prev_close": 7316.15,
-      "change": 98.03,
-      "pct_change": 1.34,
-      "volume": 1693574000,
-      "momentum_20d": -0.92,
-      "momentum_5d": 0.08,
+      "change": 121.48,
+      "pct_change": 1.66,
+      "volume": 5594430000,
+      "momentum_20d": -0.61,
+      "momentum_5d": 0.4,
       "obv_signal": "매수세 강",
       "flow": "중립",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbHxZdsg1WuzMemDXzK'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZueJYLLFBp8YNQGftzR'}",
       "headlines": [
+        {
+          "title": "마벨·플렉스, S&P500 편입…AI 반도체·전자생산 기업 위상 강화 - 초이스스탁US",
+          "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE52QWZLd2Q2TW9MRDN2c09oLXAxelgwMG9LaDR2X2c5UUpnRGg2X09GYTgxYVA3Vlp4MTRsSEJJX1dZeFpxbjdyTm15RHdITXl6V3Bjb2RsZmhfYlp3NF96S1hn?oc=5"
+        },
         {
           "title": "\"성장주 먼저 담고 S&P500 적립식 투자 병행해야\" - 조선일보",
           "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPdTIwT2FRcnI0djdPdGc0cFc2YVA0bU03UDdxY0FsdVdYRlJMdVZjTjYwenFEdGRJNEpxckFSQUJROVRhSmI2clU1UW5LWDBXMklyeHVUR1NvbnpCUzR6Y1FZVTl1UFMyeEtSVFRiRGtOZHJLMlRCbF83ZmUzYzVhOQ?oc=5"
         },
         {
-          "title": "[뉴욕증시-1보] 워시 한 마디에 요동친 시장…급락 마감 - 연합인포맥스",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE80T1phRFJHRGYxSUFKeEJZazctYmFtNXJtT0FlZ2lESTNTZ1BuMGs0OEJwR2Qyam1TMTZpd0FaQ1NNN3o5b3I0X2J3S2FJZjB3UmV2c3dpMVh1eTR5d09UOWdCTy1Wc1J5NUl5d2xLd2nSAXRBVV95cUxPYVNsbW03OHNpSTNfbmJscE5nNUE3cWkxdDN4aU5PZDgyb1FRNjFTMDBEX0dWckNNelhiZWIzMk90VGE1YkRpX2FBV3htMWhRd19rcEpqOWVJcmdnMzRzX3VNOHB5Qnh5SXk2d1RwUTh6QnYwVw?oc=5"
-        },
-        {
-          "title": "얌! 브랜즈 주가, 오늘 하락한 이유는? - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1acTNsOFJjb0hjRTJJeGFaaFp6WC1xYnlSVGdVQm96eWVMQjRrSnBKZHdQYlA1V3FpQ1R0QS1KRmJFR2xUWmxRY3pLTkpsTmVVNmdwZmF3TEdwaTFLVFgzTDljLWY1bkg5am04U3IydmczSzFfcTFV?oc=5"
+          "title": "미국 증시 S&P 500, 상승장은 언제까지 지속될까? - 치과신문",
+          "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5Od2ZSOW10VW1uemtyY1dDWlFrVlZOV09WanRLQ0l3dXo2T1A0NDdmeHFLQmJvN3VOZG5JUUw2LXlycHhRVVRJdFlBYWpTWVNpV2VMZkhLeTc5MGhuay1xNUNBVlg3Zw?oc=5"
         }
       ]
     },
@@ -292,32 +292,32 @@
       "group": "주요지수",
       "name": "다우존스",
       "ticker": "^DJI",
-      "price": 52107.48,
+      "price": 52208.06,
       "prev_close": 51594.14,
-      "change": 513.34,
-      "pct_change": 0.99,
-      "volume": 318732094,
-      "momentum_20d": -0.38,
-      "momentum_5d": 0.77,
+      "change": 613.92,
+      "pct_change": 1.19,
+      "volume": 631410000,
+      "momentum_20d": -0.19,
+      "momentum_5d": 0.96,
       "obv_signal": "매수세 강",
       "flow": "중립",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbJ8AaqqSDZRkXdT1K2'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZueTFCortREERqtKCcD'}",
       "headlines": [
         {
           "title": "뉴욕증시, 하락 마감... 다우존스지수, 1년 3개월 만에 최대 낙폭 - 조선비즈 - Chosunbiz",
           "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxObEJHMC0tUzVDWWU0b1M5a2Y2RkNmelJHaWdFdnJLOXQ3TEpHVm44UlhfdmNaOWUzZVgyNHJhZ1RRSzVKeTdQNjhaTDUydmlkUjNVTDJ0NThuR3JHaUdGTlpWbUVIR3RvSW1fVWo5dHQ1WnFVbTZ3d2VqVFdRMHhuNVhDRUk2UlBuendReWtiWDh2dVlZRFplNkktZVViZ9IBsgFBVV95cUxPZmRSUXBkYWNNR0dGeG5JZUV0UW9XaGpKMWNXbGFUYTNHbWtkS3huR3Vmb0lqbWg1OTNkRUc3eEN2dW10R3JJRDdLQ2ZzZFczV3o2T2k0Z3N4X2dZWS1CODhKeXBDQTBXMU1vbVRpOWtqeVJBTmJva0ZYR2l4MDFZOVlBeGpzQUdsdnlGZ1FOVlRGLXNXaHlMa1ZFcDg5dG80YktlUkhSNkZNN1pVOWpYZHVB?oc=5"
         },
         {
-          "title": "미국증시 다우지수 '추락'...겹악재 속, CAT·은행주·엔비디아 '뚝' - 초이스경제",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5HYWl0TDZZTDgxWXhveTlPeGZOOWUwZi0wOXFXTmdqaVN2eWtsS0ZBSFFZT3RmVEg0M2I4RV9BbGVmYmFQcl9YUFNwU19TQ3plcGMtZlBqN0dWQ0stcnI0V2R4MEN5akdCcUNVTjQtVGliS1nSAXNBVV95cUxOR2FpdEw2WUw4MVl4b3k5T3hmTjllMGYtMDlxV05namlTdnlrbEtGQUhRWU90ZlRINDNiOEVfQWxlZmJhUHJfWFBTcFNfU0N6ZXBjLWZQajdHVkNLLXJyNFdkeDBDeWpHQnFDVU40LVRpYktZ?oc=5"
+          "title": "미국증시 다우지수 '급등'...MSFT·CAT·엔비디아·금융주 '활짝' - 초이스경제",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1LNWVJNmJTVkVrM1N1MkZUWm9vaUR1QUJrMUVTaUdSdWhEUkZ0MGNxRTlEOXlMWkZyMUFWZnRSZ1J4Vm80Y3J3TGxhcEFHSFZZWTVlUnNEdGFnVWptSGlLc2lmVVJhWUN2eXd6MEoyOVlFbGPSAXNBVV95cUxNSzVlSTZiU1ZFazNTdTJGVFpvb2lEdUFCazFFU2lHUnVoRFJGdDBjcUU5RDl5TFpGcjFBVmZ0UmdSeFZvNGNyd0xsYXBBR0hWWVk1ZVJzRHRhZ1VqbUhpS3NpZlVSYVlDdnl3ejBKMjlZRWxj?oc=5"
         },
         {
-          "title": "[뉴욕증시-1보] 워시 한 마디에 요동친 시장…급락 마감 - 연합인포맥스",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE80T1phRFJHRGYxSUFKeEJZazctYmFtNXJtT0FlZ2lESTNTZ1BuMGs0OEJwR2Qyam1TMTZpd0FaQ1NNN3o5b3I0X2J3S2FJZjB3UmV2c3dpMVh1eTR5d09UOWdCTy1Wc1J5NUl5d2xLd2nSAXRBVV95cUxPYVNsbW03OHNpSTNfbmJscE5nNUE3cWkxdDN4aU5PZDgyb1FRNjFTMDBEX0dWckNNelhiZWIzMk90VGE1YkRpX2FBV3htMWhRd19rcEpqOWVJcmdnMzRzX3VNOHB5Qnh5SXk2d1RwUTh6QnYwVw?oc=5"
+          "title": "[ETF 특징주] '주가 가중 VS 동일 가중' 다우 강세에 DIA보다 EDOW - 뉴스핌",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFA5ZFRZSmIxMlc4ZTdrT1lISU54UkhtN0lhUTRvUWlmX3M3LS01TG1qMFVyQ0xTSVp0VXVDQlZrRFZRRWI3d0l5TFlvRzk0S05qTlA0WG9XZlltclNm?oc=5"
         }
       ]
     }
@@ -327,28 +327,22 @@
       "group": "한국 섹터",
       "name": "반도체 (KODEX 반도체)",
       "ticker": "091160.KS",
-      "price": 93675.0,
-      "prev_close": 98335.0,
-      "change": -4660.0,
-      "pct_change": -4.74,
-      "volume": 3085627,
-      "momentum_20d": -44.75,
-      "momentum_5d": -29.03,
-      "obv_signal": "매도세 강",
+      "price": 120830.0,
+      "prev_close": 93675.0,
+      "change": 27155.0,
+      "pct_change": 28.99,
+      "volume": 2896614,
+      "momentum_20d": -19.04,
+      "momentum_5d": 0.06,
+      "obv_signal": "매수세 약",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": 2367184629,
-        "institution": -2742128892,
-        "foreign": 63521330,
+        "date": "2026-07-31",
+        "individual": -26084158667,
+        "institution": 33071168696,
+        "foreign": -5219219870,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 10362224593,
-            "institution": -17150451442,
-            "foreign": 4937705950
-          },
           {
             "date": "2026-07-27",
             "individual": -3064932901,
@@ -372,62 +366,68 @@
             "individual": 2367184629,
             "institution": -2742128892,
             "foreign": 63521330
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -26084158667,
+            "institution": 33071168696,
+            "foreign": -5219219870
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 18434909528,
-            "growth_pct": 102.2,
-            "prior5_sum": 9116331028
+            "net_buy": -18011473732,
+            "growth_pct": -498.3,
+            "prior5_sum": 4521831297
           },
           "institution": {
-            "net_buy": -19185303592,
-            "growth_pct": -47.2,
-            "prior5_sum": -13030046587
+            "net_buy": 31036316546,
+            "growth_pct": 455.5,
+            "prior5_sum": -8730925817
           },
           "foreign": {
-            "net_buy": -1109376921,
-            "growth_pct": -124.2,
-            "prior5_sum": 4576216310
+            "net_buy": -11266302741,
+            "growth_pct": -282.2,
+            "prior5_sum": 6183878711
           }
         },
-        "foreign_recent5_sum": -1109376921,
+        "foreign_recent5_sum": -11266302741,
         "foreign_streak_days": 1,
-        "foreign_zscore": 0.04,
-        "individual_trend": "순매수 우위",
-        "institution_trend": "순매도 우위",
+        "foreign_zscore": -0.24,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
         "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 0.04)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.24)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbJU3B7nUZej4FKLTEg'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZueyoEeCPR9WU4wqWGj'}",
       "headlines": [
         {
-          "title": "증권가와 테크 업계, \"반도체 주가 급락? 공급 부족 본질은 여전히 유효\" - 조선일보",
-          "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQcnZyVGlJdlF1MHBnelhmVG9GcThpVjhOSFRYTG1uTDlRajlHSGQ2eFBYbkFEU3BsMGpaeHpmMEVHY1B3c0hvT3FfRFBRemxFTzVQYnZ3SzlKZzhXQ1FGem04RFVqMTlQVUd2RDRLWFo0NmZNeXdkVnZ1YnpEZHlKcWJfcw?oc=5"
+          "title": "반등한 반도체, 활짝 웃은 뉴욕 증시...나스닥 2.8%↑ - 조선일보",
+          "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQUjY1QUZhRXpQRGRHN3hCNjdMd0lDVjZNUTl6eEVHQS1QOUpaNUd4MlhCb1hkQk1BQzNVa09OYzJGb1ZMVTBkYXFmMEZkRmYxdm9yb0R0SFN5V25ISGRJUlltRWFnNTRCTnpEaEhXZFlER2lHMjhPLXp1ZXdYaVdyUXBoNUVpR1hhR1VMaHhuakgzd3gyUkFRUHhNRld0dw?oc=5"
         },
         {
           "title": "美반도체 주가 폭락 피해, 레버리지 ETF로 회복 어려워 - 연합인포맥스",
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5vWHVGcU9iM28xUnhCQ3U2Zkhobm1NamhscERCeVJvMWZEaXQ2d0ZmYV9hbjRWVnFzNzdUaXUzZE0wam83V3Y0dmQ0YnhqMG9YajNacDhkUnpkeERacFFLbW90MnBCZ0lqNzNySnpkdm0?oc=5"
         },
         {
-          "title": "“수출 사상 최대인데” 반도체 주가 폭락 이유 - v.daum.net",
-          "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5BWnRjV3BXRUFhcC1GaXR5dmFkcTJHbC02TG15dFNFc01La0c5N1BjQkNpWWJXSUJZcVRMd0RHaXg0LTRKallhRXUyNjk0dUE?oc=5"
+          "title": "‘시총 1위→6위 추락’ 일 반도체 기업 키오시아, 오늘 17% 급등 - 한겨레",
+          "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNVEcxZU9QYlNWNGREWjV3TmZfbWlGRXFBdFZxN21wa3o1WGg0a1BSWHRrT1ExV0JHM1RXSkhnbjFDUTctNnJjdTZFOEpvc2dTNGFDVURxV2RwR2tOaHJDRjlPWm9UWTVSZGlZNGJYT19CeVNtSTZYSEp1QTlaQ3pOYmx3?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 8432663772900,
-          "growth_pct": 690.4
+          "net_buy": -3040001850300,
+          "growth_pct": -252.9
         },
         "institution": {
-          "net_buy": 1508320343100,
-          "growth_pct": 134.3
+          "net_buy": 4717063589300,
+          "growth_pct": 224.5
         },
         "foreign": {
-          "net_buy": -10094312842450,
-          "growth_pct": -410.9
+          "net_buy": -1640773232650,
+          "growth_pct": -194.6
         }
       }
     },
@@ -435,28 +435,22 @@
       "group": "한국 섹터",
       "name": "2차전지 (TIGER 2차전지테마)",
       "ticker": "305540.KS",
-      "price": 15205.0,
-      "prev_close": 14695.0,
-      "change": 510.0,
-      "pct_change": 3.47,
-      "volume": 674124,
-      "momentum_20d": -17.09,
-      "momentum_5d": -13.85,
+      "price": 16135.0,
+      "prev_close": 15205.0,
+      "change": 930.0,
+      "pct_change": 6.12,
+      "volume": 728456,
+      "momentum_20d": -9.71,
+      "momentum_5d": -3.84,
       "obv_signal": "매도세 강",
-      "flow": "자금 유출",
+      "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -123158513,
-        "institution": 382453803,
-        "foreign": -225576805,
+        "date": "2026-07-31",
+        "individual": -64983156,
+        "institution": -1793920358,
+        "foreign": 1834272859,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -56509966,
-            "institution": 382768830,
-            "foreign": -291761084
-          },
           {
             "date": "2026-07-27",
             "individual": 61057100,
@@ -480,62 +474,68 @@
             "individual": -123158513,
             "institution": 382453803,
             "foreign": -225576805
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -64983156,
+            "institution": -1793920358,
+            "foreign": 1834272859
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -521361493,
-            "growth_pct": -166.4,
-            "prior5_sum": 785146477
+            "net_buy": -529834683,
+            "growth_pct": -231.9,
+            "prior5_sum": 401818795
           },
           "institution": {
-            "net_buy": 3982848444,
-            "growth_pct": 755.9,
-            "prior5_sum": -607223482
+            "net_buy": 1806159256,
+            "growth_pct": 576.0,
+            "prior5_sum": -379407120
           },
           "foreign": {
-            "net_buy": -3146765566,
-            "growth_pct": -1420.0,
-            "prior5_sum": -207027783
+            "net_buy": -1020731623,
+            "growth_pct": -1093.7,
+            "prior5_sum": -85507443
           }
         },
-        "foreign_recent5_sum": -3146765566,
-        "foreign_streak_days": 2,
-        "foreign_zscore": -0.52,
+        "foreign_recent5_sum": -1020731623,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.15,
         "individual_trend": "순매도 우위",
         "institution_trend": "순매수 우위",
         "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.52)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.15)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbJjrSBT8xxPQy8xTLP'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZufEEQ9swpSJ8mc1Zx3'}",
       "headlines": [
         {
           "title": "2차전지 생산株 다시 달린다…SK이노베이션·LG엔솔 주가 '불기둥' - 핀포인트뉴스",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9jS1cxRUp6SVB0bFpEdFY1RHd3aTFveWpDRzBkaHgwTDlmeVJzNTBBaVNEMElYZE5GM1MtWk53THFkSkZJLUVqTV9VbnV0bFVGT25oQzI3UFloZXlkcXZKWTRaVHJCWHdiR0lDWktKZ0ctSW15eThF0gF3QVVfeXFMT2NLVzFFSnpJUHRsWkR0VjVEd3dpMW95akNHMGRoeDBMOWZ5UnM1MEFpU0QwSVhkTkYzUy1aTndMcWRKRkktRWpNX1VudXRsVUZPbmhDMjdQWWhleWRxdkpZNFpUckJYd2JHSUNaS0pnRy1JbXl5OEU?oc=5"
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1LUDgwQTFNRWxDTmxNOUsyQ09Wc1A4c1JtSVVNSC1UU3ZqcmlOWFRmNndaRzBmbG9Cdlc2U19xempyX3NpalR1RnZRR3d4NGYxV0NneE5idjF0Rzk2RnVJekpTaEdRV0tmZDd6YjltNEJWX1XSAXdBVV95cUxPY0tXMUVKeklQdGxaRHRWNUR3d2kxb3lqQ0cwZGh4MEw5ZnlSczUwQWlTRDBJWGRORjNTLVpOd0xxZEpGSS1Fak1fVW51dGxVRk9uaEMyN1BZaGV5ZHF2Slk0WlRyQlh3YkdJQ1pLSmdHLUlteXk4RQ?oc=5"
         },
         {
-          "title": "삼성SDI, 2차전지 기대감 속 소폭 강세 : 기업주식정보 - 재경일보",
-          "link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTFAtbEgyZGtYSG96MnR4V1JlbVg5cHNRNDBMQk9WbDhRaXg4ZkdDUjRQaXRTVXk4aHpSNTMwQTVLUi10bFZPTWNtSUZ3?oc=5"
+          "title": "'공매도 떨고있나' 2차전지 목표주가 53% 상향 - v.daum.net",
+          "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE5mWGY3XzZab29JbTl5NXJoMFpIcGZELWdMR3FYc3RWUm14aWxHZDVwYVhGQVhmU1pScmxPYWU0SDFmMHZIaVdaM1F1VHNocmM?oc=5"
         },
         {
-          "title": "LG에너지솔루션·SK이노베이션 급등 2차전지·전고체 관련주 주가 동반 강세…FOMC 동결에 영향 체크 - CBC뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5mbkRSSTU0aVFlREt1X3laMER6emJOZ2p5N1RiMkZlWWtPdEw4ckNKSXZ5Uk5FbGtIaEZNekhyMVBiVExTLWF0N081bHVXQVBBcC1hTlJua0ZENldtSjBuR3pNZ0lNTUpX?oc=5"
+          "title": "방전된 2차전지株…＂이번엔 다르다＂ 반전 전망 [B급기자의 B급리포트] - 한국경제TV",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1OMWxzOEFaWG11RGt1V3JHRlF6ejAyMlFFek94ZVZSUnRteFEtWGZpZ0t2MGZEbkxUcE1ta2dWRnFJRHBIQkRFem1lNDUtUlk2Z0tmU2U1Y3hudS15c09CYlNKd3haRkpaem1oV2l1bWRnQTd6ZkNj?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 53290121550,
-          "growth_pct": 127.3
+          "net_buy": 72175187650,
+          "growth_pct": 143.2
         },
         "institution": {
-          "net_buy": 22941625200,
-          "growth_pct": -87.4
+          "net_buy": -8820298250,
+          "growth_pct": -105.5
         },
         "foreign": {
-          "net_buy": -43569763900,
-          "growth_pct": -140.2
+          "net_buy": -62109124350,
+          "growth_pct": -151.2
         }
       }
     },
@@ -543,28 +543,22 @@
       "group": "한국 섹터",
       "name": "바이오 (KODEX 헬스케어)",
       "ticker": "266420.KS",
-      "price": 15265.0,
-      "prev_close": 15220.0,
-      "change": 45.0,
-      "pct_change": 0.3,
-      "volume": 37616,
-      "momentum_20d": -15.36,
-      "momentum_5d": -3.32,
-      "obv_signal": "매도세 약",
+      "price": 15775.0,
+      "prev_close": 15265.0,
+      "change": 510.0,
+      "pct_change": 3.34,
+      "volume": 21845,
+      "momentum_20d": -11.18,
+      "momentum_5d": -1.34,
+      "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -57841525,
-        "institution": 66401305,
-        "foreign": -9893640,
+        "date": "2026-07-31",
+        "individual": -4026599,
+        "institution": 5326217,
+        "foreign": -2293758,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -18878763,
-            "institution": 68404915,
-            "foreign": -52009402
-          },
           {
             "date": "2026-07-27",
             "individual": 57810358,
@@ -588,62 +582,68 @@
             "individual": -57841525,
             "institution": 66401305,
             "foreign": -9893640
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -4026599,
+            "institution": 5326217,
+            "foreign": -2293758
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -249215484,
-            "growth_pct": -1684.5,
-            "prior5_sum": 15728010
+            "net_buy": -234363320,
+            "growth_pct": -20161.1,
+            "prior5_sum": 1168245
           },
           "institution": {
-            "net_buy": 191113546,
-            "growth_pct": 251.5,
-            "prior5_sum": 54377045
+            "net_buy": 128034848,
+            "growth_pct": -4.4,
+            "prior5_sum": 133874286
           },
           "foreign": {
-            "net_buy": -27005827,
-            "growth_pct": 74.2,
-            "prior5_sum": -104861065
+            "net_buy": 22709817,
+            "growth_pct": 113.2,
+            "prior5_sum": -172265611
           }
         },
-        "foreign_recent5_sum": -27005827,
-        "foreign_streak_days": 1,
-        "foreign_zscore": -0.07,
+        "foreign_recent5_sum": 22709817,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.07,
         "individual_trend": "순매도 우위",
         "institution_trend": "순매수 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.07)"
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.07)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbJzMZZcQ1zbS4vaLag'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZufUpEkjqxCutt6fSYC'}",
       "headlines": [
+        {
+          "title": "[장중수급포착] 리가켐바이오, 외국인/기관 동시 순매수… 주가 +10.78% - 뉴스핌",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBmdzFnYW0xUlYyZWMtZFNLQl9GNzhHNUpBU01mYWYxRTRkcnRhNnJqZkphUVhCRlJweDlPYlJpQUFLTFdRWHNvY095b2ctQWJyQkJtZGxwNF85ekdD?oc=5"
+        },
+        {
+          "title": "[주식] 한미약품·동아 호실적 발표에도...주가는 울상 - 히트뉴스",
+          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9BX0RudV9qV2MzWS03Y2FuNEpIdFlSd013eTBsQXdTREFnaklkU19EZ0Z0TjlkRmtMcUVqbEExZDRiR0dJTGNEc3RabkxCVTBTY3g5RU15eUotb29EcFFuQ0VzVVV1MTJzNHdN?oc=5"
+        },
         {
           "title": "시티즌스, 유방암 신약 잠재력에 레오나바이오 주가 등급 상향 - Investing.com 한국어",
           "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1Md3IwMW1SUTRJSHRBMXNza25tS21YbG84NUp1X21JZGp1YXZCeTN6RWpXNkVkR01vYVN5R1lZeWszNE9ZYzdwM1l6SlRnenRxTkRtOE5vQmIwX0FMRUhMdmJyU2JhdHZfbG5leFhvZnBxTEUw?oc=5"
-        },
-        {
-          "title": "[주식] 유한양행 실적 훈풍에 5%↑...펩트론·코오롱티슈진 약세 - 히트뉴스",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1WZmZXRDI1MzJvREVzN1JhNGFtTVdwRFhQcG1NSWs2VEZpcXZkaEdxd3Z0MzhOOFBtN0ltelRYYUpxbEQyVlVVdEhvWUFXWnktRmRtcnBzSmNkNWh0ZzM0SVQ4emptTmxtNjhR?oc=5"
-        },
-        {
-          "title": "바이오 주가 19% 빠졌는데…빅파마는 韓 기술 13조원 사갔다 - 더트래커",
-          "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1tS3l6Y2dZQTJWTEhmVHF3QjNDTmJ6MXNsQ0Y1VDJSRzlIRk80UlFBclNkRFFaNWJCU1hGSm1VODlYc0lJZVNNai1PeV9kdmZBblBqa2RIZmM?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -533068382600,
-          "growth_pct": -933.0
+          "net_buy": -236295507250,
+          "growth_pct": 8.1
         },
         "institution": {
-          "net_buy": 543847420275,
-          "growth_pct": 3059.5
+          "net_buy": 322639227150,
+          "growth_pct": 99.8
         },
         "foreign": {
-          "net_buy": -10022374525,
-          "growth_pct": -126.7
+          "net_buy": -92914794800,
+          "growth_pct": -190.8
         }
       }
     },
@@ -651,28 +651,22 @@
       "group": "한국 섹터",
       "name": "은행 (KODEX 은행)",
       "ticker": "091170.KS",
-      "price": 15495.0,
-      "prev_close": 15135.0,
-      "change": 360.0,
-      "pct_change": 2.38,
-      "volume": 2795027,
-      "momentum_20d": 5.52,
-      "momentum_5d": -2.55,
+      "price": 15660.0,
+      "prev_close": 15495.0,
+      "change": 165.0,
+      "pct_change": 1.06,
+      "volume": 1507535,
+      "momentum_20d": 1.63,
+      "momentum_5d": -0.96,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -246290978,
-        "institution": 1718671112,
-        "foreign": 209135078,
+        "date": "2026-07-31",
+        "individual": -438760084,
+        "institution": -1832695127,
+        "foreign": 2267078896,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -216325486,
-            "institution": 1184377572,
-            "foreign": -952076476
-          },
           {
             "date": "2026-07-27",
             "individual": 103937522,
@@ -696,36 +690,42 @@
             "individual": -246290978,
             "institution": 1718671112,
             "foreign": 209135078
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -438760084,
+            "institution": -1832695127,
+            "foreign": 2267078896
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 824229340,
-            "growth_pct": 126.6,
-            "prior5_sum": -3096337061
+            "net_buy": 601794742,
+            "growth_pct": 108.7,
+            "prior5_sum": -6926742990
           },
           "institution": {
-            "net_buy": -513906701,
-            "growth_pct": -111.4,
-            "prior5_sum": 4525167794
+            "net_buy": -3530979400,
+            "growth_pct": -135.0,
+            "prior5_sum": 10090301317
           },
           "foreign": {
-            "net_buy": -130711871,
-            "growth_pct": 90.9,
-            "prior5_sum": -1429178971
+            "net_buy": 3088443501,
+            "growth_pct": 251.4,
+            "prior5_sum": -2040266630
           }
         },
-        "foreign_recent5_sum": -130711871,
-        "foreign_streak_days": 1,
-        "foreign_zscore": 0.01,
+        "foreign_recent5_sum": 3088443501,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.35,
         "individual_trend": "순매수 우위",
         "institution_trend": "순매도 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 0.01)"
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.35)"
       },
-      "cycle": "-",
+      "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbKFTR1cBSKbghLSurP'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZufj2G258oWJzXdz421'}",
       "headlines": [
         {
           "title": "한국은행 “주가 하방 압력 제한적” - 전자신문",
@@ -736,22 +736,22 @@
           "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE50ZVF5ckFvdGNOX3p3V0dkUG56Q1FDeUZyTXR1UzJxMEw3TW5FTEdJa3lVRkpEbkdycC11WU5NVXBUTXMwMUNyQUFlTWpvcmtNSGV0Y3VPcGJtZTRUVzh1Ty1oRUx5SGxQeDkzUWg5QlhBSU9ZOVk0?oc=5"
         },
         {
-          "title": "[금융가 사람들] iM증권 김명실 \"백투백 후 10월 인상 가능성, 주가에 달려\" - KB Think",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBFRVZHRkNVOFFSYUh0MThVQ2otX2JwWTZkZ2pXdFhFQTBSX0tRcHFycnVYM3NmTDRaU3hIUmpwYksyYk56eEk3RzNkM0JlSjViNVkzbUJURmp2Q3RGMFQ5S1ByS2Nxb0NTQ0U3QW5SSFZQQQ?oc=5"
+          "title": "Citigroup Inc (C) 주식 움직였습니다 상승 3.97%에 7월30일: 변동 원인 - TradingKey",
+          "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPRUdFT1dqVHdKci1WTjVVTWY4UHE5RTVSWHl4YUd4Zk82eGJSVGxYTE5GSEFDRjVNanhDd2RHd3BocFNYTTloQzZsUzFxYVMzQm9BSWZJUmpzVXkxSWFYdk9KUllMaS14Zzd1ZGNnb2F3cnUtS25UQnRhSFhIS1c3VmlOMTVwS25GNmZz?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -69015594525,
-          "growth_pct": -51.1
+          "net_buy": -61558837900,
+          "growth_pct": -30.6
         },
         "institution": {
-          "net_buy": 224752295250,
-          "growth_pct": 502.5
+          "net_buy": 183492019050,
+          "growth_pct": 263.5
         },
         "foreign": {
-          "net_buy": -166525783025,
-          "growth_pct": -260.0
+          "net_buy": -132496160100,
+          "growth_pct": -181.9
         }
       }
     },
@@ -759,28 +759,22 @@
       "group": "한국 섹터",
       "name": "조선 (TIGER 조선TOP10)",
       "ticker": "494670.KS",
-      "price": 21045.0,
-      "prev_close": 19855.0,
-      "change": 1190.0,
-      "pct_change": 5.99,
-      "volume": 2270275,
-      "momentum_20d": -17.86,
-      "momentum_5d": -10.45,
-      "obv_signal": "매도세 강",
-      "flow": "자금 유입",
+      "price": 22135.0,
+      "prev_close": 21045.0,
+      "change": 1090.0,
+      "pct_change": 5.18,
+      "volume": 802975,
+      "momentum_20d": -11.8,
+      "momentum_5d": -3.19,
+      "obv_signal": "매도세 약",
+      "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -1496467398,
-        "institution": 2413974809,
-        "foreign": -241090941,
+        "date": "2026-07-31",
+        "individual": 211853217,
+        "institution": -705768984,
+        "foreign": 1108627469,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 826001264,
-            "institution": -1194190585,
-            "foreign": 609574351
-          },
           {
             "date": "2026-07-27",
             "individual": 629527547,
@@ -804,62 +798,68 @@
             "individual": -1496467398,
             "institution": 2413974809,
             "foreign": -241090941
+          },
+          {
+            "date": "2026-07-31",
+            "individual": 211853217,
+            "institution": -705768984,
+            "foreign": 1108627469
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -895190045,
-            "growth_pct": -179.6,
-            "prior5_sum": 1125224654
+            "net_buy": -1509338092,
+            "growth_pct": -157.7,
+            "prior5_sum": 2616107658
           },
           "institution": {
-            "net_buy": -298385554,
-            "growth_pct": -112.5,
-            "prior5_sum": 2379166314
+            "net_buy": 190036047,
+            "growth_pct": 148.2,
+            "prior5_sum": -394094583
           },
           "foreign": {
-            "net_buy": 1278079212,
-            "growth_pct": 175.8,
-            "prior5_sum": -1686532573
+            "net_buy": 1777132330,
+            "growth_pct": 382.1,
+            "prior5_sum": -629876910
           }
         },
-        "foreign_recent5_sum": 1278079212,
-        "foreign_streak_days": 2,
-        "foreign_zscore": 0.28,
+        "foreign_recent5_sum": 1777132330,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.34,
         "individual_trend": "순매도 우위",
-        "institution_trend": "순매도 우위",
+        "institution_trend": "순매수 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.28)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.34)"
       },
-      "cycle": "차기 싸이클 가능성",
+      "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbKVrLn8wqqGB8eSK76'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZufyMy9d7vsJ5FGFsxF'}",
       "headlines": [
+        {
+          "title": "폭락장에도 역주행한 조선 빅3…반등세 타고 주가 상승 '가속' | - 연합인포맥스",
+          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1FQ1g0X2kxM0RsQjZ5TW4tYVlYT1pfbkZGRzExQmZWbHkwRWFObTlma0xVNzliQk5kZ3ZxUXRzX3JiVWhHTWNUdmZQLTZIemNsdGh2LWNTSVdPX2dzRHlTam1BdVBHQ1R3Y2xFMWxBa0VUSnB0?oc=5"
+        },
+        {
+          "title": "아마존, 분기 매출 첫 2000억달러 돌파… 주가 9.5% 급등 - 조선비즈 - Chosunbiz",
+          "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNSmpkQmtObXE5X2FLcmRjVkdlWFcxa2NWbmEwTlEyYnBzLTE2MFFXallrUXEzUTJtMXFFMmZ0X2FncVdnd0E4aFBDLURsZXowWG82Y3lDRXVCVzZ4bVgwdEl4aHdiRjRrb2k3QVVXMVdGZi1PMXZDZjNUZ2hWVWRiTEZn0gGWAUFVX3lxTE55RHhSX2JvX21TYmJqRFVaeUlvS3ROX180bnl1MmI0Ui1xNnRtN1RMTEozb2ZRTGEzNUZNS2FyTzFVTURKWFZIeDRycDljUVJGemkySTZDYncxdGFYbEVKSXVmOHdfT05NS3Yya3ZGQ2loZno0emV0dVBlWWp2RUdZaWl0WUtuUzZLLV9KSmdtY1dEV1k3QQ?oc=5"
+        },
         {
           "title": "\"주가 빼고 다 좋다\"는데…HD한국조선해양, 살펴볼 점은 - 한국경제",
           "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE02b251dlBXUV9wd09jZVJWY0tKc3lFVGdyNE5iM0lpVm12cE9tWjJmVHVHLWRSM0pDX19uR21QaU9DN1NsWXE1VWd2WUZMTG53TFF4bG9TalJRQQ?oc=5"
-        },
-        {
-          "title": "[특징주] 실적 상승에 조선株 강세…HD한국조선해양 8%↑ - 뉴스핌",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9tZjdaUmRFdzhEbDl2MjBHWGs1NnNyX1JFdlplczFWVUI2TWlvb29VNThnbllwUjRNSFpJSWhrVWIxU3NSS3FVSkY4NmNzU3VabmhhdXBXSWN0Zmha?oc=5"
-        },
-        {
-          "title": "한투증권, HD현대중공업 목표가 14.5%↓…\"조선 업종 밸류 고려\" - 연합뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5RMkNrNWdGa2duVGtzblROdGprQnVsUWNzY1RTNi1jUm4xQmpCRHZISE9JTE9JN3pRY1RrcndKOGVVNXRIc1hNQklNUmdXVEZjdjBsdnl1eGhlMTTSAWBBVV95cUxQbWdWQkJWTnBQNDhRcVJzYXVWT2dHNWE2RWpsODIyNTFDNHIxenRrUHFKTlZrNy1ObDUtRm04U01YYjJOTmhNWTd5dC1Fc285WTBsZTVITVpYNXBvY1VPeFk?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -132390108040,
-          "growth_pct": -127.8
+          "net_buy": -164424158215,
+          "growth_pct": -209.0
         },
         "institution": {
-          "net_buy": 106768184045,
-          "growth_pct": -5.5
+          "net_buy": 120114613395,
+          "growth_pct": 63.7
         },
         "foreign": {
-          "net_buy": 28894614320,
-          "growth_pct": 154.4
+          "net_buy": 45129352820,
+          "growth_pct": 365.8
         }
       }
     },
@@ -867,28 +867,22 @@
       "group": "한국 섹터",
       "name": "방산 (TIGER K방산&우주)",
       "ticker": "463250.KS",
-      "price": 29040.0,
-      "prev_close": 28155.0,
-      "change": 885.0,
-      "pct_change": 3.14,
-      "volume": 1018087,
-      "momentum_20d": -25.1,
-      "momentum_5d": -19.85,
+      "price": 31750.0,
+      "prev_close": 29040.0,
+      "change": 2710.0,
+      "pct_change": 9.33,
+      "volume": 414242,
+      "momentum_20d": -17.75,
+      "momentum_5d": -11.0,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -492828737,
-        "institution": 106856892,
-        "foreign": 875360540,
+        "date": "2026-07-31",
+        "individual": -500960791,
+        "institution": -1316189408,
+        "foreign": 1836007029,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 119081627,
-            "institution": -1107443978,
-            "foreign": 884117846
-          },
           {
             "date": "2026-07-27",
             "individual": 427068736,
@@ -912,62 +906,68 @@
             "individual": -492828737,
             "institution": 106856892,
             "foreign": 875360540
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -500960791,
+            "institution": -1316189408,
+            "foreign": 1836007029
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -1574184042,
-            "growth_pct": -2.7,
-            "prior5_sum": -1533045954
+            "net_buy": -2194226460,
+            "growth_pct": -106.9,
+            "prior5_sum": -1060461487
           },
           "institution": {
-            "net_buy": -348108417,
-            "growth_pct": -114.6,
-            "prior5_sum": 2378568695
+            "net_buy": -556853847,
+            "growth_pct": -294.5,
+            "prior5_sum": -141160650
           },
           "foreign": {
-            "net_buy": 1742647610,
-            "growth_pct": 563.8,
-            "prior5_sum": -375732606
+            "net_buy": 2694536793,
+            "growth_pct": 101.7,
+            "prior5_sum": 1336022832
           }
         },
-        "foreign_recent5_sum": 1742647610,
-        "foreign_streak_days": 1,
-        "foreign_zscore": 0.24,
+        "foreign_recent5_sum": 2694536793,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.35,
         "individual_trend": "순매도 우위",
         "institution_trend": "순매도 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.24)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.35)"
       },
-      "cycle": "-",
+      "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbKkJzi9ewcQHQhsGcp'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZugE6zKg9LDrVvLEjfz'}",
       "headlines": [
         {
-          "title": "[30일 특징주] 중동 지역 미·이란 긴장 재고조…방산株 '강세' - 뉴스웍스",
-          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1oVk5WMWVYdUI1S0lIQlpZazVwVlczWDUwMmtXYVd1ckI3NW51dE9aeFVjWGxERUhqaW5xM3lwMHBidXpVdGZ3YXVfOVYydjhMWkZBdmZIdndEZVRxdl9ZbDNpTEpFdU5kcTRNQ0xya9IBc0FVX3lxTE5qQjFiR2FGMXJBam5uaGhqVm03Z3FYdFdFOE9YQkZaX2xpcElnMzAtSFRRWi1LUXVIT0d2Unp3WHdqRkhqYmprbk1GenlJX2lwTlk2aHBsakRtUVJDeGFCeVFlazBLVUNUUXl4bng3ZXEtcXM?oc=5"
-        },
-        {
-          "title": "한화, 오스탈 3300억 투자 어쩌나…규제·주가 급락 ‘발목’ - 서울경제TV",
-          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE91UTNfRXlTUG9LbHhQODVpZ0Y0bFdUS01WdWtpZERfMTBSdksyR0p1d3d6d1Rua3VwdVVROXhMRTF0OFZWY19pbGlmaEJ2cER0X0RMMU5KV3RCalJDXzl4cllRRzM?oc=5"
+          "title": "주가는 ‘반토막’ 실적은 ‘들쑥날쑥’…곡소리 나는 K방산, 전망은 - v.daum.net",
+          "link": "https://news.google.com/rss/articles/CBMiT0FVX3lxTE4xSVR0V25qVlRfNlF3OXVOUHhXVEp3ZUpOeUxKdWlsdDE5OUhTTHFmMzlxTm85dXVXOEc4Y3h3VzFla2RSWTBNakhadXFTQ2s?oc=5"
         },
         {
           "title": "[특징주] 방산 관련주, 이란의 탄도미사일 기습 발사.. '강세' - 글로벌이코노믹",
           "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxONnFkT3p6VXBCZVAySmZaYWRKZXNscUdMcXdEX2RyMkd6Wm03QWN4RElMcU1EUW1Kd1NEWTViUXFMU1JKbG9uVlFrZmxYdTFQV3JBTm5renVsSG8za3draFF3RHo0UW5wcHg1Y24tWHJCenQ5SGJ2U3lkSHhkMndqWE4tY01NS0FX?oc=5"
+        },
+        {
+          "title": "[30일 특징주] 중동 지역 미·이란 긴장 재고조…방산株 '강세' - 뉴스웍스",
+          "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1oVk5WMWVYdUI1S0lIQlpZazVwVlczWDUwMmtXYVd1ckI3NW51dE9aeFVjWGxERUhqaW5xM3lwMHBidXpVdGZ3YXVfOVYydjhMWkZBdmZIdndEZVRxdl9ZbDNpTEpFdU5kcTRNQ0xya9IBc0FVX3lxTE5qQjFiR2FGMXJBam5uaGhqVm03Z3FYdFdFOE9YQkZaX2xpcElnMzAtSFRRWi1LUXVIT0d2Unp3WHdqRkhqYmprbk1GenlJX2lwTlk2aHBsakRtUVJDeGFCeVFlazBLVUNUUXl4bng3ZXEtcXM?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -75334424450,
-          "growth_pct": 3.8
+          "net_buy": -70128354300,
+          "growth_pct": 28.5
         },
         "institution": {
-          "net_buy": 144738015650,
-          "growth_pct": 204.3
+          "net_buy": 27372802100,
+          "growth_pct": -70.7
         },
         "foreign": {
-          "net_buy": -88719454850,
-          "growth_pct": -358.6
+          "net_buy": 21870467000,
+          "growth_pct": 123.2
         }
       }
     },
@@ -975,28 +975,22 @@
       "group": "한국 섹터",
       "name": "전력 (KODEX AI전력핵심설비)",
       "ticker": "487240.KS",
-      "price": 25450.0,
-      "prev_close": 26900.0,
-      "change": -1450.0,
-      "pct_change": -5.39,
-      "volume": 4597662,
-      "momentum_20d": -45.45,
-      "momentum_5d": -33.03,
+      "price": 30720.0,
+      "prev_close": 25450.0,
+      "change": 5270.0,
+      "pct_change": 20.71,
+      "volume": 4876525,
+      "momentum_20d": -29.05,
+      "momentum_5d": -12.75,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -952481153,
-        "institution": 265723029,
-        "foreign": -131373270,
+        "date": "2026-07-31",
+        "individual": -1452288584,
+        "institution": 3317807883,
+        "foreign": -1068815088,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 7345433708,
-            "institution": -5539175822,
-            "foreign": -2157526423
-          },
           {
             "date": "2026-07-27",
             "individual": 4385184126,
@@ -1020,44 +1014,50 @@
             "individual": -952481153,
             "institution": 265723029,
             "foreign": -131373270
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -1452288584,
+            "institution": 3317807883,
+            "foreign": -1068815088
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 4164931311,
-            "growth_pct": 22.7,
-            "prior5_sum": 3393541348
+            "net_buy": -4632790981,
+            "growth_pct": -151.1,
+            "prior5_sum": 9060481984
           },
           "institution": {
-            "net_buy": -9269436644,
-            "growth_pct": -842.7,
-            "prior5_sum": -983247151
+            "net_buy": -412452939,
+            "growth_pct": 92.7,
+            "prior5_sum": -5671881893
           },
           "foreign": {
-            "net_buy": 2023712169,
-            "growth_pct": 237.4,
-            "prior5_sum": -1472422938
+            "net_buy": 3112423504,
+            "growth_pct": 288.8,
+            "prior5_sum": -1648465844
           }
         },
-        "foreign_recent5_sum": 2023712169,
-        "foreign_streak_days": 1,
-        "foreign_zscore": 0.19,
-        "individual_trend": "순매수 우위",
+        "foreign_recent5_sum": 3112423504,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.31,
+        "individual_trend": "순매도 우위",
         "institution_trend": "순매도 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.19)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.31)"
       },
-      "cycle": "-",
+      "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbL1U4xzmTQdnQ5vs6r'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZugVwVQRkd5akGwQrYA'}",
       "headlines": [
         {
-          "title": "테슬라(TSLA), 대형 전력 계약 체결이 지금 주가 재평가로 이어질까? - simplywall.st",
-          "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxORXlrQ2xFZ05lVjlMSmMxbGlDMjJFbE1nTGlRaUozZzVYRjA1SUl3eWQ1azM5NS1sSEtacVRDdVVqeHVkM1MzMDg3TmJuMUgwaURsUmxGUTFja2FUYmozUkNreWRMOE52eGF0T0JQRG9iQ1cwWm1RSGFaY1ZyYU5KSlcyZkIzeEFxbE9SZzd5aXlvdmtG0gGUAUFVX3lxTE5FeWtDbEVnTmVWOUxKYzFsaUMyMkVsTWdMaVFpSjNnNVhGMDVJSXd5ZDVrMzk1LWxIS1pxVEN1VWp4dWQzUzMwODdOYm4xSDBpRGxSbEZRMWNrYVRiajNSQ2t5ZEw4TnZ4YXRPQlBEb2JDVzBabVFIYVpjVnJhTkpKVzJmQjN4QXFsT1JnN3lpeW92a0Y?oc=5"
+          "title": "한국전력 주가, 7월 31일 34,800원 5.30% 상승 마감 - 톱스타뉴스",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1ySVo2NENLNlBxZEFNRW5jSkRrWWxucHBjNDVjNzdwS1JlRmlYVElsVGEtb1ljOVpSZXJ3Yjlpbkt4elZmcnN6WVJqUVl2NERSMGZBLWRNd0JMRXFmaW1nVm5VQ2lpOTVFU1gyVXY1UVUzUQ?oc=5"
         },
         {
-          "title": "한국전력 주가 상승 중 - 아시아뉴스통신",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE84UWdtMkViTDF0X3RWWXN6N05tUTRwMFVicVRhWG1vNEo1U083eUJ5aXpXZ05HRGMyaDJXdE14VlBkVW9uaHZMbmpwSmcxZzk2ZVJ6eWhNbmRsR1dt?oc=5"
+          "title": "효성중공업 주가 장중 25%대 올라, AI 관련 투심 회복에 전력기기주 강세 - 비즈니스포스트",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9haXczVlFldExVSzZRb0ZUN1hxTFlXTUhJOWI2NXRrRWZ4bTJRVURZN3JoVHFGcm5DOE1zdmZhVldDczdyU1YtSTEyN3BRbkw3UUhjdzNZVDFjSlplUVZNMmlydFVwNlJZWVdtSlN0Zzc4aUE?oc=5"
         },
         {
           "title": "한국전력, 2분기 영업이익 2조원 전망…낮은 주가에도 실적 불안은 계속 - 한국투데이",
@@ -1066,16 +1066,16 @@
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 200459602775,
-          "growth_pct": 209.7
+          "net_buy": -17721723125,
+          "growth_pct": 86.7
         },
         "institution": {
-          "net_buy": -177123179325,
-          "growth_pct": -9439.1
+          "net_buy": -156474057775,
+          "growth_pct": -711.5
         },
         "foreign": {
-          "net_buy": -19828201750,
-          "growth_pct": -111.0
+          "net_buy": 186555791200,
+          "growth_pct": 85.0
         }
       }
     },
@@ -1083,28 +1083,22 @@
       "group": "한국 섹터",
       "name": "자동차 (KODEX 자동차)",
       "ticker": "091180.KS",
-      "price": 26035.0,
-      "prev_close": 25940.0,
-      "change": 95.0,
-      "pct_change": 0.37,
-      "volume": 1026349,
-      "momentum_20d": -14.74,
-      "momentum_5d": -15.96,
+      "price": 27950.0,
+      "prev_close": 26035.0,
+      "change": 1915.0,
+      "pct_change": 7.36,
+      "volume": 492206,
+      "momentum_20d": -8.35,
+      "momentum_5d": -0.87,
       "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -36531399,
-        "institution": 938846323,
-        "foreign": -844371984,
+        "date": "2026-07-31",
+        "individual": 142826487,
+        "institution": -1090343904,
+        "foreign": 974934767,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 140060886,
-            "institution": 240163524,
-            "foreign": -443182675
-          },
           {
             "date": "2026-07-27",
             "individual": 349072506,
@@ -1128,62 +1122,68 @@
             "individual": -36531399,
             "institution": 938846323,
             "foreign": -844371984
+          },
+          {
+            "date": "2026-07-31",
+            "individual": 142826487,
+            "institution": -1090343904,
+            "foreign": 974934767
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -310323803,
-            "growth_pct": 67.1,
-            "prior5_sum": -943582296
+            "net_buy": -307558202,
+            "growth_pct": 61.5,
+            "prior5_sum": -798264143
           },
           "institution": {
-            "net_buy": 1026544793,
-            "growth_pct": 3.6,
-            "prior5_sum": 990673182
+            "net_buy": -303962635,
+            "growth_pct": -116.7,
+            "prior5_sum": 1822435295
           },
           "foreign": {
-            "net_buy": -653907555,
-            "growth_pct": -129.6,
-            "prior5_sum": -284843900
+            "net_buy": 764209887,
+            "growth_pct": 173.8,
+            "prior5_sum": -1035129856
           }
         },
-        "foreign_recent5_sum": -653907555,
-        "foreign_streak_days": 2,
-        "foreign_zscore": -0.15,
+        "foreign_recent5_sum": 764209887,
+        "foreign_streak_days": 1,
+        "foreign_zscore": 0.21,
         "individual_trend": "순매도 우위",
-        "institution_trend": "순매수 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.15)"
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.21)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbLGLmb5x99rtsCmn1o'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZugjvN9ywcg3xh6haT9'}",
       "headlines": [
         {
-          "title": "그룹 1 오토모티브, 2분기 실적 부진에 주가 하락 - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9xV0lEUDFWQVdxbnU3LWhiMmpNV1RvOTF4RDFncW9nZjhvZVlsY1RMTHAyYmlFRHNucVVGLWx5YmNOSG91LVhhYWlyMV8yeUVNRzQxa1hnVks2cUpLalFNWnZ5aXNRVk1GSzNJ?oc=5"
+          "title": "KG모빌리티, 매출 늘어도 주가는 제자리…수익성이 관건 - MTN 머니투데이방송",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBQUGF3RmdOQzhxM2hkYVJ1NmEtUGJQNzB1QTMwTll4UkZUU1ZDSkFfb0Z4bWF1Q0xJQlpsUUdoT0ZCeHRlZk9OaWdPMzM1a2hIYm15TXhidXBDYnZaMDVOcGR3cFY?oc=5"
         },
         {
           "title": "현대차 목표주가 57만~90만원 ’33만원 차‘…증권가 판단 갈린 이유는 - 조선비즈 - Chosunbiz",
           "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOOXM1dWNjV1RFQWo3dVlUdmY0WU11bUVkTFhYU0NnU281ZkdSb3VZYWJIR0pJV1NvOElNdFlMUWN5aHlOWE9Tcjltb194Ymo3VVZfNmNCZUNMQzBBMi01TkYzX1QtbV9qZno4dzhGVFc2aS1BRzJJbm1Jd1Z3ZHZST01XQTg3cEht0gGcAUFVX3lxTE9RWTJNZ09xMjF6NzFrdVY3eGFJR01LcjdkM3Y1UU0ybUZZN2Exa2Znc1g5MGJLQUlrZGo0NGVyZnFZWW0tVVR1RTgzZ3RycTVuM2NyZHlLcHZna05aZ2FrSGVLWjFTOU9adUxfS0ZaQjd4TnNweENQdzFneTlYSVpwejdhMzE0VVNhWGNZWUZYSXhGb19IVUIzSEotcg?oc=5"
         },
         {
-          "title": "\"판매 부진이라는데\"…증권가, 현대차 목표주가 연달아 상향 - 연합인포맥스",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1KTWk4bzB4b2RYV01jSTF6bXp5ZEFpT2hfaWdoWVBaeTRzTFJleXRkMFV1cnhrOWk0TGFPbWttTUVXT1RxVXFPeGJkYzJjOEVPVVV4TVNlQXdEcFFYdlUzQ3ZWMmpuLWZkODFiRUJvQ1I?oc=5"
+          "title": "Tesla Inc (TSLA) 주식 움직였습니다 상승 3.09%에 7월30일: 변동을 뒷받침하는 사실 - TradingKey",
+          "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQU1c2ZEo5TW9ZdGN2VHpBc28wUnk5emxpcUEtQ0U2NEpuOV9XdDVmMm83SWVKVXdwVjNKN0htSlBwN09hbENpMFVjUkJyVl9ZSHZaUE5BTW54SlpzNDU3YTAzek9teDNVdUlrczRlcTBCM3REVDBIc0RXbXZiRmttTkRqZ2V1UnR3NlFQY2FVSQ?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 173602426371,
-          "growth_pct": 176.5
+          "net_buy": -135329897087,
+          "growth_pct": -226.1
         },
         "institution": {
-          "net_buy": -102724388405,
-          "growth_pct": -839.1
+          "net_buy": -7665043897,
+          "growth_pct": 93.8
         },
         "foreign": {
-          "net_buy": -52549301058,
-          "growth_pct": -125.0
+          "net_buy": 162521023732,
+          "growth_pct": 2562.3
         }
       }
     },
@@ -1191,28 +1191,22 @@
       "group": "한국 섹터",
       "name": "화학 (KODEX 에너지화학)",
       "ticker": "117460.KS",
-      "price": 11800.0,
-      "prev_close": 11455.0,
-      "change": 345.0,
-      "pct_change": 3.01,
-      "volume": 64742,
-      "momentum_20d": -12.66,
-      "momentum_5d": -15.05,
+      "price": 12165.0,
+      "prev_close": 11800.0,
+      "change": 365.0,
+      "pct_change": 3.09,
+      "volume": 157705,
+      "momentum_20d": -7.07,
+      "momentum_5d": -10.24,
       "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": 121137217,
-        "institution": -54024135,
-        "foreign": 3820018,
+        "date": "2026-07-31",
+        "individual": 1000305845,
+        "institution": -1016011100,
+        "foreign": 15705255,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -8540863,
-            "institution": 17149755,
-            "foreign": -10603932
-          },
           {
             "date": "2026-07-27",
             "individual": -83410766,
@@ -1236,62 +1230,68 @@
             "individual": 121137217,
             "institution": -54024135,
             "foreign": 3820018
+          },
+          {
+            "date": "2026-07-31",
+            "individual": 1000305845,
+            "institution": -1016011100,
+            "foreign": 15705255
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 737632958,
-            "growth_pct": 636.5,
-            "prior5_sum": 100147810
+            "net_buy": 1746479666,
+            "growth_pct": 6356.4,
+            "prior5_sum": 27050270
           },
           "institution": {
-            "net_buy": -671817159,
-            "growth_pct": -476.4,
-            "prior5_sum": -116555118
+            "net_buy": -1704978014,
+            "growth_pct": -5206.8,
+            "prior5_sum": -32128091
           },
           "foreign": {
-            "net_buy": 5016671,
-            "growth_pct": -69.4,
-            "prior5_sum": 16393058
+            "net_buy": 31325858,
+            "growth_pct": 920.9,
+            "prior5_sum": 3068531
           }
         },
-        "foreign_recent5_sum": 5016671,
-        "foreign_streak_days": 1,
-        "foreign_zscore": 0.01,
+        "foreign_recent5_sum": 31325858,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.2,
         "individual_trend": "순매수 우위",
         "institution_trend": "순매도 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.01)"
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.2)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbLXSsDBAx4pF51FXEn'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZugzsnLGfN8q8a9cpSy'}",
       "headlines": [
         {
-          "title": "거래정지 풀리고 70% 뛴 효성화학…2분기 반전 쓸까 - 연합인포맥스",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBZQjB3SjZQVXRMcndKVWtTbk9zZlE0MURLSTFfUGFKV0FwVkdVRWI1ejBfTlNhQjVsOHBZejVYYUZrYWlRZzB2MTh1Vm9XUUo2bGJLUHVsTTJOVFhvS2lqanFqXzBkQUp6UTFJWWxnLXg?oc=5"
+          "title": "국민연금공단, 금호석유화학 주식 1만5407주 ↓…지분율 9.77% - 데이터투자",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1xcHBvZlFEVzVXcGJud0hXcFk1bktYOGNJV3MzUFlRbFUxaUdDd19yUGRmYjlHNTBtc3BHNXQxWEViRExDSktkYVJCZ3dUWnB0WVZ6aFFLZFpvM0dxQ1NQQ2pXSWtmaldNcDRQak9wamFnZw?oc=5"
         },
         {
-          "title": "LG화학 주가, 7월 28일 240,500원 7.50% 하락 마감 - 톱스타뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5hdW80eTY0UU5idlkybktEUnlxUmwzQW1aTHFIX1BjdmVmbGtyZWREVVBucVh4OU9RNGV4TkhUdV9tRnExY1ozTFU5T0tqUFBQdUk5SHk3NTRoR2d1LVV0MWphV29Pakx5eUEyZkhGVmFndw?oc=5"
+          "title": "롯데정밀화학, 2분기 '어닝 서프라이즈'…\"글리세린 강세 수혜 지속\"-iM증권 - press9.kr",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBoZXZEQXFEYlhMR01fdDRqbkdTS3EwUmJRQ1ZjVE9HNVZzR0h0c1dYSWpHQUVXdjQ4a0hOWktuazdQTjdQTGxWTDJtTnp0TWpuNGx0TTNiYzFPUlpXNkpXbGpXYnM?oc=5"
         },
         {
-          "title": "[반도체 진주, 일본서 캐다] 칩은 바뀌어도 원판은 안 바뀐다 ②웨이퍼 1위 신에쓰화학 - 뉴스핌",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBtWFIwaHN0UnVTVk52amJocm82U2UxMUJLYU1NM3RRUElvcDNXWlJZRXg4TFFZeEtXM0tZQWhnaW1aQ0JJdHV1M2VhY0ZQUU5LYTcyS3M1QTliVzZS?oc=5"
+          "title": "금호석유화학 10%이상주주 국민연금공단, 소유 주식 수량 2767만514주 보고…소유 지분율 9.82% - 디지털투데이",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5sWUNUbHFWQnVIR3VhY1QtZ0xhUzJrdDZnODcyRG1ZTmVOY2htN09NdW95QW0ybDNwN18zcC1rODduUURGX1B1Q01mdXYtQVRCcUdDaktRalc0UmViWXNaVXdIeUlaQTZqMVh1MmdSelp1Nmc?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 43053737250,
-          "growth_pct": 173.1
+          "net_buy": 37476145225,
+          "growth_pct": 152.0
         },
         "institution": {
-          "net_buy": 41861295625,
-          "growth_pct": 134.8
+          "net_buy": -8571849450,
+          "growth_pct": -113.1
         },
         "foreign": {
-          "net_buy": -85174933000,
-          "growth_pct": -335.6
+          "net_buy": -30552626725,
+          "growth_pct": -604.2
         }
       }
     },
@@ -1299,28 +1299,22 @@
       "group": "한국 섹터",
       "name": "건설 (KODEX 건설)",
       "ticker": "117700.KS",
-      "price": 5110.0,
-      "prev_close": 5195.0,
-      "change": -85.0,
-      "pct_change": -1.64,
-      "volume": 2450332,
-      "momentum_20d": -26.05,
-      "momentum_5d": -20.03,
+      "price": 5575.0,
+      "prev_close": 5110.0,
+      "change": 465.0,
+      "pct_change": 9.1,
+      "volume": 2533953,
+      "momentum_20d": -15.86,
+      "momentum_5d": -10.47,
       "obv_signal": "매도세 강",
-      "flow": "중립",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": 132292525,
-        "institution": -761689815,
-        "foreign": 492745763,
+        "date": "2026-07-31",
+        "individual": -140115053,
+        "institution": -510057933,
+        "foreign": 604574566,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -90955899,
-            "institution": 1043414464,
-            "foreign": -977786235
-          },
           {
             "date": "2026-07-27",
             "individual": 259608320,
@@ -1344,62 +1338,68 @@
             "individual": 132292525,
             "institution": -761689815,
             "foreign": 492745763
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -140115053,
+            "institution": -510057933,
+            "foreign": 604574566
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -391016755,
-            "growth_pct": 21.5,
-            "prior5_sum": -498268910
+            "net_buy": -440175909,
+            "growth_pct": 31.4,
+            "prior5_sum": -641828173
           },
           "institution": {
-            "net_buy": 186104482,
-            "growth_pct": -76.4,
-            "prior5_sum": 789371874
+            "net_buy": -1367367915,
+            "growth_pct": -178.3,
+            "prior5_sum": 1747185730
           },
           "foreign": {
-            "net_buy": 17893271,
-            "growth_pct": 105.7,
-            "prior5_sum": -316144339
+            "net_buy": 1600254072,
+            "growth_pct": 238.5,
+            "prior5_sum": -1155141822
           }
         },
-        "foreign_recent5_sum": 17893271,
-        "foreign_streak_days": 1,
-        "foreign_zscore": 0.01,
+        "foreign_recent5_sum": 1600254072,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.75,
         "individual_trend": "순매도 우위",
-        "institution_trend": "순매수 우위",
+        "institution_trend": "순매도 우위",
         "foreign_trend": "순매수 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.01)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.75)"
       },
-      "cycle": "-",
+      "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbLnSWt5nmnSWino3zA'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuhF8XSbk2GB5Fi2FYo'}",
       "headlines": [
         {
-          "title": "[증시다트] 건설주, 다시 원전으로 달린다…주가 키워드는 ‘해외 EPC·주택마진·수주 현실화’ - wikyung.com",
-          "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1YOEYzaHpId2ttenBwUUdnWTdTVDN6Y3E2Nkljbklmc3dITkxWUEVra2ZQTDM5aFpFMEotMlJ4VElXTE5ROEpvZUdydGVEbk9SckI5VA?oc=5"
+          "title": "현대건설 주가, 7월 31일 94,600원 15.79% 상승 마감 - 톱스타뉴스",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE54cGRuVHBfR1o5X0JaX24tcGlqTWgyRjVQQi1UcUkxb1piOHRBOVM3NVRjQUxoMjU0N0lGRTFKeHFLSnN1NlJBelk5QkQwcUI5YVV0aDU1bG80aURsMlZTOU5Cd21EeTZSS3ZsZHhsYUhlQQ?oc=5"
         },
         {
-          "title": "판관비·주택 부진에 아쉬움 남긴 GS건설…데이터센터에 쏠리는 시선 - KB Think",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1MZWwydkZFcHJEVlU3QlZ0WDJDdXJseUlBR3VZUHAwd2tXT0IxaFpoNnZZRDdTclA0cVozSUx3QThfQkR5ZVl1U0hNWnRObFpvNTR1X3hZQmZyMFRsVkUxY25rckdvWlhWakEwU0ZDNUxzdw?oc=5"
+          "title": "두산, 두 자릿수 성장에도 '폭등' 전 주가 회귀…수주 지연·건설 침체 리스크 공존 - investchosun.com",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1OYllEUDZzbVdic2xXaUlrbWFZYXFWb3pjYnNWWlpwaVRGMVVRYnVBbno3WUlFMHl6M3lFTVZFc0ZUdGZmemxweWFXYWdlWlNYQkpjTmdMZHVQR0t4dlU2cUhSalRSRUFESHYwTkVXY2F3UQ?oc=5"
         },
         {
-          "title": "[MK시그널] HD건설기계, 신흥시장 공략 및 엔진 사업 성장 모멘텀 등에 주가 상승세... MK시그널 추천 후 상승률 18.30% 기록 - 매일경제 마켓",
-          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5EV21FaC0yR0pBZDVmR3ZFaEpBSE5PdWVzdXNhU0NGWm5hdzA2dklzQTMyU0NlbHRpRVhKTlMtUUFOM1FiVzhVY1NyR3dSSVhOYVE?oc=5"
+          "title": "[현대건설] 현대건설 주가 전망, 100조 수주잔고가 실적으로 바뀌는 시점은?(2026년_2Q) - 네이버 프리미엄콘텐츠",
+          "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQNXNwLUx2ZHczVDNNSnJDa1ZsSzQ2d3JNdmEzT2NaMFJTckpscGR0V0tsR2xXdHZtQkkzSzZET3VVYXBWeHk1WlNiU0ludHo4SVdJdHJzeWJ6LTVoR05BX2RBN2RuemdBdVB1S2lzWVpJc1FGZlVrZTcwUFpBZmMtRWNTanBlU0lj?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 10029360330,
-          "growth_pct": 105.6
+          "net_buy": -17244393540,
+          "growth_pct": 89.3
         },
         "institution": {
-          "net_buy": 51230496255,
-          "growth_pct": 108.7
+          "net_buy": 102255330255,
+          "growth_pct": 130.2
         },
         "foreign": {
-          "net_buy": -62436046625,
-          "growth_pct": -139.9
+          "net_buy": -86508615100,
+          "growth_pct": -172.2
         }
       }
     },
@@ -1407,28 +1407,22 @@
       "group": "한국 섹터",
       "name": "철강 (KODEX 철강)",
       "ticker": "117680.KS",
-      "price": 10070.0,
-      "prev_close": 9805.0,
-      "change": 265.0,
-      "pct_change": 2.7,
-      "volume": 91637,
-      "momentum_20d": -12.85,
-      "momentum_5d": -9.52,
+      "price": 10700.0,
+      "prev_close": 10070.0,
+      "change": 630.0,
+      "pct_change": 6.26,
+      "volume": 38175,
+      "momentum_20d": -4.33,
+      "momentum_5d": -2.52,
       "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -22022978,
-        "institution": 26924980,
-        "foreign": -2276302,
+        "date": "2026-07-31",
+        "individual": -28868275,
+        "institution": 19951895,
+        "foreign": 8912005,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 1191190,
-            "institution": 31903695,
-            "foreign": -18880255
-          },
           {
             "date": "2026-07-27",
             "individual": -16820145,
@@ -1452,62 +1446,68 @@
             "individual": -22022978,
             "institution": 26924980,
             "foreign": -2276302
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -28868275,
+            "institution": 19951895,
+            "foreign": 8912005
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -74825885,
-            "growth_pct": -148.7,
-            "prior5_sum": -30084181
+            "net_buy": -104885350,
+            "growth_pct": -199.8,
+            "prior5_sum": -34988878
           },
           "institution": {
-            "net_buy": 185709833,
-            "growth_pct": 418.4,
-            "prior5_sum": 35822418
+            "net_buy": 173758033,
+            "growth_pct": 148.1,
+            "prior5_sum": 70046958
           },
           "foreign": {
-            "net_buy": -44886973,
-            "growth_pct": -12.5,
-            "prior5_sum": -39915602
+            "net_buy": -17094713,
+            "growth_pct": 79.0,
+            "prior5_sum": -81413430
           }
         },
-        "foreign_recent5_sum": -44886973,
-        "foreign_streak_days": 2,
-        "foreign_zscore": -0.2,
+        "foreign_recent5_sum": -17094713,
+        "foreign_streak_days": 1,
+        "foreign_zscore": -0.01,
         "individual_trend": "순매도 우위",
         "institution_trend": "순매수 우위",
         "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (2일 연속, 평소 대비 강도 -0.2)"
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.01)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbM34LmRgS2uE8qTkEm'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuhVvGhnorC4F6jnDJc'}",
       "headlines": [
+        {
+          "title": "POSCO홀딩스, 목표가 하향 조정…‘주가 매력’ 부각 - 경제타임스",
+          "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE92REw4TmNLYm14TGExREFfbnhjVTkyM2FZX2l5RldfSS1CS3JrLWQ5WWxEWHdqWDBGaU5DRUFhU0ZBZGt3M2tzUWNERmd2MWRKOC1J?oc=5"
+        },
+        {
+          "title": "포스코홀딩스, 철강 회복에 재평가 기대 - 현대경제신문",
+          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1MYXdHRm1Va3ZCcWxTQ2lTTVdraUpXNHdzY1pLREVEMk9VYTR0cFRLOTBrY2pCQzlXWE5vdkdadlFHb0dFSkt6YzlqSVEyR053Mi1zRmxZdm16T1czZWtCVXc0SHJuZWvSAWtBVV95cUxQdjR5UlpaYXZLOExtaGRSaFJseWJOSE9odHNFMkI0TG9QQnk4VTl4NGdGNTQ0SUhNUm5taHFxYTFxUmcteG1OMndjRzFMS0VGR1EtY1UzMDhqVTVBdUpyRkhDNW8wcm1aakp5OA?oc=5"
+        },
         {
           "title": "대한민국 NO1 가치투자포털 - 아이투자",
           "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE95YjFJOFhxNHBESVRGTkxwUXo1YlJPWTFHNjR2X0NlT0FzZWYySGY4LU1JTV9WdU8zTmwzZDNkbElpcEMwWUZV?oc=5"
-        },
-        {
-          "title": "(中 선물거래-07/29) 주요 철강재 거래 현황 - 페로타임즈",
-          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBlVXByUks5QWtRbnplS3dmTVhFNVFhdEVPdXRVT09RaUVpcXcwUDVvM0lnMGE2LXIxcVNPWGw1THBFajBsMHd4cTVhTEpIcUwzNF80SEVqd0xQMFR1dmxwQVA3MjZremk3Y1R3ZA?oc=5"
-        },
-        {
-          "title": "포스코 등 'K-철강' 주가 무더기 '쾌속질주' - thecommoditiesnews.com",
-          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9BOHJJWjc4S3lnenIzU050UEFnVTlqRTZCZWplSHlwb1VETFhGY2pTTzJhTXpGZm1yWFhKeENMV3VfZXhBVFVZQ1AxTFB2RnY3WGtfTG1NVm0wNDZTNDhKd0NoVU4zMFo2YWlkQlpIU2xtZm42VFNF?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -15216460277,
-          "growth_pct": 15.9
+          "net_buy": -30027781647,
+          "growth_pct": -226.9
         },
         "institution": {
-          "net_buy": 24048907258,
-          "growth_pct": 176.5
+          "net_buy": 31942872970,
+          "growth_pct": 211.6
         },
         "foreign": {
-          "net_buy": -7881016656,
-          "growth_pct": -116.0
+          "net_buy": -1925075335,
+          "growth_pct": -105.1
         }
       }
     },
@@ -1515,28 +1515,22 @@
       "group": "한국 섹터",
       "name": "미디어·엔터 (TIGER 미디어컨텐츠)",
       "ticker": "228810.KS",
-      "price": 3015.0,
-      "prev_close": 3005.0,
-      "change": 10.0,
-      "pct_change": 0.33,
-      "volume": 268609,
-      "momentum_20d": -12.61,
-      "momentum_5d": -9.32,
-      "obv_signal": "매도세 강",
-      "flow": "중립",
+      "price": 3165.0,
+      "prev_close": 3015.0,
+      "change": 150.0,
+      "pct_change": 4.98,
+      "volume": 247181,
+      "momentum_20d": -9.57,
+      "momentum_5d": -3.51,
+      "obv_signal": "매도세 약",
+      "flow": "자금 유입",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -36888878,
-        "institution": 35503947,
-        "foreign": 1385891,
+        "date": "2026-07-31",
+        "individual": -33713840,
+        "institution": -196612230,
+        "foreign": 203086205,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": -7591490,
-            "institution": 27577875,
-            "foreign": -23205385
-          },
           {
             "date": "2026-07-27",
             "individual": -3545978,
@@ -1560,62 +1554,68 @@
             "individual": -36888878,
             "institution": 35503947,
             "foreign": 1385891
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -33713840,
+            "institution": -196612230,
+            "foreign": 203086205
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 12858315,
-            "growth_pct": 115.3,
-            "prior5_sum": -84197118
+            "net_buy": -13264035,
+            "growth_pct": 78.0,
+            "prior5_sum": -60218825
           },
           "institution": {
-            "net_buy": 2756909,
-            "growth_pct": -98.8,
-            "prior5_sum": 224950659
+            "net_buy": -221433196,
+            "growth_pct": -289.6,
+            "prior5_sum": 116794387
           },
           "foreign": {
-            "net_buy": -28825924,
-            "growth_pct": 78.0,
-            "prior5_sum": -130971452
+            "net_buy": 197465666,
+            "growth_pct": 545.3,
+            "prior5_sum": -44339523
           }
         },
-        "foreign_recent5_sum": -28825924,
-        "foreign_streak_days": 1,
-        "foreign_zscore": -0.15,
-        "individual_trend": "순매수 우위",
-        "institution_trend": "순매수 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.15)"
+        "foreign_recent5_sum": 197465666,
+        "foreign_streak_days": 2,
+        "foreign_zscore": 0.58,
+        "individual_trend": "순매도 우위",
+        "institution_trend": "순매도 우위",
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (2일 연속, 평소 대비 강도 0.58)"
       },
-      "cycle": "-",
+      "cycle": "차기 싸이클 가능성",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbMHrL8GcCtEaHSDtp7'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuhjhkAJUqQfuit6ki2'}",
       "headlines": [
-        {
-          "title": "하이브 7% 급등…'강세장 소외' 엔터·미디어 저점론 부각 - 머니투데이 - 머니투데이",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBWT1FDZ0dlcWh1NG11Ym1JU0V6eXNoTU9NOVVxZ3RtczRXSVM1azhRZldjei1NU3QwX25oZ3BCV1lnRGlKelFmMlBSOF9iN2xTVjlQR1ZySVc4dDRkelJJWHZyRUpYalo50gFuQVVfeXFMUC1pc0tRRTFwSERvRWJ0OHdCR1NpVVMwM3pvSHBXRnNJclltNEVmblRtbmROTld6TXpjeUxFVzZIejA2NXJrbEVZVDBGS1hIWTBQWnN5Y1hwLUpkRkpXUGYyVXNEN09HU3ppeEcwOEE?oc=5"
-        },
         {
           "title": "엔터사업 손 뗀다…케이웨이브미디어, 솔레어 지분 95% 인수 전면 취소 - 더구루",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9PemFsOTVfWk9LeWwxX1FYZXVTYXdudDdpY1VYdF9Edkpwck5FcnY3MWF5MDNzNzZJclhNYmRRRGhzYjdYdXFGMXV4bEZOelk2cXF0UjNBRHEzY2tQVkRUSlB4Yw?oc=5"
         },
         {
-          "title": "하이브 8% 뛰고 엔터·미디어株 동반 강세...‘저점론’에 매수세 유입[줍줍리포트] - 서울경제",
-          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9UcUVaVXJaRjZuSmRDcVJRV1g0UktKelVjNTk5aExvYlJxZllZTEUwSnhqSFNES3lLYVNfM05lODFZMHBXbmFnSGNqaDl5S1BZV1HSAVNBVV95cUxPSTBYVzk0NF8wX2xuVWU0TVRZMXR6OGhyNXplelJoVUVZY2pLQUp6MU9BZVpabERfOFdtM2RPRFpJNmd1TDU5YURlVkZ4RWJIanJ1MA?oc=5"
+          "title": "[미디어 이슈] “지금이 JYP 매수 타이밍”이라더니… 반토막 난 주가로 박진영에 ‘부글’ - 미디어워치",
+          "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9HdnhoYXhNS3hKZ0JxTG5KakdNU1pCUWpYVXhNVW1kOVRTeVBoRkp1ZkVJM2ZsZWZGT1JWdTcxNDlIRVVaRmRTaHRpQWdYT053MnVNSU9naTRfZC1tQ3c?oc=5"
+        },
+        {
+          "title": "BTS 공연까지 했는데…엔터 ETF 수익률 마이너스 언제까지? - 머니투데이 - 머니투데이",
+          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE02ZDByY0xzZlpJekhwMURnSVk5ekhwaGxPZEZ0OEt1SWtKNkwxMmxHLVFaM3R5dlZ4NERyZHA1V2xLWVppTFU4QzRSZ2pBQzBSM3dsaTU5dUNOblVzdnVuTmgwWENTaUxH0gFuQVVfeXFMTjMzOV9laVNPWjBybmVaOTNzTnlPWWs5YkpUa2NuLWU1ai1sMXpMTlVReGo2VFFSRl9oU2hGN0dsemhxWWZJcm4tS2VoUk9RSVFpREJ6V1hhQjI5OGtjVmJyUjZuLXFUVnhWMkdGTkE?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 9402939675,
-          "growth_pct": 286.1
+          "net_buy": 20455476075,
+          "growth_pct": 368.5
         },
         "institution": {
-          "net_buy": -19469717800,
-          "growth_pct": 8.0
+          "net_buy": -26816613100,
+          "growth_pct": -70.2
         },
         "foreign": {
-          "net_buy": 9538540125,
-          "growth_pct": -61.1
+          "net_buy": 5170470125,
+          "growth_pct": -76.4
         }
       }
     },
@@ -1623,28 +1623,22 @@
       "group": "한국 섹터",
       "name": "화장품 (TIGER 화장품)",
       "ticker": "228790.KS",
-      "price": 3695.0,
-      "prev_close": 3770.0,
-      "change": -75.0,
-      "pct_change": -1.99,
-      "volume": 4351095,
-      "momentum_20d": -1.47,
-      "momentum_5d": -1.07,
-      "obv_signal": "매도세 강",
+      "price": 3680.0,
+      "prev_close": 3695.0,
+      "change": -15.0,
+      "pct_change": -0.41,
+      "volume": 4223545,
+      "momentum_20d": -2.65,
+      "momentum_5d": 0.55,
+      "obv_signal": "매수세 약",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -1745387932,
-        "institution": 2154804726,
-        "foreign": -218597242,
+        "date": "2026-07-31",
+        "individual": 260521861,
+        "institution": -940330662,
+        "foreign": 641573996,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 422022363,
-            "institution": -873658577,
-            "foreign": 18753701
-          },
           {
             "date": "2026-07-27",
             "individual": 1717670531,
@@ -1668,37 +1662,47 @@
             "individual": -1745387932,
             "institution": 2154804726,
             "foreign": -218597242
+          },
+          {
+            "date": "2026-07-31",
+            "individual": 260521861,
+            "institution": -940330662,
+            "foreign": 641573996
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": 311474063,
-            "growth_pct": -81.6,
-            "prior5_sum": 1690260012
+            "net_buy": 149973561,
+            "growth_pct": -93.8,
+            "prior5_sum": 2405433768
           },
           "institution": {
-            "net_buy": -754692116,
-            "growth_pct": 66.6,
-            "prior5_sum": -2262865318
+            "net_buy": -821364201,
+            "growth_pct": 74.1,
+            "prior5_sum": -3177336261
           },
           "foreign": {
-            "net_buy": -90820468,
-            "growth_pct": -159.0,
-            "prior5_sum": 153898482
+            "net_buy": 531999827,
+            "growth_pct": 10709.0,
+            "prior5_sum": 4921831
           }
         },
-        "foreign_recent5_sum": -90820468,
+        "foreign_recent5_sum": 531999827,
         "foreign_streak_days": 1,
-        "foreign_zscore": -0.11,
+        "foreign_zscore": 0.23,
         "individual_trend": "순매수 우위",
         "institution_trend": "순매도 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.11)"
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매수 우위 · 기관 최근 5거래일 순매도 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.23)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbMYyfpuYo7JTqFcbRA'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuhzBPh9mho7DmUhSQh'}",
       "headlines": [
+        {
+          "title": "모처럼 웃은 아모레·LG생건…주가도 ‘껑충’ - 지디넷코리아",
+          "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBuWGZRVzByblMyekxQM3dPQVRWOUxicU1zNG95cnVfNk1hOVFuTl85VF9taDhBcWJ6UkdVYzhvQWgxcXZBYkVsSkpJdEVaMXVVaTJ0dmF3?oc=5"
+        },
         {
           "title": "[7월 4주 화장품 주가] 글로벌 변동성 따라 코스피·코스닥 급락... 아모레퍼시픽 30일 실적 발표 공시 - 코스인코리아닷컴",
           "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFBnRkpyVHI5MW51ZExydU03M280cUNDN290d1dadUhpb0E0VGNZVlYwa1gzdzc2Z1NQTWhLbWIwRi14Vll5aUpxSVo0dm9zTXg4SzY3eENUZ3paWDBxZTJ3TW9rUQ?oc=5"
@@ -1706,24 +1710,20 @@
         {
           "title": "한국투자증권 “화장품주, 실적 따라 주가 재편…LG생활건강·코스맥스 주목” - v.daum.net",
           "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTFBYYnBVSHl5X0lXMHlkUDNDekc0T2ZhejNPQWlaVnZhNjc4YlVlWU55a3hETm5GaHdsYmk5aDNSQlFjLThHWFE?oc=5"
-        },
-        {
-          "title": "LG생활건강 2분기 어닝 서프라이즈에 주가 급등 - 2news.co.kr",
-          "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9kNFk3bDlVQ1hscU10WU1wOW5IUlJDVjNLM21sYXptcVJRQzM0eEJTVlQ0d0F3WDlzMmxqQUFsWnN0Y2VsYkhFVjZ4OWRIYUxoeE1WOTJ0NTM2cTVoSWZqRmEtaFE1YWZz?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": -180758167850,
-          "growth_pct": -765.6
+          "net_buy": -173589174500,
+          "growth_pct": -961.4
         },
         "institution": {
-          "net_buy": 155413400125,
-          "growth_pct": 785.4
+          "net_buy": 147714311725,
+          "growth_pct": 751.3
         },
         "foreign": {
-          "net_buy": 25584383525,
-          "growth_pct": -41.9
+          "net_buy": 25263412925,
+          "growth_pct": -35.4
         }
       }
     },
@@ -1731,28 +1731,22 @@
       "group": "한국 섹터",
       "name": "로봇 (KODEX 로봇액티브)",
       "ticker": "445290.KS",
-      "price": 25000.0,
-      "prev_close": 25900.0,
-      "change": -900.0,
-      "pct_change": -3.47,
-      "volume": 1175815,
-      "momentum_20d": -26.71,
-      "momentum_5d": -19.86,
+      "price": 28500.0,
+      "prev_close": 25000.0,
+      "change": 3500.0,
+      "pct_change": 14.0,
+      "volume": 1139938,
+      "momentum_20d": -11.91,
+      "momentum_5d": -0.01,
       "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "외국인 수급(선행지표)",
       "investor_flow": {
-        "date": "2026-07-30",
-        "individual": -324892162,
-        "institution": 589028245,
-        "foreign": -344070663,
+        "date": "2026-07-31",
+        "individual": -750129613,
+        "institution": 1403560524,
+        "foreign": 217965579,
         "recent5_days": [
-          {
-            "date": "2026-07-24",
-            "individual": 1616081772,
-            "institution": -558419024,
-            "foreign": -1079320303
-          },
           {
             "date": "2026-07-27",
             "individual": 155821403,
@@ -1776,62 +1770,68 @@
             "individual": -324892162,
             "institution": 589028245,
             "foreign": -344070663
+          },
+          {
+            "date": "2026-07-31",
+            "individual": -750129613,
+            "institution": 1403560524,
+            "foreign": 217965579
           }
         ],
         "weekly_summary": {
           "individual": {
-            "net_buy": -115691056,
-            "growth_pct": -102.3,
-            "prior5_sum": 5046811958
+            "net_buy": -2481902441,
+            "growth_pct": -139.2,
+            "prior5_sum": 6338625042
           },
           "institution": {
-            "net_buy": 829973069,
-            "growth_pct": -76.5,
-            "prior5_sum": 3534136928
+            "net_buy": 2791952617,
+            "growth_pct": -26.7,
+            "prior5_sum": 3808976785
           },
           "foreign": {
-            "net_buy": -869316746,
-            "growth_pct": -355.9,
-            "prior5_sum": -190684630
+            "net_buy": 427969136,
+            "growth_pct": 136.4,
+            "prior5_sum": -1176757776
           }
         },
-        "foreign_recent5_sum": -869316746,
+        "foreign_recent5_sum": 427969136,
         "foreign_streak_days": 1,
-        "foreign_zscore": -0.23,
+        "foreign_zscore": 0.2,
         "individual_trend": "순매도 우위",
         "institution_trend": "순매수 우위",
-        "foreign_trend": "순매도 우위",
-        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매도 우위 (1일 연속, 평소 대비 강도 -0.23)"
+        "foreign_trend": "순매수 우위",
+        "trend_summary": "개인 최근 5거래일 순매도 우위 · 기관 최근 5거래일 순매수 우위 · 외국인 최근 5거래일 순매수 우위 (1일 연속, 평소 대비 강도 0.2)"
       },
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbMqcnmpnGK5FV1aryB'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuiEcoPSR9GXSmpxekU'}",
       "headlines": [
         {
-          "title": "휴림로봇, 주가 7월 30일 장중 5,770원 3.19% 하락 - 톱스타뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1rU0c1d21KWXVHQ1hfbXY0SGRzMUUzeVNZbk1YTVVOTXd4U0NZbWloaFNsOFVhODZvUHpLR0gwVHdNXzBmaVdKVHcyZTBWYlBrZUhlRlYxVmFGSDFLRDIyRkF4MnJVVEY5a1l3QVh0TnRJUQ?oc=5"
+          "title": "주간 로봇 기업 주가 동향(07/27 ~ 07/31) - 로봇신문",
+          "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTFBOYmhsT2dnS0I2M0ZzQWFMb2gwZmlXMGtrdUxFczlobDU4R2NiSG5XalExVFBfN3MyZEdMV0RpdXdUOGFkVkdKWW5WNkFaSlljbXUtNU52R09uODZvaU5OUzZGc2o5YXVTa3JFWQ?oc=5"
         },
         {
-          "title": "'중국산 로봇' 제대로 빗장 건 美…국내 로봇주 '상한가' 속출 - 한국경제",
-          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1MOHhpQi00RG91eW5ETkxIVWZMeUZySDRhTFd4OEROYUc4SzhYdmNaQmQ3QjFyOWJNcVRhYWdycU1vSTRpNzF2RVg2TjE5NVMzSmZ5M3AySk8wQQ?oc=5"
+          "title": "휴림로봇 주가, 7월 31일 장중 6,040원 8.83% 상승 - 톱스타뉴스",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBBek9qaDFrWUdwc0U0YnVhaXF3NmxXZFVBVHhPam50dDdCOEFJYVBfb0I1S2RPQndXejhMLWpfWG81UUdVRkkwZW5qM2plQnBtazdsWHJjZ0tlNi1ONWRQRWs0U3JVVlhvd2RvaW1ILTBodw?oc=5"
         },
         {
-          "title": "[특징주] 로봇주株 강세…티엑스알로보틱스 '상한가' - 뉴스핌",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1WWDItQWhNS1FwbmRQeGRIaXRqaDF4MVhsWm5lZ2UyMzdfNmg2TkFlNEY0VzRjWkp0eGFqXzdHdjh3MFg0bm0wdmNJeTJtQVc1T3IweUlOODFwbEpn?oc=5"
+          "title": "HL만도, 전장 제품 실적 방어·로봇 사업 성장 동력 기대...목표주가↓ - ksdaily.co.kr",
+          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFA2WXdBeExSTC1FVFBFSDlXLURNZHNMN2dCUVRRVGpiT2tqWElVcUNUVGlnZTdBZmZZSTFsZ1ctMGtQbkswMHZUSDhKQWIyR2NzeWNqdnBqblRzR2xfOFJfcGdIMDc3MVVkUlhv?oc=5"
         }
       ],
       "sector_wide_weekly": {
         "individual": {
-          "net_buy": 145621003570,
-          "growth_pct": 65.3
+          "net_buy": 12604958590,
+          "growth_pct": -92.0
         },
         "institution": {
-          "net_buy": -8017684540,
-          "growth_pct": -148.9
+          "net_buy": 22574065470,
+          "growth_pct": 671.3
         },
         "foreign": {
-          "net_buy": -138716500080,
-          "growth_pct": -29.8
+          "net_buy": -35414307420,
+          "growth_pct": 77.4
         }
       }
     }
@@ -1841,32 +1841,32 @@
       "group": "미국 섹터",
       "name": "기술 (Technology, XLK)",
       "ticker": "XLK",
-      "price": 174.83,
+      "price": 175.73,
       "prev_close": 166.57,
-      "change": 8.26,
-      "pct_change": 4.96,
-      "volume": 8581388,
-      "momentum_20d": -5.81,
-      "momentum_5d": -2.03,
+      "change": 9.16,
+      "pct_change": 5.5,
+      "volume": 15098400,
+      "momentum_20d": -5.33,
+      "momentum_5d": -1.52,
       "obv_signal": "매도세 강",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbRQYmbnhFUkAAjb4u4'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZun7wKri4J8vWpLoWAu'}",
       "headlines": [
+        {
+          "title": "우리기술 주가, 7월 31일 장중 8,910원 15.11% 상승 - 톱스타뉴스",
+          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5PeXZaWjZIbmkxZWtNZnZhMG8tei1OUGZtMzJMeVU5ajlQcEtvTHhjRnhXdzZNNnhkSTBVSkhJb1RwY1JiZkdBLXdfMTFjRk1VWlczVUJ5ZUcxTDdkcjgwMURMWUZ0R1FJUHhPZXBUUUpoQQ?oc=5"
+        },
         {
           "title": "신동방교육과기술 주가 오늘 랠리, 그 배경은? - Investing.com 한국어",
           "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE51RFNuSWdrYllCSVNnOExHRDZac184bjZpVmphNUI3dGU2d3NHYnMyS3Z6eDlobkh6YkU3WUMyQkhIcU9RX2dGSGtaRVZlTzlpMHNPUFp4dkdJS1F5WDI4dTBISmQxd0JGbXZEdEhqUUlQWGwxRzBR?oc=5"
         },
         {
-          "title": "[K바이오 상반기 결산 ①] 주가는 얼고 계약은 늘었다…기술수출 13조·M&A 1.8조 - 자본시장뉴스",
-          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1uV0sxWVhobWViOUxoN21NdlhrRTNBQ3FpRlk2YnBWVjZRMEtGX1pZaXZuT0RaNVdTRzN5R0QyOFBCNFlCWVBEbDd5RkZid3ViWktVejc2ZkNqYzRxaUFhRWlXaWZFbDg?oc=5"
-        },
-        {
-          "title": "우리기술 주가, 7월 30일 장중 7,870원 2.60% 하락 - 톱스타뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFA3LWlaTERFVFZRLS1pWEpLVGxXajVBN1drYnBVYVdUS3p6WGZNWUh5VHNQVWhCQlJuMjNQY3VaODlKRlk2WGRSOUVzTHVnQVpGajRHRE9GOXMwYkttVVRfY0huOENxZkxjOXkwTFpaeWx1QQ?oc=5"
+          "title": "Seagate Technology Holdings PLC (STX) 주식 마감했습니다 상승 11.75%에 7월30일: 변동 원인 - TradingKey",
+          "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOQjI0Wm5jNEk2WUVwOF9fcG1VQmZQRWxJaTVTczdPZHlQSHRjc2paOTFCU0tSSkNqSHR3Qm5UMV9iMkJ5cS1ybV8wRDdTNWs1WHppU0Y1TVR1WWVTLVJQeER1bGdidjN4VzBGX0VKbmR0TFhHS3RVc2FRc1VKTWlQZnZldlU4RzhUa0Z1Qmdn?oc=5"
         }
       ]
     },
@@ -1874,32 +1874,32 @@
       "group": "미국 섹터",
       "name": "금융 (Financials, XLF)",
       "ticker": "XLF",
-      "price": 56.87,
+      "price": 57.0,
       "prev_close": 56.68,
-      "change": 0.19,
-      "pct_change": 0.33,
-      "volume": 18231616,
-      "momentum_20d": 3.81,
-      "momentum_5d": 1.85,
+      "change": 0.32,
+      "pct_change": 0.56,
+      "volume": 33184200,
+      "momentum_20d": 4.05,
+      "momentum_5d": 2.1,
       "obv_signal": "매수세 강",
       "flow": "자금 유입",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbRbjiqKefNj1BKZmYn'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZunHW3bTGETyH19CYD4'}",
       "headlines": [
         {
-          "title": "리시아 모터스, 예상치 상회 및 금융 부문 호조에 5% 가까이 주가 상승 - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBROUtOSjkwOXlQSl9oY01HOWFUaUVHUnpmb3pBZUNIUER2M1RUMUZZbGR1ZS15Ty1vVzZmLUFzYjVQZjFoLUZ4Z1RzZjI5cFRDX3JSRElIVFZoSElLMkZWYUZSblFzbWhGZ2JV?oc=5"
+          "title": "이억원·이찬진 “주가 변동성, 무겁게 받아들여”···국힘 “누구 하나 책임지는 사람 없어” - 경향신문",
+          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA1STRwQjMwUk9qRlIxMFVKQlBiaV84WnZaNXJ1ZHBSVXRNUUw2WHc4eWhuWVZ0TnNRYUFWOG91OXVvbjNFcnNJX0tlSlpjSjBCN0t3ZlZHMlhWUdIBX0FVX3lxTE50UFA4UzhQVUdPdS1OaVdWRm45Yzk2QS1VMjJva3lVdXRkT1FjeEhPRU9tZmN5c3o1SlBsUnJOY1E1aXZQVFdjVy1SdUtsSFBqQmNjNUxfc1E0U1lyekNR?oc=5"
+        },
+        {
+          "title": "“삼전닉스 주가 분석해줘” 라이너, 금융AI로 확장…‘파이낸스’ 베타 개시 - 디지털데일리",
+          "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1ubjFLV1FOR09wOV9ZNzZodThEOEIxSkxTQUw1bFBsbVVHWTlZZzctSmZ6WV9DdzQ1UkgwSEFYcWl2cjk4Sm5sX2pJdzdSSTF3VDVqYThGRF9fdHRYZWdyY2Z5UWw?oc=5"
         },
         {
           "title": "기업가치 제고 가속화 나선 하나금융… 주가 부양 총력전 - 아시아투데이",
           "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5RNUdKdS1fSTVDc0lSalZVYVN1bE5VSjhmRE1DQUFlSjRzY3dXeXBNVk1Yc3hlSVZNWGEzZlhSWFcyVTU4Z2JkY0xZQXdWX3gzaHNRTklsOXRlQmxQdjFYblR0S09QQV9xR2EzRVFR?oc=5"
-        },
-        {
-          "title": "이억원·이찬진 “주가 변동성, 무겁게 받아들여”···국힘 “누구 하나 책임지는 사람 없어” - 경향신문",
-          "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFA1STRwQjMwUk9qRlIxMFVKQlBiaV84WnZaNXJ1ZHBSVXRNUUw2WHc4eWhuWVZ0TnNRYUFWOG91OXVvbjNFcnNJX0tlSlpjSjBCN0t3ZlZHMlhWUdIBX0FVX3lxTE50UFA4UzhQVUdPdS1OaVdWRm45Yzk2QS1VMjJva3lVdXRkT1FjeEhPRU9tZmN5c3o1SlBsUnJOY1E1aXZQVFdjVy1SdUtsSFBqQmNjNUxfc1E0U1lyekNR?oc=5"
         }
       ]
     },
@@ -1907,32 +1907,32 @@
       "group": "미국 섹터",
       "name": "헬스케어 (Healthcare, XLV)",
       "ticker": "XLV",
-      "price": 163.28,
+      "price": 163.52,
       "prev_close": 166.24,
-      "change": -2.96,
-      "pct_change": -1.78,
-      "volume": 7633187,
-      "momentum_20d": 2.34,
-      "momentum_5d": 1.14,
+      "change": -2.72,
+      "pct_change": -1.64,
+      "volume": 12475200,
+      "momentum_20d": 2.49,
+      "momentum_5d": 1.29,
       "obv_signal": "매수세 강",
       "flow": "자금 유입",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbRmg2184uSBDkYVVch'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZunVvQqKPYKYfVFTKMC'}",
       "headlines": [
         {
-          "title": "구겐하임, 아카디아 헬스케어 목표주가 상향...EBITDA 예상치 상회 - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5IMjBwcjJnV2sxZnFZOWlPSjE1RHRQanduQ0FSMVl6UzBmWHMzVXBJQ19vR3k3Szh2MFVSOGxxQ3BxQzktb2taT0ZkZnJya1ppM2RRUFJkeVFJWUNoQUgyVGJWTS1VYjZLMWNMVEwtNTE1ZFZI?oc=5"
+          "title": "GE 헬스케어 테크놀로지스 주가, 오늘 급등한 이유는? - Investing.com 한국어",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9ZNkxUQjM2ZUdaX3RpWDNlVFh4V0xDMTNEMGlUbHdNNWJvX1hQVHV6MnA1cHR6SGRROTJ6SGE3Zm03dnNmTHNJakZublBJRUdnT19mX0ltd29EUk9BdlNDSmVOZHpBbmhIOTJ4YkxjSVBDWnRWd2xr?oc=5"
         },
         {
-          "title": "레몬헬스케어 주가, 7월 30일 5,350원 29.85% 상승 상한가 마감 - 톱스타뉴스",
-          "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE91c2ZHeE9nVGItdERXMWRoZGVzLTV6X1RQdFJCcTkwSlFaOW9jWE1PamhPRHE1bVZlMzVjMkhlUVA2V0JmNGxTYVRjMDhBVXk0N3MwZ2hCRkVwMEhvVm9rR3dmUmZMWVpPR1EzTzlYNUJPQQ?oc=5"
+          "title": "[GAM] GE 헬스케어 ① 사상 최대 수주 실적에 투자심리 회복 - 뉴스핌",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFA3QnFhak1sN3hzbEJoSnhCNExHZ3hkTXk5OEhLd1ZkUHB4NHlPcXNKXzBzREpFT0gzLUdqMENsTUZDc2ZFQUk5ZFVKcXptWlIyNzZZU2EzVUVOVWJN?oc=5"
         },
         {
-          "title": "로킷헬스케어, 美자회사 나스닥 상장 자진 철회…“유동주식 확대 후 재추진” - 팜이데일리",
-          "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1Ub0JMV1BqaVNpZ0wzZ2szWUdWSmNxeUlBSEdva1c5ZGE2TThKUWZzYzlTcUlhWVRpZ3JNV2ZybTZJdzFzbnBUam14MkVLbW4tUXk5YzloQ1ZRdmlyeHo5WlFoZk9SR2FLbi1XTUV3?oc=5"
+          "title": "GE 헬스케어 ① 사상 최대 수주 실적에 투자심리 회복 - 네이버 프리미엄콘텐츠",
+          "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1xdkJhQ2dOREJMTHVqRUxIY2FUQnQwWUNSbWRnVFRvTWtXZG9WNmtZQUpGVjZWTWZmbXJKdkd3Zm54ZFNjTkd0bmpJQzVFQjh2TlQzNy01MmNYbTdfUmZidW5BWWdPcy04OVEzZ05NcGg5a3dUdG5Tc2VScw?oc=5"
         }
       ]
     },
@@ -1940,32 +1940,32 @@
       "group": "미국 섹터",
       "name": "에너지 (Energy, XLE)",
       "ticker": "XLE",
-      "price": 58.55,
+      "price": 58.96,
       "prev_close": 58.65,
-      "change": -0.1,
-      "pct_change": -0.17,
-      "volume": 12216477,
-      "momentum_20d": 10.87,
-      "momentum_5d": -1.4,
-      "obv_signal": "매도세 강",
+      "change": 0.31,
+      "pct_change": 0.53,
+      "volume": 23031300,
+      "momentum_20d": 11.65,
+      "momentum_5d": -0.71,
+      "obv_signal": "매도세 약",
       "flow": "자금 유입",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "현재 싸이클",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbRwAGnEu2GNovAtXfo'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZunfSu87FfdLk1M5QrK'}",
       "headlines": [
         {
-          "title": "PBF 에너지 주가, 68.5달러로 사상 최고치 경신 - Investing.com 한국어",
-          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9lVVRKSHB4eGw4SGpqbzlIQ08yZWhtWEwxVkNtamhhdFJqMU4zYTVlNVVsbHI3OTFwSk1hSjQwUi1Na3VZVnhWSWRtVDl4ZXgyZGxiSmRQejNuQk84alc5N2tqUzFOWTdOVXFDSmg2OVc?oc=5"
+          "title": "데본 에너지 주가, 오늘 왜 급등하나? - Investing.com 한국어",
+          "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1PajVKZUVpcVRlUzJlRUtQQ3AyUEZESFk5ZWE5UEVpUUZzWUZQT0FNWnZKa09SeVVyaVk1RXhscGNUamJSY29VUTUwbEE3dEloeTJGZi1PMTdvSnZhWkwzOXBGMnE3ZG9scFdWUmJqMmZDaEJlQUFr?oc=5"
         },
         {
-          "title": "[LG에너지솔루션] LG에너지솔루션 주가 전망, AI 데이터센터가 새 돌파구 될까?(2026년_2Q) - contents.premium.naver.com",
-          "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNUjFLMEluRV96MHdGOWJOWUJzMnp6SFNla1NKNlBxTnJPdko0Qk82TlRpSVZZWHBqVWU4RWl1c1EwNnpoN0dJTFdsNmtFS0dCOGc3VXJxaVFuRnZrbzBlZlc4OHFJM3hxVUVFNTk5Y2tUeUlHTnRaQzdkTHRDcVFUSUVZQVhfcjhU?oc=5"
+          "title": "[장중수급포착] LS에코에너지, 외국인/기관 동시 순매수… 주가 +18.21% - 뉴스핌",
+          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBkZTV3d1R4SG5JcEdWWEpnY1kxMHFtV3UxUGd6c1A4TkFjdVpMV2V3eHZ0LU0xSVRTbUtWMU9OLUlBbUxhTFVfM3NQdzR3Y00xaUtXUWtqdTV5S0pZ?oc=5"
         },
         {
-          "title": "[장중수급포착] 대명에너지, 외국인/기관 동시 순매수… 주가 +6.92% - 뉴스핌",
-          "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1INjh3ZGt1OFRpbHdPZkRIWnpCQ0tHNGI4QmE3b1JnMU4tWlZfbkRQdExoZ1RobHlmMURBaXFNaVNCV3pFZ3FlLVhac3F5Q1ZCaU1TZHNWMmdBS1hn?oc=5"
+          "title": "블룸 에너지, 호실적·연간 가이던스 상향에 시간 외서 10% 상승 - 연합인포맥스",
+          "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE85TGNabXJHM1ZXOUNUblVBOG5GVHVRS0E5bEtUUE44NjljRlJwZTZZc0lWcy1QYzJ1X2JmRVdKTkNrSE95QWlZTkwwREN3SWo5VThFaGJvS2N0bUtCWU11MWNVSlFNcTdnN0FCZWprRnM?oc=5"
         }
       ]
     },
@@ -1973,20 +1973,20 @@
       "group": "미국 섹터",
       "name": "임의소비재 (Cons. Discretionary, XLY)",
       "ticker": "XLY",
-      "price": 112.28,
+      "price": 112.39,
       "prev_close": 111.61,
-      "change": 0.67,
-      "pct_change": 0.6,
-      "volume": 4613502,
-      "momentum_20d": -4.92,
-      "momentum_5d": 3.23,
+      "change": 0.78,
+      "pct_change": 0.7,
+      "volume": 8074000,
+      "momentum_20d": -4.83,
+      "momentum_5d": 3.34,
       "obv_signal": "매수세 강",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbS6BVt1Jqq2nMqryux'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZunosuXRFMLrT4EFmEh'}",
       "headlines": [
         {
           "title": "Booking Holdings Inc (BKNG) 주식 움직였습니다 하락 3.16%에 7월23일: 변동 원인 - TradingKey",
@@ -2006,20 +2006,20 @@
       "group": "미국 섹터",
       "name": "필수소비재 (Cons. Staples, XLP)",
       "ticker": "XLP",
-      "price": 85.23,
+      "price": 85.47,
       "prev_close": 87.36,
-      "change": -2.13,
-      "pct_change": -2.44,
-      "volume": 9881805,
-      "momentum_20d": 2.32,
-      "momentum_5d": 2.43,
+      "change": -1.89,
+      "pct_change": -2.16,
+      "volume": 16600400,
+      "momentum_20d": 2.61,
+      "momentum_5d": 2.72,
       "obv_signal": "매수세 강",
       "flow": "자금 유입",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbSG267n6Lzfuasye4p'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuny9GUvGuKxPRSv2DK'}",
       "headlines": [
         {
           "title": "펩시코 주식 포함 방어적 필수소비재 3선 주목할 이유 - simplywall.st",
@@ -2039,20 +2039,20 @@
       "group": "미국 섹터",
       "name": "산업재 (Industrials, XLI)",
       "ticker": "XLI",
-      "price": 177.19,
+      "price": 178.39,
       "prev_close": 176.66,
-      "change": 0.53,
-      "pct_change": 0.3,
-      "volume": 3678522,
-      "momentum_20d": -3.36,
-      "momentum_5d": -2.61,
+      "change": 1.73,
+      "pct_change": 0.98,
+      "volume": 7367000,
+      "momentum_20d": -2.71,
+      "momentum_5d": -1.95,
       "obv_signal": "매도세 약",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbSRX6LriEMizSid6oP'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuo8aoAhDZ7zJcgbHGg'}",
       "headlines": [
         {
           "title": "\"AI 투자 붐에 산업재 주가 껑충\"...기술주 뺨치는 고공행진 - YTN",
@@ -2072,32 +2072,32 @@
       "group": "미국 섹터",
       "name": "소재 (Materials, XLB)",
       "ticker": "XLB",
-      "price": 51.53,
+      "price": 51.64,
       "prev_close": 51.74,
-      "change": -0.21,
-      "pct_change": -0.41,
-      "volume": 5771877,
-      "momentum_20d": 1.0,
-      "momentum_5d": 2.47,
+      "change": -0.1,
+      "pct_change": -0.19,
+      "volume": 10865900,
+      "momentum_20d": 1.22,
+      "momentum_5d": 2.68,
       "obv_signal": "매수세 강",
       "flow": "중립",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbSbx9nDqGwLzeb5TbP'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuoHAjWWXvnvYwNRBLb'}",
       "headlines": [
+        {
+          "title": "송금수 대표이사, PI첨단소재 주식 4000주 ↑…지분율 0.12% - 데이터투자",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBFSkl3T1FiazNUUy1hblpDajlWUUxiQk9sb1pLYlkzMEk1OU81RVlFc0w5Y2NjMGtaWU1JZXZQS0dycVlrZTZIdFVWd2FkM25GaHpYbFRjX0F6Z0NqVDZrV3NMM3U5X3o5Ui1IeS1QaTRoTkU?oc=5"
+        },
+        {
+          "title": "나노실리칸첨단소재, 주식병합으로 주권 매매거래 정지 - 디지털투데이",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9SVGtURmRaSUFYd1QxX3diNmlIMFRTS3Rxb2tnY2IxdHNZSHQyRDE1ckh3SnRJYThoRDRoMzJwdDItVGs4UW4tdkxZYzFpUVBnQVltQ2dsMDBKMGVsSWtfbGVsQVJ0QzBXRXBIZ0NvWW9wbmM?oc=5"
+        },
         {
           "title": "[서치 e종목] 솔루스첨단소재, 배터리 전지박 판매 본격화로 주가 동력 얻을까 - 데일리인베스트",
           "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1TN0M4SjdlTTdzUGxwcTNod09qSl9fZDZVb010ZEhScUNKRzFxOFZYQVZVU185SUYzb1JGVXNKQXpWbmhKVTMwSjR2bXc3WWpnRl9HQUhGaElhcHFsRzU1c0U3UElUUUNnZlRR0gFvQVVfeXFMUG51TGxoeTkxQ29FRFlmZ21WcVZ0eFMxRDNXSnZyNEhnbnpqNk5iYzFtTDNRY2VYdjR1RlZQbEtkNGk5UHFQdUY1WEJZNEVINlRuUHhOQVZJMjNuS3FlSGlzcVE4QTlOb2NpdTY5UjI0?oc=5"
-        },
-        {
-          "title": "SK증권 \"솔루스첨단소재 목표주가 하향, 흑자 전환에 더 많은 시간 필요\" - 비즈니스포스트",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5nMjNwUkZ2UGVvai1LRWM2SXNYQXRkSzZUQ3JIV0FGMlJkUDVCemRDUVZ1LXI5T2EzRTREeENlVnZQOXNNcVpNS3dqWXo4VTFtVlpMYnJwSHNtYjhLV3MxdDY4QnFDaU1rSmhONjhpbllNZDQ?oc=5"
-        },
-        {
-          "title": "전지박 물량 늘어도 적자 지속…솔루스첨단소재, 판매가 인상 가능할까 - 매일경제 마켓",
-          "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9uMWNlYXk4djJBSTlla1pTN2E0VlpDbE5ZWHdHSGZ0T08zNFVYSjJXRnhkenNhallMV1kwYjRvYWdvTGFZUks4YVJDOVJHNHRfaWc?oc=5"
         }
       ]
     },
@@ -2105,28 +2105,28 @@
       "group": "미국 섹터",
       "name": "부동산 (Real Estate, XLRE)",
       "ticker": "XLRE",
-      "price": 45.15,
+      "price": 45.3,
       "prev_close": 45.96,
-      "change": -0.81,
-      "pct_change": -1.75,
-      "volume": 3502327,
-      "momentum_20d": 2.21,
-      "momentum_5d": 0.46,
+      "change": -0.66,
+      "pct_change": -1.44,
+      "volume": 6483300,
+      "momentum_20d": 2.54,
+      "momentum_5d": 0.78,
       "obv_signal": "매수세 약",
       "flow": "자금 유입",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbSnVuKXSEd43ermLep'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuoRpsqHK2A4JvADjPj'}",
       "headlines": [
+        {
+          "title": "\"부동산 올인이 진짜 위험…주가 폭락은 거품 빠지는 건강한 과정\" - 뉴시스",
+          "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5hLS1uNEQwYl92NjhxOGNWZUQ1cDZuZ0hmWDdITFFraG8wQUN2WFBYMmJrbG96Z0Z2dXRWX2t6SVJyOXdCak1ydVZyVUx4eHBrWEw5NHh5NEdzeFJXbnQ4Y2c2cGd1N1dvV2l1ZG5IbjlneDVXVnp3VdIBeEFVX3lxTE5hLS1uNEQwYl92NjhxOGNWZUQ1cDZuZ0hmWDdITFFraG8wQUN2WFBYMmJrbG96Z0Z2dXRWX2t6SVJyOXdCak1ydVZyVUx4eHBrWEw5NHh5NEdzeFJXbnQ4Y2c2cGd1N1dvV2l1ZG5IbjlneDVXVnp3VQ?oc=5"
+        },
         {
           "title": "'부동산·주가 폭락' 흔들리는 李 지지율…최저수준·하향흐름 동시에 - 더팩트",
           "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTFBFbVJUTGJ2YXJuTkRHYkFYaGRiUGVIWWNOb0wyZXVFbDBwWTFjSENXTUdtWWNxYVNwaTlrMXh4YkVvTDBHamx6d1VQNGVjZXpaT3FiaW52Zk_SAVNBVV95cUxNVFRJVWJzQk9kTmVsc2dlSkxYVkRyRktLWnF2d1Q2ZnVtMFJ2SEdFak03NkEzakpmWENDWi1vMXE0aWhwaVl0X1VXcEdVOGJZb0FwYw?oc=5"
-        },
-        {
-          "title": "[칼럼]'부동산 대신 주식' 외치던 정부, 자산증식 무너진 청년의 꿈 - 디지틀조선TV",
-          "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9peVdRalJ4bzJDU0hpNFBweWJ3NW9WcHoybXllWlBkNHpHUHd2UkpvZHJNOEVPdjMtUndnZVdrYThLVlJWSjg5dVItZUxOdGNkMFRqSzgzTS1nbDBRb0FHTkJIRGFtNzdNU1ladkctTFlRTGs3Tl9tQXNDUG8?oc=5"
         },
         {
           "title": "李 '주식 사라'에 노후 자금 몰빵 … 6070, 폭락장에 '10조 빚투' 청산 공포 - 뉴데일리",
@@ -2138,20 +2138,20 @@
       "group": "미국 섹터",
       "name": "유틸리티 (Utilities, XLU)",
       "ticker": "XLU",
-      "price": 44.57,
+      "price": 44.66,
       "prev_close": 44.91,
-      "change": -0.34,
-      "pct_change": -0.75,
-      "volume": 12499761,
-      "momentum_20d": -0.44,
-      "momentum_5d": -3.5,
+      "change": -0.25,
+      "pct_change": -0.56,
+      "volume": 23428600,
+      "momentum_20d": -0.25,
+      "momentum_5d": -3.31,
       "obv_signal": "매도세 강",
       "flow": "중립",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbSwzAL8tD4QVxF5nQU'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuoax4XX11yP7pc5D9w'}",
       "headlines": [
         {
           "title": "골드만삭스, 데이터센터 전력 수요 급증 수혜 상위 유틸리티 주식 선정 - Investing.com 한국어",
@@ -2171,32 +2171,32 @@
       "group": "미국 섹터",
       "name": "커뮤니케이션 (Communication, XLC)",
       "ticker": "XLC",
-      "price": 106.07,
+      "price": 106.58,
       "prev_close": 109.51,
-      "change": -3.44,
-      "pct_change": -3.14,
-      "volume": 4043433,
-      "momentum_20d": -3.34,
-      "momentum_5d": 0.66,
+      "change": -2.93,
+      "pct_change": -2.68,
+      "volume": 10083400,
+      "momentum_20d": -2.88,
+      "momentum_5d": 1.14,
       "obv_signal": "매수세 강",
       "flow": "자금 유출",
       "flow_basis": "가격 모멘텀(후행지표)",
       "investor_flow": null,
       "cycle": "-",
       "confidence": 3,
-      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbT7SgMbodtuZhTeNBK'}",
+      "news_summary": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuokXGnA3w6B2F7dwso'}",
       "headlines": [
         {
-          "title": "최영섭 대표이사, 차이커뮤니케이션 주식 70만2302주 ↓…지분율 55.61% - 데이터투자",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5hSVV2R3pMVERkdXVhVkt3dWh6aHpyd2VKZE4yUGtXSTYwWHhERTRwUXg4b0UzaThmOTlJc3ZTM2dSMnJzSDFzcFJ2SFVSa085T2Fsa1hFR0ZldzhoM201eGh6ZUh5ZF9OX0RUd1dKS0xneG8?oc=5"
-        },
-        {
-          "title": "차이커뮤니케이션 10%이상주주 최영섭 대표이사, 소유 주식 수량 70만2302주 감소…소유 지분율 6.29%p 하락 - 디지털투데이",
-          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5oWS1DQUVub0RNcU9uTlluM0w2TEpNVlY1SWczNU93NWlUWGk1VDZQN1E1aUxZejZtQWxUUUh1YzY5QTVOQ3NHX1JqbWZia3BZQnRMYjBWZk9FSEdSYnkwZUx4a2hyeEQzNV82cUhMRGY3OFU?oc=5"
+          "title": "최승호 상무, 차이커뮤니케이션 주식 15만4369주 ↑…지분율 1.38% - 데이터투자",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBKeTlBaTZVV0Q1cGxEYnZINV9tZkJkMFJkOGVmbDhCeUt2b2Jwc1o0UFhJTXg2N25Eb2xhUTROamRFNkFGNHdhWkZ0OVFzeVp0R05sRkZwS2VicmFqR3otaDN0V2NWWmRSeDJTb3FQa3pUWXc?oc=5"
         },
         {
           "title": "차터커뮤니케이션 주가, 엇갈린 2분기 실적에 5% 하락 - Investing.com 한국어",
           "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBmcWhoT1ZYalU5Y29hdC0yNkhUYnN1SV9BSGliVi1tc1NPckU4RER0N1E3N2VIcDhhM1pvc241bXdKNzNrWUU2eVNHUjR4QjdPNnczQXg4NVFXRzMxenpyWGxsZExVY2NrXzZF?oc=5"
+        },
+        {
+          "title": "차이커뮤니케이션 최승호 상무, 소유 주식 수량 15만4369주 증가…소유 지분율 1.38%p 상승 - 디지털투데이",
+          "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1kbUdTemZvSHJzTTNYd3B1STh1LW1xODBJS2ZqcVZfNHdjbmRkS2Y3U2xaMEc3eGpDcHBwNlJPXzNYZFk0Z1FMbUVTYzYtMC1HRUFmMXBRRUtsX01aWTlBNEZLN0ZGcVl2Yk0zNlRRZnRtWTg?oc=5"
         }
       ]
     }
@@ -2207,7 +2207,7 @@
       "event": "미국 6월 고용보고서(비농업고용지표) 발표",
       "affected_sectors": "",
       "impact": "중립",
-      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbTGEmViQoHnnfhWys6'}",
+      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZuou1WToQnbzVUMPYFu'}",
       "headlines": [
         {
           "title": "美 6월 비농업 고용에 대한 전문가 시각 - KB Think",
@@ -2228,7 +2228,7 @@
       "event": "미국 6월 CPI(소비자물가) 발표",
       "affected_sectors": "",
       "impact": "중립",
-      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbTQzcrUUMc5mzXUkHg'}",
+      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZup3tJXXtyZ8FE4GSik'}",
       "headlines": [
         {
           "title": "미국 6월 CPI 발표, 3.5%↑…나스닥 선물 상승 - 에너지경제신문",
@@ -2239,7 +2239,7 @@
           "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5lcE9MLUgyWVpXcEhudlhOX0ItQWphMkxrSWRpLXNwNjRZOWlnZTZpWGNLXzAzUGd5T0s3OEVGendMUEV2WEUxcUdlU29EQTU4a2pmcFdVUi0xc2thVk5JQ2FrRUVaLWdFbkRjbG9hRnU?oc=5"
         },
         {
-          "title": "미국 6월 소비자물가 상승률, 큰 폭 둔화 - 한국개발연구원(KDI)",
+          "title": "미국 6월 소비자물가 상승률, 큰 폭 둔화 - KDI 경제교육",
           "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPbUtZd2tVZXVSX3h1cjAySldScjV1NDFhZTVnb2tUUC0xTnRlZ3FWajBwYTVQT2gyZzBURld2UlhJOVZ4dW9OY2xrRFI1aUdPLVU4YnZRT1hDOTNNekpiRERVdWdMYnlyeG52bWluTk9reVYxek5PaC14Qi05aWVhMS1pTUhqTjBNRkxGZGxGT0h2emtnS3NYTGlnZ3RDSWZ3Z1YtUw?oc=5"
         }
       ]
@@ -2249,7 +2249,7 @@
       "event": "2분기 실적시즌 개막 (JP모건 등 주요 은행 실적 발표 시작)",
       "affected_sectors": "",
       "impact": "중립",
-      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbTYt8ZEt2sk62khZPs'}",
+      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZupBu1Kd9kBSqskX9AL'}",
       "headlines": [
         {
           "title": "美 은행 실적 시즌 개막…월가가 가장 주목하는 종목은 씨티그룹 - 블록미디어",
@@ -2270,27 +2270,22 @@
       "event": "FOMC 회의 첫날 (금리결정은 익일)",
       "affected_sectors": "",
       "impact": "중립",
-      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbTgdiAi2Z5mzaZ6kKS'}",
-      "headlines": [
-        {
-          "title": "워시 첫 FOMC에 월가 '극과극' 전망…동결 다음은 인상? 인하? - 뉴스1",
-          "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFAxWm04WkFsd0J1T2dBVFhpdGZfZi1oTUU4WDBXQXJBQWFyUVZ0NHFYeE5iZnMzMUZFWkpoVkFnMW4zNDdzXzgxRUs1LVEtY2FHRDdTbEItaFp4VUFXOXNPV0p0cndZUEE?oc=5"
-        }
-      ]
+      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZupKTB6UPM9WsDEfv6k'}",
+      "headlines": []
     },
     {
       "date": "2026-07-29",
       "event": "FOMC 금리결정 발표 및 의장 기자회견",
       "affected_sectors": "",
       "impact": "중립",
-      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdYbTq2UpkVTamghBgQMx'}",
+      "comment": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CdZupTxebhZN65VVJ4GQT'}",
       "headlines": [
         {
           "title": "美금리 3.50∼3.75% 5연속 동결…연준 의장 \"인플레 2% 목표\"(종합2보) - 연합뉴스",
           "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE85ODJES01OeGoxZWt1S3k2enBaMGtiSG9iWU1yZXpRdjNOMno4WFJlbG1LUkNPak1GMms5VVdnVHlVRGRxaVdka0szQTRRUzZucFl1blZQWXJGYk3SAWBBVV95cUxOMmhvY3N5V2ZfbTdFbXZaZDEyRXFsN0t1VzVyVU9PcS13aE9Iei1uUUNuXzJPYm1ZYnlZTEJnRTZvSlFnUVBkOXFaeVYxbGY3c09sS19KSVFZT0xoUUk2Q24?oc=5"
         },
         {
-          "title": "미국 금리 인상 확률 33%...내일 새벽 FOMC가 코스피를 흔들 세 가지 변수 - contents.premium.naver.com",
+          "title": "미국 금리 인상 확률 33%...내일 새벽 FOMC가 코스피를 흔들 세 가지 변수 - 네이버 프리미엄콘텐츠",
           "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9WTkNvOUF2SjVUalM5c3lNLU5FY3RvcENlRDU3QVBhSXVTOWVYS2lTRG9hU3daMmU2Q21ZVHdtRHJTb1NTcko1U1dlVUJHdnJpemtsUjdOckhfX09CSWwxWkJKa2lkV09NaTd1UURIbFJTc196OEIzckFKclppZw?oc=5"
         },
         {
@@ -2305,27 +2300,27 @@
     "buy": {
       "individual": [
         {
-          "name": "반도체",
-          "net_buy": 8432663772900,
-          "growth_pct": 690.4,
+          "name": "2차전지",
+          "net_buy": 72175187650,
+          "growth_pct": 143.2,
           "rank": 1,
-          "last_week_rank": 1,
-          "is_new_entry": false,
-          "weeks_in_top5": 5
+          "last_week_rank": null,
+          "is_new_entry": true,
+          "weeks_in_top5": 1
         },
         {
-          "name": "전력",
-          "net_buy": 200459602775,
-          "growth_pct": 209.7,
+          "name": "화학",
+          "net_buy": 37476145225,
+          "growth_pct": 152.0,
           "rank": 2,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
-          "name": "자동차",
-          "net_buy": 173602426371,
-          "growth_pct": 176.5,
+          "name": "미디어·엔터",
+          "net_buy": 20455476075,
+          "growth_pct": 368.5,
           "rank": 3,
           "last_week_rank": null,
           "is_new_entry": true,
@@ -2333,28 +2328,19 @@
         },
         {
           "name": "로봇",
-          "net_buy": 145621003570,
-          "growth_pct": 65.3,
+          "net_buy": 12604958590,
+          "growth_pct": -92.0,
           "rank": 4,
           "last_week_rank": 2,
           "is_new_entry": false,
           "weeks_in_top5": 2
-        },
-        {
-          "name": "2차전지",
-          "net_buy": 53290121550,
-          "growth_pct": 127.3,
-          "rank": 5,
-          "last_week_rank": null,
-          "is_new_entry": true,
-          "weeks_in_top5": 1
         }
       ],
       "institution": [
         {
           "name": "반도체",
-          "net_buy": 1508320343100,
-          "growth_pct": 134.3,
+          "net_buy": 4717063589300,
+          "growth_pct": 224.5,
           "rank": 1,
           "last_week_rank": null,
           "is_new_entry": true,
@@ -2362,17 +2348,17 @@
         },
         {
           "name": "바이오",
-          "net_buy": 543847420275,
-          "growth_pct": 3059.5,
+          "net_buy": 322639227150,
+          "growth_pct": 99.8,
           "rank": 2,
-          "last_week_rank": 6,
+          "last_week_rank": 1,
           "is_new_entry": false,
-          "weeks_in_top5": 1
+          "weeks_in_top5": 2
         },
         {
           "name": "은행",
-          "net_buy": 224752295250,
-          "growth_pct": 502.5,
+          "net_buy": 183492019050,
+          "growth_pct": 263.5,
           "rank": 3,
           "last_week_rank": null,
           "is_new_entry": true,
@@ -2380,49 +2366,67 @@
         },
         {
           "name": "화장품",
-          "net_buy": 155413400125,
-          "growth_pct": 785.4,
+          "net_buy": 147714311725,
+          "growth_pct": 751.3,
           "rank": 4,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
-          "name": "방산",
-          "net_buy": 144738015650,
-          "growth_pct": 204.3,
+          "name": "조선",
+          "net_buy": 120114613395,
+          "growth_pct": 63.7,
           "rank": 5,
-          "last_week_rank": 3,
+          "last_week_rank": 4,
           "is_new_entry": false,
-          "weeks_in_top5": 2
+          "weeks_in_top5": 3
         }
       ],
       "foreign": [
         {
-          "name": "조선",
-          "net_buy": 28894614320,
-          "growth_pct": 154.4,
+          "name": "전력",
+          "net_buy": 186555791200,
+          "growth_pct": 85.0,
           "rank": 1,
+          "last_week_rank": 6,
+          "is_new_entry": false,
+          "weeks_in_top5": 1
+        },
+        {
+          "name": "자동차",
+          "net_buy": 162521023732,
+          "growth_pct": 2562.3,
+          "rank": 2,
+          "last_week_rank": null,
+          "is_new_entry": true,
+          "weeks_in_top5": 1
+        },
+        {
+          "name": "조선",
+          "net_buy": 45129352820,
+          "growth_pct": 365.8,
+          "rank": 3,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
           "name": "화장품",
-          "net_buy": 25584383525,
-          "growth_pct": -41.9,
-          "rank": 2,
-          "last_week_rank": 8,
+          "net_buy": 25263412925,
+          "growth_pct": -35.4,
+          "rank": 4,
+          "last_week_rank": 7,
           "is_new_entry": false,
           "weeks_in_top5": 1
         },
         {
-          "name": "미디어·엔터",
-          "net_buy": 9538540125,
-          "growth_pct": -61.1,
-          "rank": 3,
-          "last_week_rank": null,
-          "is_new_entry": true,
+          "name": "방산",
+          "net_buy": 21870467000,
+          "growth_pct": 123.2,
+          "rank": 5,
+          "last_week_rank": 10,
+          "is_new_entry": false,
           "weeks_in_top5": 1
         }
       ]
@@ -2430,94 +2434,103 @@
     "sell": {
       "individual": [
         {
-          "name": "바이오",
-          "net_buy": -533068382600,
-          "growth_pct": -933.0,
+          "name": "반도체",
+          "net_buy": -3040001850300,
+          "growth_pct": -252.9,
           "rank": 1,
-          "last_week_rank": 8,
-          "is_new_entry": false,
+          "last_week_rank": null,
+          "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
-          "name": "화장품",
-          "net_buy": -180758167850,
-          "growth_pct": -765.6,
+          "name": "바이오",
+          "net_buy": -236295507250,
+          "growth_pct": 8.1,
           "rank": 2,
-          "last_week_rank": 10,
+          "last_week_rank": 1,
+          "is_new_entry": false,
+          "weeks_in_top5": 4
+        },
+        {
+          "name": "화장품",
+          "net_buy": -173589174500,
+          "growth_pct": -961.4,
+          "rank": 3,
+          "last_week_rank": 9,
           "is_new_entry": false,
           "weeks_in_top5": 1
         },
         {
           "name": "조선",
-          "net_buy": -132390108040,
-          "growth_pct": -127.8,
-          "rank": 3,
+          "net_buy": -164424158215,
+          "growth_pct": -209.0,
+          "rank": 4,
           "last_week_rank": 7,
           "is_new_entry": false,
           "weeks_in_top5": 1
         },
         {
-          "name": "방산",
-          "net_buy": -75334424450,
-          "growth_pct": 3.8,
-          "rank": 4,
-          "last_week_rank": 5,
-          "is_new_entry": false,
-          "weeks_in_top5": 2
-        },
-        {
-          "name": "은행",
-          "net_buy": -69015594525,
-          "growth_pct": -51.1,
+          "name": "자동차",
+          "net_buy": -135329897087,
+          "growth_pct": -226.1,
           "rank": 5,
-          "last_week_rank": 9,
-          "is_new_entry": false,
+          "last_week_rank": null,
+          "is_new_entry": true,
           "weeks_in_top5": 1
         }
       ],
       "institution": [
         {
           "name": "전력",
-          "net_buy": -177123179325,
-          "growth_pct": -9439.1,
+          "net_buy": -156474057775,
+          "growth_pct": -711.5,
           "rank": 1,
-          "last_week_rank": 6,
-          "is_new_entry": false,
-          "weeks_in_top5": 1
-        },
-        {
-          "name": "자동차",
-          "net_buy": -102724388405,
-          "growth_pct": -839.1,
-          "rank": 2,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
           "name": "미디어·엔터",
-          "net_buy": -19469717800,
-          "growth_pct": 8.0,
-          "rank": 3,
-          "last_week_rank": 5,
+          "net_buy": -26816613100,
+          "growth_pct": -70.2,
+          "rank": 2,
+          "last_week_rank": 6,
           "is_new_entry": false,
-          "weeks_in_top5": 2
+          "weeks_in_top5": 1
         },
         {
-          "name": "로봇",
-          "net_buy": -8017684540,
-          "growth_pct": -148.9,
+          "name": "2차전지",
+          "net_buy": -8820298250,
+          "growth_pct": -105.5,
+          "rank": 3,
+          "last_week_rank": null,
+          "is_new_entry": true,
+          "weeks_in_top5": 1
+        },
+        {
+          "name": "화학",
+          "net_buy": -8571849450,
+          "growth_pct": -113.1,
           "rank": 4,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
+        },
+        {
+          "name": "자동차",
+          "net_buy": -7665043897,
+          "growth_pct": 93.8,
+          "rank": 5,
+          "last_week_rank": 2,
+          "is_new_entry": false,
+          "weeks_in_top5": 2
         }
       ],
       "foreign": [
         {
           "name": "반도체",
-          "net_buy": -10094312842450,
-          "growth_pct": -410.9,
+          "net_buy": -1640773232650,
+          "growth_pct": -194.6,
           "rank": 1,
           "last_week_rank": null,
           "is_new_entry": true,
@@ -2525,35 +2538,35 @@
         },
         {
           "name": "은행",
-          "net_buy": -166525783025,
-          "growth_pct": -260.0,
+          "net_buy": -132496160100,
+          "growth_pct": -181.9,
           "rank": 2,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
-          "name": "로봇",
-          "net_buy": -138716500080,
-          "growth_pct": -29.8,
+          "name": "바이오",
+          "net_buy": -92914794800,
+          "growth_pct": -190.8,
           "rank": 3,
-          "last_week_rank": 1,
-          "is_new_entry": false,
-          "weeks_in_top5": 2
+          "last_week_rank": null,
+          "is_new_entry": true,
+          "weeks_in_top5": 1
         },
         {
-          "name": "방산",
-          "net_buy": -88719454850,
-          "growth_pct": -358.6,
+          "name": "건설",
+          "net_buy": -86508615100,
+          "growth_pct": -172.2,
           "rank": 4,
           "last_week_rank": null,
           "is_new_entry": true,
           "weeks_in_top5": 1
         },
         {
-          "name": "화학",
-          "net_buy": -85174933000,
-          "growth_pct": -335.6,
+          "name": "2차전지",
+          "net_buy": -62109124350,
+          "growth_pct": -151.2,
           "rank": 5,
           "last_week_rank": null,
           "is_new_entry": true,
